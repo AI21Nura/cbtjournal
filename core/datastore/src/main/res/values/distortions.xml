@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="distortion_1_name">Labeling</string>
+    <string name="distortion_1_short_desc">You judge yourself or others using harsh and negative labels.</string>
+    <string name="distortion_1_long_desc">Labeling occurs when you make generalized and categorical conclusions about yourself or others based on a single action or situation. Instead of viewing behavior as an isolated act, you define your identity or others through labels such as "loser," "stupid," or "lazy." This can lead to low self-esteem and persistent negative thoughts.</string>
+    <string-array name="distortion_1_examples">
+        <item>After making a mistake at work, you tell yourself, "I'm a total failure".</item>
+        <item>After being late for a meeting, you think, "I'm always irresponsible."</item>
+        <item>If a friend cancels plans once, your immediate thought is, "They're a terrible friend; they don't care about me."</item>
+    </string-array>
+
+    <string name="distortion_2_name">Disqualifying the Positive</string>
+    <string name="distortion_2_short_desc">You ignore or diminish the importance of positive events, attributing them to luck.</string>
+    <string name="distortion_2_long_desc">When disqualifying the positive, you tend to ignore or downplay your successes and achievements. You attribute them to external factors (like luck) or believe they don’t matter. As a result, you maintain a negative perception of yourself and your abilities, despite the presence of positive experiences.</string>
+    <string-array name="distortion_2_examples">
+        <item>After successfully completing a project, you think, "I just got lucky."</item>
+        <item>When receiving a compliment from a colleague, you believe, "They said that just to be polite; it doesn't mean anything."</item>
+        <item>Even after successfully handling a difficult task, you think, "That task wasn’t that hard; anyone could have done it."</item>
+    </string-array>
+
+    <string name="distortion_3_name">Overgeneralization</string>
+    <string name="distortion_3_short_desc">You make broad negative conclusions based on a single event or a small number of facts.</string>
+    <string name="distortion_3_long_desc">Overgeneralization is a distortion in which you tend to make sweeping, broad generalizations based on one or a few occurrences. You use words like "always," "never," and "everything," leading to the formation of limiting beliefs about yourself, other people, or the world. This distortion reinforces negative thinking and creates a sense of hopelessness.</string>
+    <string-array name="distortion_3_examples">
+        <item>After one gathering with friends falls through, you think, "My friends never want to see me."</item>
+        <item>If you make a mistake once, you think, "I always mess everything up."</item>
+        <item>After an unsuccessful job interview, you believe, "I'll never get a job."</item>
+    </string-array>
+
+    <string name="distortion_4_name">Personalization</string>
+    <string name="distortion_4_short_desc">You take responsibility for negative events, even if they are unrelated to your actions.</string>
+    <string name="distortion_4_long_desc">Personalization is a cognitive distortion where you feel responsible for negative events, even when this is not the case. You tend to believe that what happens around you is related to your actions or personality, often blaming yourself for situations you have no control over. This leads to feelings of guilt, shame, and anxiety.</string>
+    <string-array name="distortion_4_examples">
+        <item>When a friend is in a bad mood, you think, "It's because of me; I must have done something wrong."</item>
+        <item>If a problem arises at work, you believe, "It's my fault, even though I wasn’t involved in the project."</item>
+        <item>When a family member falls ill, you blame yourself, thinking, "I didn’t give enough attention, that’s why this happened."</item>
+    </string-array>
+
+    <string name="distortion_5_name">Fortune Telling</string>
+    <string name="distortion_5_short_desc">You tend to predict the future in a negative light, expecting the worst-case scenario.</string>
+    <string name="distortion_5_long_desc">Fortune telling occurs when you are convinced that negative events will happen in the future, regardless of existing facts. You expect failures, disasters, or misfortunes without considering other possible outcomes. This can lead to avoidance of situations, anxiety, and constant worry about what could go wrong.</string>
+    <string-array name="distortion_5_examples">
+        <item>You are certain you will fail an important job interview, even though there is no reason to believe this.</item>
+        <item>Before a crucial meeting, you think, "Everything will go wrong, and I won’t be able to handle it."</item>
+        <item>You are convinced that a vacation will be ruined by bad weather or other issues, despite good forecasts.</item>
+    </string-array>
+
+    <string name="distortion_6_name">Mind Reading</string>
+    <string name="distortion_6_short_desc">You assume you know what others are thinking, often in a negative way, without any evidence.</string>
+    <string name="distortion_6_long_desc">Mind reading is a distortion where you believe you know how others evaluate you or what they are thinking, even though there is no objective information to support this belief. These assumed thoughts are usually negative, which can lead to low self-esteem, misunderstandings, and relationship problems.</string>
+    <string-array name="distortion_6_examples">
+        <item>While talking with colleagues, you think, "They all think I’m incompetent."</item>
+        <item>When a friend doesn’t respond to a message, you conclude, "They must be mad at me."</item>
+        <item>During a public presentation, you are convinced that the audience is mentally criticizing you.</item>
+    </string-array>
+
+    <string name="distortion_7_name">Approval-Seeking</string>
+    <string name="distortion_7_short_desc">You evaluate situations based on others\' approval or disapproval, ignoring your own feelings and needs.</string>
+    <string name="distortion_7_long_desc">Approval-seeking is a distortion where you focus on how others evaluate you and see this as the primary measure of your success or failure. External approval becomes crucial, and its absence is perceived as a sign of failure. This can undermine your self-confidence and lead to anxiety and perfectionism.</string>
+    <string-array name="distortion_7_examples">
+        <item>You believe your colleagues think poorly of your work if no one praises you for a completed project.</item>
+        <item>After socializing at a party, you evaluate your behavior based on how you think others perceived you.</item>
+        <item>You feel you failed at a task if the teacher or boss did not explicitly express approval.</item>
+    </string-array>
+
+    <string name="distortion_8_name">Negative Filtering</string>
+    <string name="distortion_8_short_desc">You focus only on the negative aspects of a situation, ignoring the positive moments.</string>
+    <string name="distortion_8_long_desc">Negative filtering is a distortion where you select only the negative aspects of a situation, completely ignoring or minimizing the positive ones. This leads to an overall pessimistic view of the world and low self-esteem. Neutral or even positive events are perceived as insignificant, while the focus remains on what went wrong.</string>
+    <string-array name="distortion_8_examples">
+        <item>After a presentation, you focus only on one critical comment, ignoring the praise from colleagues.</item>
+        <item>During a walk in the park, you notice only the litter and noise, despite the day being sunny and pleasant.</item>
+        <item>After a successful day, you only remember a small mistake you made in the morning, and it ruins your mood.</item>
+    </string-array>
+
+    <string name="distortion_9_name">Black-and-White Thinking</string>
+    <string name="distortion_9_short_desc">You see the world in extremes, evaluating situations as either completely good or bad, without considering the middle ground.</string>
+    <string name="distortion_9_long_desc">Black-and-white thinking is a distortion where you divide the world into extremes, failing to see shades of gray. Situations, events, or people are judged as either perfect or total failures. This mindset complicates flexible thinking and leads to harsh judgments and emotional instability.</string>
+    <string-array name="distortion_9_examples">
+        <item>You think, "If I don’t succeed 100%, it’s a total failure."</item>
+        <item>If a minor conflict arises in a relationship, you decide, "Our relationship is ruined; this is the end."</item>
+        <item>After scoring 90 on an exam, you feel upset: "It's not perfect, so I did poorly."</item>
+    </string-array>
+
+    <string name="distortion_10_name">Emotional Reasoning</string>
+    <string name="distortion_10_short_desc">You believe your emotions are evidence of reality, thinking that if you feel something, it must be true.</string>
+    <string name="distortion_10_long_desc">Emotional reasoning is a cognitive distortion where you consider your emotions as objective truth. If you feel fear, guilt, or anxiety, you automatically assume that these feelings reflect the actual situation, even if there is no factual basis for it. This type of thinking amplifies negative emotions and distorts your perception of reality.</string>
+    <string-array name="distortion_10_examples">
+        <item>You feel anxious before an important meeting and think, "If I’m this nervous, something is definitely going to go wrong."</item>
+        <item>When feeling guilty, you conclude, "If I feel guilty, I must have done something wrong."</item>
+        <item>Feeling sad, you decide, "I’m sad, so my life must be joyless and hopeless."</item>
+    </string-array>
+
+    <string name="distortion_11_name">Should Statements</string>
+    <string name="distortion_11_short_desc">You use absolute “should” or “must” statements, setting unrealistic standards for yourself and others.</string>
+    <string name="distortion_11_long_desc">Should statements are a cognitive distortion where you place rigid obligations on yourself and others in the form of "I should," "they must," or "I am supposed to." This leads to constant self-criticism and dissatisfaction when expectations are not met, as well as feelings of guilt if you fail to live up to these high standards.</string>
+    <string-array name="distortion_11_examples">
+        <item>You think, "I should always be productive. If I rest, it’s bad."</item>
+        <item>After making a mistake, you criticize yourself, thinking, "I must do everything perfectly; otherwise, I’ve failed."</item>
+        <item>You believe, "My friends should always understand my feelings, and if they don’t, they’re bad friends."</item>
+    </string-array>
+
+    <string name="distortion_12_name">What If…</string>
+    <string name="distortion_12_short_desc">You fixate on potential negative outcomes, anticipating disasters.</string>
+    <string name="distortion_12_long_desc">The "What if…" distortion is characterized by constant thoughts about the worst possible scenarios. You continually ask yourself questions like "What if something bad happens?" focusing on potential catastrophes while ignoring positive or neutral outcomes. This increases anxiety and prevents rational decision-making.</string>
+    <string-array name="distortion_12_examples">
+        <item>Before a flight, you worry, "What if the plane crashes?"</item>
+        <item>While preparing for a presentation, you think, "What if I forget my lines and everyone laughs?"</item>
+        <item>You fear, "What if I get fired for the smallest mistake at work?"</item>
+    </string-array>
+
+    <string name="distortion_13_name">Blaming Others</string>
+    <string name="distortion_13_short_desc">You blame others for your feelings or problems, avoiding responsibility for your own reactions.</string>
+    <string name="distortion_13_long_desc">Blaming others is a cognitive distortion where you attribute your emotions or problems to other people or external circumstances. You do not take responsibility for your own reactions or actions, believing that your feelings and state are caused entirely by the behavior of others. This hinders personal accountability and control over your emotions.</string>
+    <string-array name="distortion_13_examples">
+        <item>You say, "I’m upset because you didn’t give me enough attention."</item>
+        <item>After a failure at work, you claim, "It’s because my boss underestimates me."</item>
+        <item>After an argument with your partner, you think, "You made me unhappy, and it’s entirely your fault."</item>
+    </string-array>
+
+</resources>
