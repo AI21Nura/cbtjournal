@@ -1,4 +1,4 @@
-package com.ainsln.feature.distortions
+package com.ainsln.feature.distortions.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +35,7 @@ import com.ainsln.core.ui.theme.CBTJournalTheme
 
 @Composable
 fun DistortionsScreen(
+    onDistortionClick: (Long) -> Unit,
     viewModel: DistortionsViewModel = hiltViewModel(),
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -42,7 +43,7 @@ fun DistortionsScreen(
 
     DistortionsContent(
         uiState = uiState,
-        onDistortionClick = {},
+        onDistortionClick = onDistortionClick,
         contentPadding = contentPadding
     )
 }

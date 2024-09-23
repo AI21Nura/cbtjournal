@@ -1,4 +1,4 @@
-package com.ainsln.feature.distortions
+package com.ainsln.feature.distortions.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
