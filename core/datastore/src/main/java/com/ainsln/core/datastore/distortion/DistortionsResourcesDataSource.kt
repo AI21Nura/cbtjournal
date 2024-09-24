@@ -4,6 +4,7 @@ import com.ainsln.core.data.R
 import com.ainsln.core.resources.R.drawable
 import com.ainsln.core.datastore.model.DistortionStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionStore> {
@@ -132,7 +133,9 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
     }
 
     override fun getById(id: Long): Flow<DistortionStore> {
-        return flowOf(cognitiveDistortions.first { it.id == id })
+        return flow {
+            emit(cognitiveDistortions.first{ it.id == id })
+        }
     }
 
 }
