@@ -14,7 +14,7 @@ sealed interface DistortionsDestinations {
     data object List : DistortionsDestinations
 
     @Serializable
-    data class Detail(val id: Long? = null) : DistortionsDestinations
+    data class Detail(val id: Long) : DistortionsDestinations
 
     @Serializable
     data object DetailPlaceholder : DistortionsDestinations

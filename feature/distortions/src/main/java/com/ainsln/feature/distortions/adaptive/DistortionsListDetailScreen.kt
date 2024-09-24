@@ -1,6 +1,7 @@
 package com.ainsln.feature.distortions.adaptive
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -52,12 +53,13 @@ internal fun DistortionsListDetailContent(
         )
     )
 
-    BackHandler(listDetailNavigator.canNavigateBack()) {
-        listDetailNavigator.navigateBack()
-    }
-
     var nestedNavHostStartDestination: DistortionsDestinations by remember {
         mutableStateOf(DistortionsDestinations.DetailPlaceholder)
+    }
+
+    BackHandler(listDetailNavigator.canNavigateBack()) {
+        listDetailNavigator.navigateBack()
+        nestedNavHostStartDestination = DistortionsDestinations.DetailPlaceholder
     }
 
     var nestedNavKey by rememberSaveable(
@@ -82,12 +84,17 @@ internal fun DistortionsListDetailContent(
         listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
     }
 
+    val listState = rememberLazyListState()
+
     ListDetailPaneScaffold(
         directive = listDetailNavigator.scaffoldDirective,
         value = listDetailNavigator.scaffoldValue,
         listPane = {
             AnimatedPane {
-                DistortionsScreen(::onDistortionClickDetailPane)
+                DistortionsScreen(
+                    onDistortionClick =  ::onDistortionClickDetailPane,
+                    listState = listState
+                )
             }
         },
         detailPane = {

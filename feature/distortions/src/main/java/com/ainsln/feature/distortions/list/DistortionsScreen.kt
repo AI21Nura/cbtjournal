@@ -1,7 +1,6 @@
 package com.ainsln.feature.distortions.list
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,49 +8,55 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.NavigateNext
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ainsln.core.resources.R.drawable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ainsln.core.model.Distortion
+import com.ainsln.core.resources.R.drawable
+import com.ainsln.core.ui.components.ErrorScreen
+import com.ainsln.core.ui.components.LoadingScreen
 import com.ainsln.core.ui.theme.CBTJournalTheme
+import com.ainsln.feature.distortions.state.DistortionUiState
+import com.ainsln.feature.distortions.state.DistortionsListUiState
 
 
 @Composable
 fun DistortionsScreen(
     onDistortionClick: (Long) -> Unit,
+    listState: LazyListState,
     viewModel: DistortionsViewModel = hiltViewModel(),
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DistortionsContent(
         uiState = uiState,
         onDistortionClick = onDistortionClick,
+        listState = listState,
         contentPadding = contentPadding
     )
 }
 
 @Composable
 fun DistortionsContent(
-    uiState: DistortionsUiState,
+    uiState: DistortionsListUiState,
     onDistortionClick: (Long) -> Unit,
+    listState: LazyListState,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -59,12 +64,20 @@ fun DistortionsContent(
         modifier = modifier.fillMaxSize()
     ) {
         when (uiState) {
-            is DistortionsUiState.Error -> TODO()
-            is DistortionsUiState.Loading -> LoadingScreen(contentPadding = contentPadding)
-            is DistortionsUiState.Success -> {
+            is DistortionUiState.Error -> {
+                ErrorScreen(
+                    message = uiState.e.message ?: "Error loading list of distortions",
+                    contentPadding = contentPadding
+                )
+            }
+            is DistortionUiState.Loading -> {
+                LoadingScreen(contentPadding = contentPadding)
+            }
+            is DistortionUiState.Success -> {
                 DistortionsList(
-                    distortions = uiState.distortions,
+                    distortions = uiState.data,
                     onDistortionClick = onDistortionClick,
+                    listState = listState,
                     contentPadding = contentPadding
                 )
             }
@@ -73,37 +86,20 @@ fun DistortionsContent(
 }
 
 @Composable
-fun LoadingScreen(
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
-) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
-            .padding(
-                top = contentPadding.calculateTopPadding()
-            )
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
 fun DistortionsList(
     distortions: List<Distortion>,
     onDistortionClick: (Long) -> Unit,
+    listState: LazyListState,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(vertical = 16.dp)
 ) {
-    val scrollState = rememberLazyListState()
+
     LazyColumn(
-        state = scrollState,
+        state = listState,
+        contentPadding = contentPadding,
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                top = contentPadding.calculateTopPadding(),
                 start = 24.dp,
                 end = 24.dp
             )
@@ -204,7 +200,8 @@ fun DistortionsListPreview() {
                         iconResId = drawable.ic_distortion_2
                     ),
                 ),
-                onDistortionClick = {}
+                onDistortionClick = {},
+                listState = rememberLazyListState()
             )
         }
     }

@@ -12,8 +12,8 @@ public sealed interface Result<out T> {
 }
 
 public fun <T> Flow<T>.asFlowResult(): Flow<Result<T>> {
-    return onStart { Result.Loading }
-        .map { data -> Result.Success(data) }
+    return map { data -> Result.Success(data) }
+        .onStart { Result.Loading }
         .catch { e -> Result.Error(e) }
 }
 

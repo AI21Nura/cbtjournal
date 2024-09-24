@@ -1,4 +1,4 @@
-package com.ainsln.core.datastore
+package com.ainsln.core.datastore.distortion
 
 import com.ainsln.core.data.R
 import com.ainsln.core.resources.R.drawable

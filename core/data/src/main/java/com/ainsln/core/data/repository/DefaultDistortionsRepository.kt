@@ -5,7 +5,7 @@ import com.ainsln.core.data.result.asFlowResult
 import com.ainsln.core.data.result.map
 import com.ainsln.core.data.util.ResourceManager
 import com.ainsln.core.data.util.toDistortion
-import com.ainsln.core.datastore.DistortionsDataSource
+import com.ainsln.core.datastore.distortion.DistortionsDataSource
 import com.ainsln.core.datastore.model.DistortionStore
 import com.ainsln.core.model.Distortion
 import jakarta.inject.Inject

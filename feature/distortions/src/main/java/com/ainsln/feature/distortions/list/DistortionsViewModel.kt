@@ -3,8 +3,9 @@ package com.ainsln.feature.distortions.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ainsln.core.data.repository.DistortionsRepository
-import com.ainsln.core.data.result.Result
-import com.ainsln.core.model.Distortion
+import com.ainsln.feature.distortions.state.DistortionUiState
+import com.ainsln.feature.distortions.state.DistortionsListUiState
+import com.ainsln.feature.distortions.state.toState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,30 +15,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DistortionsViewModel @Inject constructor(
-    private val distortionsRepository: DistortionsRepository
+    distortionsRepository: DistortionsRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<DistortionsUiState> = distortionsRepository.getDistortions()
+    val uiState: StateFlow<DistortionsListUiState> = distortionsRepository.getDistortions()
         .map { result -> result.toState() }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            DistortionsUiState.Loading
+            DistortionUiState.Loading
         )
 
-}
-
-sealed interface DistortionsUiState {
-    data object Loading : DistortionsUiState
-    data class Error(val e: Throwable) : DistortionsUiState
-    data class Success(val distortions: List<Distortion>) : DistortionsUiState
-}
-
-fun Result<List<Distortion>>.toState(): DistortionsUiState{
-    return when(this){
-        is Result.Loading -> DistortionsUiState.Loading
-        is Result.Error -> DistortionsUiState.Error(e)
-        is Result.Success -> DistortionsUiState.Success(data)
-    }
 }
 
