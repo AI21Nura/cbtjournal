@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-public class DefaultDistortionsRepository @Inject constructor(
+internal class DefaultDistortionsRepository @Inject constructor(
     private val resourceManager: ResourceManager,
     private val dataSource: DistortionsDataSource<DistortionStore>
 ) : DistortionsRepository {
@@ -27,6 +27,12 @@ public class DefaultDistortionsRepository @Inject constructor(
     override fun getDistortionById(id: Long): Flow<Result<Distortion>> {
         return dataSource.getById(id).asFlowResult().map { result ->
             result.map { it.toDistortion(resourceManager) }
+        }
+    }
+
+    override fun getDistortionsByIds(ids: List<Long>): Flow<Result<List<Distortion>>> {
+        return dataSource.getByIds(ids).asFlowResult().map { result ->
+            result.map { list -> list.map { it.toDistortion(resourceManager) } }
         }
     }
 }

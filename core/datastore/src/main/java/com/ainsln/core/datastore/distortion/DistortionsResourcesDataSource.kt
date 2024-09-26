@@ -138,4 +138,9 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
         }
     }
 
+    override fun getByIds(ids: List<Long>): Flow<List<DistortionStore>> {
+        return flow {
+            emit(cognitiveDistortions.filter { it.id in ids })
+        }
+    }
 }

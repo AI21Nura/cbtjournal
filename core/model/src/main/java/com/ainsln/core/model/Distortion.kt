@@ -2,7 +2,7 @@ package com.ainsln.core.model
 
 import androidx.annotation.DrawableRes
 
-public data class Distortion(
+data class Distortion(
     val id: Long,
     val name: String,
     val shortDescription: String,

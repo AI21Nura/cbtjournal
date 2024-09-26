@@ -8,4 +8,6 @@ public interface DistortionsDataSource<T> {
 
     public fun getById(id: Long): Flow<T>
 
+    public fun getByIds(ids: List<Long>): Flow<List<T>>
+
 }

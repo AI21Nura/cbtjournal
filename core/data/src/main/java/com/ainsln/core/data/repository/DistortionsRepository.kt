@@ -10,4 +10,6 @@ public interface DistortionsRepository {
 
     public fun getDistortionById(id: Long): Flow<Result<Distortion>>
 
+    public fun getDistortionsByIds(ids: List<Long>): Flow<Result<List<Distortion>>>
+
 }
