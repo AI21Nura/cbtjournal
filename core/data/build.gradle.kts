@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
 
     api(projects.core.model)
+    api(projects.core.database)
     implementation(projects.core.datastore)
 
     implementation(libs.hilt.android)
