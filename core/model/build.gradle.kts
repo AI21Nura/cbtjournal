@@ -10,11 +10,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-kotlin {
-    explicitApi = ExplicitApiMode.Strict
-}
-
-
 dependencies {
     compileOnly(libs.androidx.annotation)
 }
