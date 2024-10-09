@@ -44,4 +44,5 @@ dependencies {
     api(libs.material)
     api(libs.androidx.material.icons.extended)
 
+    implementation(libs.androidx.adaptive)
 }
