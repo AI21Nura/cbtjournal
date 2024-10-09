@@ -36,7 +36,7 @@ import com.ainsln.feature.distortions.state.DistortionsListUiState
 
 
 @Composable
-fun DistortionsScreen(
+internal fun DistortionsScreen(
     onDistortionClick: (Long) -> Unit,
     listState: LazyListState,
     viewModel: DistortionsViewModel = hiltViewModel(),
@@ -53,7 +53,7 @@ fun DistortionsScreen(
 }
 
 @Composable
-fun DistortionsContent(
+internal fun DistortionsContent(
     uiState: DistortionsListUiState,
     onDistortionClick: (Long) -> Unit,
     listState: LazyListState,
@@ -86,7 +86,7 @@ fun DistortionsContent(
 }
 
 @Composable
-fun DistortionsList(
+internal fun DistortionsList(
     distortions: List<Distortion>,
     onDistortionClick: (Long) -> Unit,
     listState: LazyListState,
@@ -114,7 +114,7 @@ fun DistortionsList(
 }
 
 @Composable
-fun DistortionItem(
+internal fun DistortionItem(
     distortion: Distortion,
     onDistortionClick: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -146,7 +146,7 @@ fun DistortionItem(
 
 @Preview(showBackground = true)
 @Composable
-fun DistortionItemPreview() {
+internal fun DistortionItemPreview() {
     CBTJournalTheme {
         Surface {
             DistortionItem(
@@ -170,7 +170,7 @@ fun DistortionItemPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun DistortionsListPreview() {
+internal fun DistortionsListPreview() {
     CBTJournalTheme {
         Surface {
             DistortionsList(

@@ -32,7 +32,7 @@ import kotlinx.serialization.Serializable
 import java.util.UUID
 
 @Serializable
-data object DetailPaneNavHost
+data object DistortionDetailPaneNavHost
 
 @Composable
 internal fun DistortionsListDetailScreen(
@@ -75,7 +75,7 @@ internal fun DistortionsListDetailContent(
     fun onDistortionClickDetailPane(distortionId: Long) {
         if (listDetailNavigator.isDetailPaneVisible()) {
             nestedNavController.navigateToDistortionDetails(distortionId) {
-                popUpTo(DetailPaneNavHost)
+                popUpTo(DistortionDetailPaneNavHost)
             }
         } else {
             nestedNavKey = UUID.randomUUID()
@@ -102,7 +102,7 @@ internal fun DistortionsListDetailContent(
                 NavHost(
                     navController = nestedNavController,
                     startDestination = nestedNavHostStartDestination,
-                    route = DetailPaneNavHost::class
+                    route = DistortionDetailPaneNavHost::class
                 ) {
                     distortionDetailsDestination()
                     distortionDetailsPlaceholder()

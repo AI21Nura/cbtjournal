@@ -18,9 +18,7 @@ sealed interface DistortionsDestinations {
 
     @Serializable
     data object DetailPlaceholder : DistortionsDestinations
-
 }
-
 
 fun NavGraphBuilder.distortionsDestination() {
     composable<DistortionsDestinations.List> {
@@ -43,3 +41,4 @@ fun NavGraphBuilder.distortionDetailsPlaceholder() {
 fun NavController.navigateToDistortionDetails(id: Long, navOptions: NavOptionsBuilder.() -> Unit = {}) {
     navigate(route = DistortionsDestinations.Detail(id), builder = navOptions)
 }
+

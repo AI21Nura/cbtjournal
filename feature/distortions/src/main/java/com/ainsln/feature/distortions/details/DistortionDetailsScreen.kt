@@ -117,7 +117,7 @@ internal fun DistortionDetails(
 }
 
 @Composable
-fun DistortionHeader(
+internal fun DistortionHeader(
     distortion: Distortion,
     modifier: Modifier = Modifier,
 ){
@@ -162,7 +162,7 @@ fun DistortionHeader(
 }
 
 @Composable
-fun DistortionBody(
+internal fun DistortionBody(
     distortion: Distortion,
     modifier: Modifier = Modifier,
 ){
@@ -191,7 +191,8 @@ fun DistortionBody(
     }
 }
 
-@Composable fun TitleText(
+@Composable
+internal fun TitleText(
     text: String,
     modifier: Modifier = Modifier
 ){
@@ -203,7 +204,7 @@ fun DistortionBody(
     )
 }
 
-fun DrawScope.drawHeaderBackground(size: Size, brush: Brush, cornerRadius: CornerRadius){
+internal fun DrawScope.drawHeaderBackground(size: Size, brush: Brush, cornerRadius: CornerRadius){
     val path = Path().apply {
         addRoundRect(
             RoundRect(
@@ -220,7 +221,7 @@ fun DrawScope.drawHeaderBackground(size: Size, brush: Brush, cornerRadius: Corne
 }
 
 @Composable
-fun ExampleItem(
+internal fun ExampleItem(
     example: String,
     modifier: Modifier = Modifier
 ){
@@ -257,7 +258,7 @@ internal fun DistortionDetailsPlaceholder(
 
 @Preview(showBackground = true)
 @Composable
-fun DistortionDetailPreview() {
+internal fun DistortionDetailPreview() {
     CBTJournalTheme {
         DistortionDetails(
             Distortion(
