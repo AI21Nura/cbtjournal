@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="date_label">Дата</string>
+    <string name="situation_label">Ситуация</string>
+    <string name="body_reaction_label">Реакция в теле</string>
+    <string name="behavioral_reaction_label">Поведенческая реакция</string>
+    <string name="emotions_after_label">Эмоции после переосмысления</string>
+    <string name="thoughts_and_alternatives_label">Автоматические мысли и их альтернативы</string>
+    <string name="distortions_label">Когнитивные искажения</string>
+    <string name="not_filled">Не заполнено</string>
+    <string name="emotions_before_label">Эмоции до переосмысления</string>
+    <string name="thought_number">Мысль %d</string>
+    <string name="alternative">Альтернатива</string>
+</resources>

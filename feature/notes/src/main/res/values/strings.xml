@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="date_label">Date</string>
+    <string name="situation_label">Situation</string>
+    <string name="body_reaction_label">Body Reaction</string>
+    <string name="behavioral_reaction_label">Behavioral Reaction</string>
+    <string name="emotions_before_label">Emotions Before Reframing</string>
+    <string name="emotions_after_label">Emotions After Reframing</string>
+    <string name="thoughts_and_alternatives_label">Thoughts &amp; Alternatives</string>
+    <string name="distortions_label">Distortions</string>
+
+
+    <string name="not_filled">Not Filled</string>
+    <string name="thought_number">Thought %d</string>
+    <string name="alternative">Alternative</string>
+</resources>

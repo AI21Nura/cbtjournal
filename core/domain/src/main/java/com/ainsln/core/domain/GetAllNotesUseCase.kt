@@ -21,7 +21,7 @@ class GetAllNotesUseCase @Inject constructor(
             = NotesWithEmotionsMergeStrategy()
     ): Flow<Result<List<ShortNote>>> {
         return combine(
-            notesRepository.getNotes(),
+            notesRepository.getAllNotes(),
             emotionsRepository.getAllSelectedEmotions(langCode),
             mergeStrategy::merge
         )
