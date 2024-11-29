@@ -45,8 +45,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
-    implementation(projects.core.resources)
-
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 

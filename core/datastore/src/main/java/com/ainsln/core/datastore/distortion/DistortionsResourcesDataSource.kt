@@ -1,7 +1,6 @@
 package com.ainsln.core.datastore.distortion
 
 import com.ainsln.core.data.R
-import com.ainsln.core.resources.R.drawable
 import com.ainsln.core.datastore.model.DistortionStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +15,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_1_short_desc,
             longDescription = R.string.distortion_1_long_desc,
             examples = R.array.distortion_1_examples,
-            iconResId = drawable.ic_distortion_1
+            iconResId = R.drawable.ic_distortion_1
         ),
 
         DistortionStore(
@@ -25,7 +24,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_2_short_desc,
             longDescription = R.string.distortion_2_long_desc,
             examples = R.array.distortion_2_examples,
-            iconResId = drawable.ic_distortion_2
+            iconResId = R.drawable.ic_distortion_2
         ),
 
         DistortionStore(
@@ -34,7 +33,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_3_short_desc,
             longDescription = R.string.distortion_3_long_desc,
             examples = R.array.distortion_3_examples,
-            iconResId = drawable.ic_distortion_3
+            iconResId = R.drawable.ic_distortion_3
         ),
 
         DistortionStore(
@@ -43,7 +42,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_4_short_desc,
             longDescription = R.string.distortion_4_long_desc,
             examples = R.array.distortion_4_examples,
-            iconResId = drawable.ic_distortion_4
+            iconResId = R.drawable.ic_distortion_4
         ),
 
         DistortionStore(
@@ -52,7 +51,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_5_short_desc,
             longDescription = R.string.distortion_5_long_desc,
             examples = R.array.distortion_5_examples,
-            iconResId = drawable.ic_distortion_5
+            iconResId = R.drawable.ic_distortion_5
         ),
 
         DistortionStore(
@@ -61,7 +60,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_6_short_desc,
             longDescription = R.string.distortion_6_long_desc,
             examples = R.array.distortion_6_examples,
-            iconResId = drawable.ic_distortion_6
+            iconResId = R.drawable.ic_distortion_6
         ),
 
         DistortionStore(
@@ -70,7 +69,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_7_short_desc,
             longDescription = R.string.distortion_7_long_desc,
             examples = R.array.distortion_7_examples,
-            iconResId = drawable.ic_distortion_7
+            iconResId = R.drawable.ic_distortion_7
         ),
 
         DistortionStore(
@@ -79,7 +78,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_8_short_desc,
             longDescription = R.string.distortion_8_long_desc,
             examples = R.array.distortion_8_examples,
-            iconResId = drawable.ic_distortion_8
+            iconResId = R.drawable.ic_distortion_8
         ),
 
         DistortionStore(
@@ -88,7 +87,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_9_short_desc,
             longDescription = R.string.distortion_9_long_desc,
             examples = R.array.distortion_9_examples,
-            iconResId = drawable.ic_distortion_9
+            iconResId = R.drawable.ic_distortion_9
         ),
 
         DistortionStore(
@@ -97,7 +96,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_10_short_desc,
             longDescription = R.string.distortion_10_long_desc,
             examples = R.array.distortion_10_examples,
-            iconResId = drawable.ic_distortion_10
+            iconResId = R.drawable.ic_distortion_10
         ),
 
         DistortionStore(
@@ -106,7 +105,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_11_short_desc,
             longDescription = R.string.distortion_11_long_desc,
             examples = R.array.distortion_11_examples,
-            iconResId = drawable.ic_distortion_11
+            iconResId = R.drawable.ic_distortion_11
         ),
 
         DistortionStore(
@@ -115,7 +114,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_12_short_desc,
             longDescription = R.string.distortion_12_long_desc,
             examples = R.array.distortion_12_examples,
-            iconResId = drawable.ic_distortion_12
+            iconResId = R.drawable.ic_distortion_12
         ),
 
         DistortionStore(
@@ -124,7 +123,7 @@ public object DistortionsResourcesDataSource : DistortionsDataSource<DistortionS
             shortDescription = R.string.distortion_13_short_desc,
             longDescription = R.string.distortion_13_long_desc,
             examples = R.array.distortion_13_examples,
-            iconResId = drawable.ic_distortion_13
+            iconResId = R.drawable.ic_distortion_13
         ),
     )
 

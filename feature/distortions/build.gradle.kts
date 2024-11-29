@@ -38,8 +38,6 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.ui)
 
-    implementation(projects.core.resources)
-
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation (libs.androidx.hilt.navigation.compose)
