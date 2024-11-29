@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     indices = [Index(value = ["note_id"])]
 )
 public data class ThoughtEntity(
-    @PrimaryKey val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo("note_id") val noteId: Long,
     @ColumnInfo("thought_text") val text: String,
     @ColumnInfo("alternative_thought") val alternativeThought: String

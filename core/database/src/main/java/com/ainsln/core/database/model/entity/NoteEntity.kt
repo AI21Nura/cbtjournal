@@ -7,7 +7,7 @@ import java.util.Date
 
 @Entity(tableName = "Note")
 public data class NoteEntity(
-    @PrimaryKey val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     val date: Date,
     val situation: String,
     @ColumnInfo("body_reaction") val bodyReaction: String,
