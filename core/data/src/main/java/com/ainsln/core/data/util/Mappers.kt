@@ -4,6 +4,7 @@ import com.ainsln.core.database.model.NoteWithThoughts
 import com.ainsln.core.database.model.TranslatedEmotion
 import com.ainsln.core.database.model.TranslatedSelectedEmotion
 import com.ainsln.core.database.model.entity.NoteEntity
+import com.ainsln.core.database.model.entity.SelectedEmotionCrossRef
 import com.ainsln.core.database.model.entity.ThoughtEntity
 import com.ainsln.core.datastore.model.DistortionStore
 import com.ainsln.core.model.Distortion
@@ -63,4 +64,30 @@ internal fun TranslatedSelectedEmotion.toSelectedEmotion(): SelectedEmotion =
         noteId = selection.noteId,
         intensityAfter = selection.intensityAfter,
         intensityBefore = selection.intensityBefore
+    )
+
+internal fun Note.toNoteEntity(): NoteEntity =
+    NoteEntity(
+        id = id,
+        date = date,
+        situation = situation,
+        bodyReaction = bodyReaction,
+        behavioralReaction = behavioralReaction,
+        distortionsIds = distortionsIds
+    )
+
+internal fun Thought.toThoughtEntity(noteId: Long): ThoughtEntity =
+    ThoughtEntity(
+        id = id,
+        noteId = noteId,
+        text = text,
+        alternativeThought = alternativeThought
+    )
+
+internal fun SelectedEmotion.toSelectedEmotionCrossRef(noteId: Long): SelectedEmotionCrossRef =
+    SelectedEmotionCrossRef(
+        noteId = noteId,
+        emotionId = emotion.id,
+        intensityBefore = intensityBefore,
+        intensityAfter = intensityAfter
     )

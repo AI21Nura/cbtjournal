@@ -8,8 +8,8 @@ public class BaseResourceManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ResourceManager {
 
-    override fun getString(stringId: Int): String {
-        return context.getString(stringId)
+    override fun getString(stringId: Int, vararg formatArgs: Any): String {
+        return context.getString(stringId, *formatArgs)
     }
 
     override fun getStringArray(arrayId: Int): Array<String> {

@@ -24,3 +24,12 @@ public fun <T, R> Result<T>.map(mapper: (T) -> R): Result<R>{
         is Result.Error -> this
     }
 }
+
+public inline fun <T,R> processFlowList(
+    flow: Flow<List<T>>,
+    crossinline mapper: (T) -> R
+): Flow<Result<List<R>>>{
+    return flow.asFlowResult().map { result ->
+        result.map { list -> list.map(mapper) }
+    }
+}
