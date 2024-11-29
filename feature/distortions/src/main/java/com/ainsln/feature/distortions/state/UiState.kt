@@ -2,20 +2,15 @@ package com.ainsln.feature.distortions.state
 
 import com.ainsln.core.data.result.Result
 import com.ainsln.core.model.Distortion
+import com.ainsln.core.ui.state.UiState
 
-sealed interface DistortionUiState<out T> {
-    data object Loading : DistortionUiState<Nothing>
-    data class Success<T>(val data: T) : DistortionUiState<T>
-    data class Error(val e: Throwable) : DistortionUiState<Nothing>
-}
-
-fun <T : Any> Result<T>.toState(): DistortionUiState<T> {
+fun <T : Any> Result<T>.toState(): UiState<T> {
     return when (this) {
-        is Result.Loading -> DistortionUiState.Loading
-        is Result.Error -> DistortionUiState.Error(e)
-        is Result.Success -> DistortionUiState.Success(data)
+        is Result.Loading -> UiState.Loading
+        is Result.Error -> UiState.Error(e)
+        is Result.Success -> UiState.Success(data)
     }
 }
 
-typealias DistortionsListUiState = DistortionUiState<List<Distortion>>
-typealias DistortionDetailUiState = DistortionUiState<Distortion>
+typealias DistortionsListUiState = UiState<List<Distortion>>
+typealias DistortionDetailUiState = UiState<Distortion>

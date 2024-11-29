@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.ainsln.core.data.repository.DistortionsRepository
+import com.ainsln.core.ui.state.UiState
 import com.ainsln.feature.distortions.navigation.DistortionsDestinations
 import com.ainsln.feature.distortions.state.DistortionDetailUiState
-import com.ainsln.feature.distortions.state.DistortionUiState
 import com.ainsln.feature.distortions.state.toState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,7 +30,7 @@ class DistortionsDetailsViewModel @Inject constructor(
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000),
-                DistortionUiState.Loading
+                UiState.Loading
             )
 
 

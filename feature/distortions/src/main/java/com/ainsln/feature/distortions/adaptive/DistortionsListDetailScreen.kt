@@ -92,7 +92,7 @@ internal fun DistortionsListDetailContent(
         listPane = {
             AnimatedPane {
                 DistortionsScreen(
-                    onDistortionClick =  ::onDistortionClickDetailPane,
+                    onDistortionClick = ::onDistortionClickDetailPane,
                     listState = listState
                 )
             }

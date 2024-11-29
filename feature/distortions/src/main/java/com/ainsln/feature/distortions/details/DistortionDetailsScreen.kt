@@ -1,6 +1,5 @@
 package com.ainsln.feature.distortions.details
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,13 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowRight
-import androidx.compose.material.icons.automirrored.outlined.FormatListBulleted
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,14 +45,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ainsln.core.model.Distortion
+import com.ainsln.core.ui.components.AppPlaceholder
 import com.ainsln.core.ui.components.ErrorScreen
 import com.ainsln.core.ui.components.LoadingScreen
+import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
 import com.ainsln.core.ui.theme.Ocean
 import com.ainsln.core.ui.theme.Shadow
+import com.ainsln.data.DistortionsPreviewData
 import com.ainsln.feature.distortions.R
 import com.ainsln.feature.distortions.state.DistortionDetailUiState
-import com.ainsln.feature.distortions.state.DistortionUiState
 
 
 @Composable
@@ -77,16 +75,16 @@ internal fun DistortionDetailsContent(
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     when (uiState) {
-        is DistortionUiState.Loading -> {
+        is UiState.Loading -> {
             LoadingScreen(contentPadding = contentPadding)
         }
-        is DistortionUiState.Error -> {
+        is UiState.Error -> {
             ErrorScreen(
                 message = uiState.e.message ?: "Error loading details",
                 contentPadding = contentPadding
             )
         }
-        is DistortionUiState.Success -> {
+        is UiState.Success -> {
             DistortionDetails(
                 distortion = uiState.data,
                 contentPadding = contentPadding
@@ -235,25 +233,11 @@ internal fun ExampleItem(
 internal fun DistortionDetailsPlaceholder(
     modifier: Modifier = Modifier
 ) {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+    AppPlaceholder(
+        text = "Choose a distortion to learn more",
+        icon = painterResource(R.drawable.ic_distortion_placeholder),
         modifier = modifier
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(space = 12.dp, alignment = Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.FormatListBulleted,
-                contentDescription = null,
-                modifier = Modifier.size(96.dp)
-            )
-            Text("Select a distortion from list")
-        }
-    }
-
+    )
 }
 
 @Preview(showBackground = true)
@@ -261,18 +245,7 @@ internal fun DistortionDetailsPlaceholder(
 internal fun DistortionDetailPreview() {
     CBTJournalTheme {
         DistortionDetails(
-            Distortion(
-                id = 1,
-                name = "Labeling",
-                shortDescription = "You judge yourself or others using harsh and negative labels.",
-                longDescription = "Labeling occurs when you make generalized and categorical conclusions about yourself or others based on a single action or situation. Instead of viewing behavior as an isolated act, you define your identity or others through labels such as \"loser,\" \"stupid,\" or \"lazy.\" This can lead to low self-esteem and persistent negative thoughts.",
-                examples = listOf(
-                    "After making a mistake at work, you tell yourself, \"I'm a total failure\".",
-                    "After being late for a meeting, you think, \"I'm always irresponsible.\"",
-                    "If a friend cancels plans once, your immediate thought is, \"They're a terrible friend; they don't care about me."
-                ),
-                iconResId = com.ainsln.core.resources.R.drawable.ic_distortion_1
-            ),
+            DistortionsPreviewData.getDistortion(LocalContext.current)
         )
     }
 }
