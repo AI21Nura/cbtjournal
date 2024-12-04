@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -28,6 +29,7 @@ import com.ainsln.feature.distortions.navigation.DistortionsDestinations
 import com.ainsln.feature.distortions.navigation.distortionDetailsDestination
 import com.ainsln.feature.distortions.navigation.distortionDetailsPlaceholder
 import com.ainsln.feature.distortions.navigation.navigateToDistortionDetails
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -46,6 +48,7 @@ internal fun DistortionsListDetailScreen(
 internal fun DistortionsListDetailContent(
     windowAdaptiveInfo: WindowAdaptiveInfo
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val listDetailNavigator = rememberListDetailPaneScaffoldNavigator(
         scaffoldDirective = calculatePaneScaffoldDirective(windowAdaptiveInfo),
         initialDestinationHistory = listOfNotNull(
@@ -58,8 +61,10 @@ internal fun DistortionsListDetailContent(
     }
 
     BackHandler(listDetailNavigator.canNavigateBack()) {
-        listDetailNavigator.navigateBack()
-        nestedNavHostStartDestination = DistortionsDestinations.DetailPlaceholder
+        coroutineScope.launch {
+            listDetailNavigator.navigateBack()
+            nestedNavHostStartDestination = DistortionsDestinations.DetailPlaceholder
+        }
     }
 
     var nestedNavKey by rememberSaveable(
@@ -73,15 +78,17 @@ internal fun DistortionsListDetailContent(
     }
 
     fun onDistortionClickDetailPane(distortionId: Long) {
-        if (listDetailNavigator.isDetailPaneVisible()) {
-            nestedNavController.navigateToDistortionDetails(distortionId) {
-                popUpTo(DistortionDetailPaneNavHost)
+        coroutineScope.launch {
+            if (listDetailNavigator.isDetailPaneVisible()) {
+                nestedNavController.navigateToDistortionDetails(distortionId) {
+                    popUpTo(DistortionDetailPaneNavHost)
+                }
+            } else {
+                nestedNavKey = UUID.randomUUID()
+                nestedNavHostStartDestination = DistortionsDestinations.Detail(distortionId)
             }
-        } else {
-            nestedNavKey = UUID.randomUUID()
-            nestedNavHostStartDestination = DistortionsDestinations.Detail(distortionId)
+            listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
         }
-        listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
     }
 
     val listState = rememberLazyListState()

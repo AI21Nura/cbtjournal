@@ -16,6 +16,7 @@ annotation = "1.9.1"
 uiTooling = "1.7.5"
 hilt = "2.52"
 ksp = "2.0.21-1.0.28"
+adaptive = "1.1.0-alpha07"
 navigation = "2.8.4"
 kotlinSerialization = "2.0.20"
 kotlinxSerialization = "1.7.1"
@@ -23,9 +24,9 @@ room = "2.6.1"
 jakarta = "2.0.1"
 
 [libraries]
-androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive" }
-androidx-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout" }
-androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation" }
+androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
+androidx-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
+androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
