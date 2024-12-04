@@ -1,5 +1,6 @@
 package com.ainsln.feature.notes.details
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -59,10 +60,9 @@ import com.ainsln.core.ui.components.dialog.NoteAlertDialog
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
 import com.ainsln.data.NotesPreviewData
-import com.ainsln.feature.notes.components.CombinedSectionText
-import com.ainsln.feature.notes.components.SectionSubtitle
-import com.ainsln.feature.notes.components.SectionTitle
-import com.ainsln.feature.notes.navigation.shareNote
+import com.ainsln.core.ui.components.text.CombinedSectionText
+import com.ainsln.core.ui.components.text.SectionSubtitle
+import com.ainsln.core.ui.components.text.SectionTitle
 import com.ainsln.feature.notes.state.ActionState
 import com.ainsln.feature.notes.state.NoteDetailsUiState
 import com.ainsln.feature.notes.utils.formatDate
@@ -85,7 +85,7 @@ fun NoteDetailsScreen(
         onBack = onBack,
         canNavigateBack = canNavigateBack,
         onDeleteClick = viewModel::deleteNote,
-        buildTextForSending = viewModel::buildTextForSending,
+        shareNote = viewModel::shareNote,
         contentPadding = contentPadding,
         resetDeleteState = viewModel::resetDeleteState
     )
@@ -100,7 +100,7 @@ internal fun NoteDetailsContent(
     resetDeleteState: () -> Unit,
     canNavigateBack: Boolean,
     onDeleteClick: (Note) -> Unit,
-    buildTextForSending: (Note) -> String,
+    shareNote: (Note, Context) -> Unit,
     contentPadding: PaddingValues
 ) {
     when (uiState) {
@@ -113,7 +113,7 @@ internal fun NoteDetailsContent(
                 onDeleteClick = onDeleteClick,
                 onBack = onBack,
                 canNavigateBack = canNavigateBack,
-                buildTextForSending = buildTextForSending,
+                shareNote = shareNote,
                 contentPadding = contentPadding
             )
         }
@@ -140,7 +140,7 @@ internal fun NoteDetailsContent(
     onDeleteClick: (Note) -> Unit,
     onBack: () -> Unit,
     canNavigateBack: Boolean,
-    buildTextForSending: (Note) -> String,
+    shareNote: (Note, Context) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -164,11 +164,7 @@ internal fun NoteDetailsContent(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = {
-                        shareNote(
-                            context = context,
-                            subject = "Share note from my CBT Journal",
-                            summary = buildTextForSending(note)
-                        )
+                        shareNote(note, context)
                     }) {
                         Icon(imageVector = Icons.Outlined.Share, contentDescription = "Share")
                     }
@@ -448,7 +444,7 @@ internal fun NoteDetailsPreview() {
             onDeleteClick = {},
             deleteState = ActionState.Idle,
             resetDeleteState = {},
-            buildTextForSending = { _ -> "" }
+            shareNote = { _, _ -> }
         )
     }
 }

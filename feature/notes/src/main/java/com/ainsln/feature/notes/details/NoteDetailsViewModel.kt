@@ -1,13 +1,17 @@
 package com.ainsln.feature.notes.details
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.ainsln.core.data.repository.NotesRepository
+import com.ainsln.core.data.repository.api.NotesRepository
+import com.ainsln.core.data.util.ResourceManager
+import com.ainsln.core.ui.utils.IntentSender
 import com.ainsln.core.domain.GetFullNoteUseCase
 import com.ainsln.core.model.Note
 import com.ainsln.core.ui.state.UiState
+import com.ainsln.feature.notes.R
 import com.ainsln.feature.notes.navigation.NotesDestinations
 import com.ainsln.feature.notes.state.ActionState
 import com.ainsln.feature.notes.state.NoteDetailsUiState
@@ -30,7 +34,9 @@ class NoteDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getFullNoteUseCase: GetFullNoteUseCase,
     private val notesRepository: NotesRepository,
-    private val noteFormatter: NoteFormatter
+    private val noteFormatter: NoteFormatter,
+    private val resourceManager: ResourceManager,
+    private val intentSender: IntentSender
 ) : ViewModel() {
 
     private val noteId = savedStateHandle.toRoute<NotesDestinations.Detail>().id
@@ -56,7 +62,12 @@ class NoteDetailsViewModel @Inject constructor(
         deleteState.update { ActionState.Idle }
     }
 
-    fun buildTextForSending(note: Note): String {
-        return noteFormatter.buildTextForSending(note)
+    fun shareNote(note: Note, context: Context) {
+        val summary = noteFormatter.buildTextForSending(note)
+        intentSender.send(
+            context = context,
+            subject = resourceManager.getString(R.string.share_subject),
+            text = summary
+        )
     }
 }

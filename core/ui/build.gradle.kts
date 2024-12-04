@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -41,4 +43,7 @@ dependencies {
     api(libs.androidx.material.icons.extended)
 
     implementation(libs.androidx.adaptive)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
 }
