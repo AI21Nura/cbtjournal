@@ -13,4 +13,5 @@
     <string name="not_filled">Not Filled</string>
     <string name="thought_number">Thought %d</string>
     <string name="alternative">Alternative</string>
+    <string name="share_subject">Share note from my CBT Journal</string>
 </resources>

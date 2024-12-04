@@ -1,6 +1,6 @@
 package com.ainsln.core.domain
 
-import com.ainsln.core.data.repository.NotesRepository
+import com.ainsln.core.data.repository.api.NotesRepository
 import com.ainsln.core.data.repository.RoomEmotionsRepository
 import com.ainsln.core.data.result.Result
 import com.ainsln.core.domain.utils.MergeStrategyForNotes

@@ -1,8 +1,8 @@
 package com.ainsln.core.domain
 
-import com.ainsln.core.data.repository.DistortionsRepository
-import com.ainsln.core.data.repository.EmotionsRepository
-import com.ainsln.core.data.repository.NotesRepository
+import com.ainsln.core.data.repository.api.DistortionsRepository
+import com.ainsln.core.data.repository.api.EmotionsRepository
+import com.ainsln.core.data.repository.api.NotesRepository
 import com.ainsln.core.data.result.Result
 import com.ainsln.core.domain.utils.FullNoteMergeStrategy
 import com.ainsln.core.domain.utils.MergeStrategyForFullNote

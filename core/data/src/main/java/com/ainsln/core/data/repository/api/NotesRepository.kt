@@ -1,4 +1,4 @@
-package com.ainsln.core.data.repository
+package com.ainsln.core.data.repository.api
 
 import com.ainsln.core.data.result.Result
 import com.ainsln.core.model.Note

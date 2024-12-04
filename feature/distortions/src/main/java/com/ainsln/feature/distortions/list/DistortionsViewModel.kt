@@ -2,7 +2,7 @@ package com.ainsln.feature.distortions.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ainsln.core.data.repository.DistortionsRepository
+import com.ainsln.core.data.repository.api.DistortionsRepository
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.feature.distortions.state.DistortionsListUiState
 import com.ainsln.feature.distortions.state.toState

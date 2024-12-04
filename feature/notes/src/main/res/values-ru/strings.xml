@@ -11,4 +11,5 @@
     <string name="emotions_before_label">Эмоции до переосмысления</string>
     <string name="thought_number">Мысль %d</string>
     <string name="alternative">Альтернатива</string>
+    <string name="share_subject">Запись из моего КПТ-дневника</string>
 </resources>

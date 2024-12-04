@@ -1,5 +1,6 @@
 package com.ainsln.core.data.repository
 
+import com.ainsln.core.data.repository.api.EmotionsRepository
 import com.ainsln.core.data.result.Result
 import com.ainsln.core.data.result.processFlowList
 import com.ainsln.core.data.util.toEmotion

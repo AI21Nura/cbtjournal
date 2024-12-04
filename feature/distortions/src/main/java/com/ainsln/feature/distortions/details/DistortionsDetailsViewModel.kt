@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.ainsln.core.data.repository.DistortionsRepository
+import com.ainsln.core.data.repository.api.DistortionsRepository
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.feature.distortions.navigation.DistortionsDestinations
 import com.ainsln.feature.distortions.state.DistortionDetailUiState
