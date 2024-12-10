@@ -33,31 +33,17 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data object NoteDetailPaneNavHost
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+
 @Composable
 internal fun NotesListDetailScreen(
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
     viewModel: NotesAdaptiveViewModel = hiltViewModel()
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val listDetailNavigator = rememberListDetailPaneScaffoldNavigator(
-        scaffoldDirective = calculatePaneScaffoldDirective(windowAdaptiveInfo),
-        initialDestinationHistory = listOfNotNull(
-            ThreePaneScaffoldDestinationItem<Nothing>(ListDetailPaneScaffoldRole.List),
-        )
+    NotesListDetailContent(
+        distortionsSelectionDialog,
+        rememberNotesNavigator(viewModel, windowAdaptiveInfo)
     )
-    val nestedNavController = rememberNavController()
-
-    val notesNavigator = remember {
-        BaseNotesNavigator(
-            coroutineScope = coroutineScope,
-            listDetailNavigator = listDetailNavigator,
-            nestedNavController = nestedNavController,
-            stateHandler = viewModel
-        )
-    }
-    NotesListDetailContent(distortionsSelectionDialog, notesNavigator)
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -137,3 +123,27 @@ fun WarningDialog(
     }
 }
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+fun rememberNotesNavigator(
+    stateHandler: NotesNavigationStateHandler,
+    windowAdaptiveInfo: WindowAdaptiveInfo
+) : NotesNavigator{
+    val coroutineScope = rememberCoroutineScope()
+    val listDetailNavigator = rememberListDetailPaneScaffoldNavigator(
+        scaffoldDirective = calculatePaneScaffoldDirective(windowAdaptiveInfo),
+        initialDestinationHistory = listOfNotNull(
+            ThreePaneScaffoldDestinationItem<Nothing>(ListDetailPaneScaffoldRole.List),
+        )
+    )
+    val nestedNavController = rememberNavController()
+
+    return remember {
+        BaseNotesNavigator(
+            coroutineScope = coroutineScope,
+            listDetailNavigator = listDetailNavigator,
+            nestedNavController = nestedNavController,
+            stateHandler = stateHandler
+        )
+    }
+}

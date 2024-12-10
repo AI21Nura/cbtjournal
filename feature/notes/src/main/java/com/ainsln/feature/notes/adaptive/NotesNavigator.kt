@@ -71,8 +71,8 @@ class BaseNotesNavigator(
                 initialValue = false
             )
 
-    override val scaffoldDirective = listDetailNavigator.scaffoldDirective
-    override val scaffoldValue = listDetailNavigator.scaffoldValue
+    override val scaffoldDirective get() = listDetailNavigator.scaffoldDirective
+    override val scaffoldValue get() = listDetailNavigator.scaffoldValue
 
     private var nestedNavHostStartDestination: NotesDestinations by mutableStateOf(NotesDestinations.DetailPlaceholder)
 
