@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry
+package com.ainsln.feature.notes.editor
 
 import com.ainsln.feature.notes.state.NoteDetails
 

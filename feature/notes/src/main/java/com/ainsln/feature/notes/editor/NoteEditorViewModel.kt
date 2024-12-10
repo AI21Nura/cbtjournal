@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry
+package com.ainsln.feature.notes.editor
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.ainsln.core.data.repository.api.DistortionsRepository
 import com.ainsln.core.data.result.Result
+import com.ainsln.core.data.util.ResourceManager
 import com.ainsln.core.domain.GetFullNoteUseCase
 import com.ainsln.core.domain.GetSelectedEmotionsUseCase
 import com.ainsln.core.domain.SaveFullNoteUseCase
@@ -13,14 +14,13 @@ import com.ainsln.core.model.Thought
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.feature.notes.navigation.NotesDestinations
 import com.ainsln.feature.notes.state.NoteDetails
-import com.ainsln.feature.notes.state.NoteEntryUiState
+import com.ainsln.feature.notes.state.NoteEditorUiState
 import com.ainsln.feature.notes.state.toActionState
 import com.ainsln.feature.notes.state.toNote
 import com.ainsln.feature.notes.state.toNoteDetails
 import com.ainsln.feature.notes.state.toState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,18 +31,19 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteEntryViewModel @Inject constructor(
+class NoteEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFullNoteUseCase: GetFullNoteUseCase,
     private val distortionsRepository: DistortionsRepository,
     private val getSelectedEmotionsUseCase: GetSelectedEmotionsUseCase,
-    private val saveFullNoteUseCase: SaveFullNoteUseCase
+    private val saveFullNoteUseCase: SaveFullNoteUseCase,
+    private val resourceManager: ResourceManager
 ) : ViewModel(), NoteModifier {
 
-    private val noteId = savedStateHandle.toRoute<NotesDestinations.Entry>().id
+    private val noteId = savedStateHandle.toRoute<NotesDestinations.Editor>().id
 
-    private val _uiState: MutableStateFlow<NoteEntryUiState> = MutableStateFlow(NoteEntryUiState())
-    val uiState: StateFlow<NoteEntryUiState> = _uiState
+    private val _uiState: MutableStateFlow<NoteEditorUiState> = MutableStateFlow(NoteEditorUiState())
+    val uiState: StateFlow<NoteEditorUiState> = _uiState
 
     init {
         noteId?.let { loadNote(it) }
@@ -92,9 +93,7 @@ class NoteEntryViewModel @Inject constructor(
     }
 
     override fun addThought() {
-        _uiState.value.noteDetails.thoughts.add(
-            Thought(id = 0, text = "", alternativeThought = "")
-        )
+        _uiState.value.noteDetails.thoughts.add(Thought.EMPTY)
     }
 
     override fun removeThought(index: Int) {
@@ -158,20 +157,19 @@ class NoteEntryViewModel @Inject constructor(
         viewModelScope.launch {
             if (_uiState.value.loadingState !is UiState.Success || !validateData()) return@launch
             val oldNote = (_uiState.value.loadingState as UiState.Success).data
+            val filteredThoughts = _uiState.value.noteDetails.thoughts.filter { it.text.isNotBlank() }
 
-            saveFullNoteUseCase(_uiState.value.noteDetails.toNote(oldNote?.id), oldNote)
+            saveFullNoteUseCase(_uiState.value.noteDetails.toNote(filteredThoughts, oldNote?.id), oldNote)
                 .collectLatest { result ->
                     _uiState.update { oldState ->
                         oldState.copy(saveState = result.toActionState())
                     }
                 }
-            delay(5000)
-
         }
     }
 
     private fun validateData(): Boolean {
-        val validationResult = _uiState.value.noteDetails.checkRequiredFields()
+        val validationResult = _uiState.value.noteDetails.checkRequiredFields(resourceManager)
         _uiState.update { oldState ->
             oldState.copy(missingFields = validationResult)
         }

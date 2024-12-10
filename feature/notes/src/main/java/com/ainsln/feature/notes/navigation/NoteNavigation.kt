@@ -3,13 +3,14 @@ package com.ainsln.feature.notes.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.ainsln.core.ui.utils.MultiSelectionDialogArgs
 import com.ainsln.feature.notes.adaptive.NotesListDetailScreen
 import com.ainsln.feature.notes.components.NoteDetailsPlaceholder
 import com.ainsln.feature.notes.details.NoteDetailsScreen
-import com.ainsln.feature.notes.entry.NoteEntryScreen
+import com.ainsln.feature.notes.editor.NoteEditorScreen
 import kotlinx.serialization.Serializable
 
 sealed interface NotesDestinations {
@@ -18,7 +19,7 @@ sealed interface NotesDestinations {
     @Serializable
     data class Detail(val id: Long) : NotesDestinations
     @Serializable
-    data class Entry(val id: Long? = null) : NotesDestinations
+    data class Editor(val id: Long? = null) : NotesDestinations
     @Serializable
     data object DetailPlaceholder : NotesDestinations
 }
@@ -48,18 +49,24 @@ fun NavGraphBuilder.noteDetailsPlaceholder(){
     }
 }
 
-fun NavGraphBuilder.noteEntryDestination(
+fun NavGraphBuilder.noteEditorDestination(
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
+    showWarningDialog: () -> Unit,
     navigateToNoteDetails: (Long) -> Unit,
     onBack: () -> Unit
 ){
-    composable<NotesDestinations.Entry>{
-        NoteEntryScreen(
+    composable<NotesDestinations.Editor>{
+        NoteEditorScreen(
             distortionsSelectionDialog = distortionsSelectionDialog,
+            showWarningDialog = showWarningDialog,
             navigateToNoteDetails = navigateToNoteDetails,
             onBack = onBack
         )
     }
+}
+
+fun NavController.navigateToJournal(navOptions: NavOptions){
+    navigate(route = NotesDestinations.List, navOptions)
 }
 
 fun NavController.navigateToNoteDetails(id: Long, navOptions: NavOptionsBuilder.() -> Unit = {}) {
@@ -70,7 +77,7 @@ fun NavController.navigateToNotePlaceholder(navOptions: NavOptionsBuilder.() -> 
     navigate(route = NotesDestinations.DetailPlaceholder, builder = navOptions)
 }
 
-fun NavController.navigateToNoteEntry(id: Long? = null, navOptions: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(route = NotesDestinations.Entry(id), builder = navOptions)
+fun NavController.navigateToNoteEditor(id: Long? = null, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(route = NotesDestinations.Editor(id), builder = navOptions)
 }
 

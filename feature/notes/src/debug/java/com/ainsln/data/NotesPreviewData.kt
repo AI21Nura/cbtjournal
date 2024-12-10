@@ -7,7 +7,7 @@ import com.ainsln.core.model.SelectedEmotion
 import com.ainsln.core.model.ShortNote
 import com.ainsln.core.model.Thought
 import com.ainsln.feature.notes.R
-import com.ainsln.feature.notes.entry.NoteModifier
+import com.ainsln.feature.notes.editor.NoteModifier
 import com.ainsln.feature.notes.state.NoteDetails
 import java.util.Date
 

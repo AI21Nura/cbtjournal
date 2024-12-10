@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry
+package com.ainsln.feature.notes.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -30,38 +30,40 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ainsln.core.ui.components.ErrorScreen
-import com.ainsln.core.ui.components.LoadingScreen
+import com.ainsln.core.ui.components.RenderUiStateScaffold
 import com.ainsln.core.ui.components.appbar.DetailsAppBar
 import com.ainsln.core.ui.components.dialog.NoteAlertDialog
-import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
 import com.ainsln.core.ui.utils.MultiSelectionDialogArgs
 import com.ainsln.data.NotesPreviewData
-import com.ainsln.feature.notes.entry.dialog.DistortionsDialog
-import com.ainsln.feature.notes.entry.dialog.EmotionsDialog
-import com.ainsln.feature.notes.entry.tabs.EntryScreenTab
-import com.ainsln.feature.notes.entry.tabs.SituationTab
-import com.ainsln.feature.notes.entry.tabs.InterpretationTab
-import com.ainsln.feature.notes.entry.tabs.ReframingTab
-import com.ainsln.feature.notes.state.NoteEntryUiState
+import com.ainsln.feature.notes.R
+import com.ainsln.feature.notes.editor.dialog.DistortionsDialog
+import com.ainsln.feature.notes.editor.dialog.EmotionsDialog
+import com.ainsln.feature.notes.editor.tabs.EditorScreenTab
+import com.ainsln.feature.notes.editor.tabs.InterpretationTab
+import com.ainsln.feature.notes.editor.tabs.ReframingTab
+import com.ainsln.feature.notes.editor.tabs.SituationTab
 import com.ainsln.feature.notes.state.ActionState
+import com.ainsln.feature.notes.state.NoteEditorUiState
 
 @Composable
-fun NoteEntryScreen(
+fun NoteEditorScreen(
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
+    showWarningDialog: () -> Unit,
     navigateToNoteDetails: (Long) -> Unit,
     onBack: () -> Unit,
-    viewModel: NoteEntryViewModel = hiltViewModel(),
+    viewModel: NoteEditorViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    NoteEntryContent(
+    NoteEditorContent(
         uiState = uiState,
+        showWarningDialog = showWarningDialog,
         fieldsModifier = viewModel,
         onSelectTab = viewModel::selectTab,
         distortionsSelectionDialog = distortionsSelectionDialog,
@@ -72,8 +74,9 @@ fun NoteEntryScreen(
 }
 
 @Composable
-fun NoteEntryContent(
-    uiState: NoteEntryUiState,
+fun NoteEditorContent(
+    uiState: NoteEditorUiState,
+    showWarningDialog: () -> Unit,
     fieldsModifier: NoteModifier,
     onSelectTab: (Int) -> Unit,
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
@@ -81,44 +84,44 @@ fun NoteEntryContent(
     onSaveClick: () -> Unit,
     onBack: () -> Unit,
 ) {
-    when (uiState.loadingState) {
-        is UiState.Success -> {
-            NoteEntry(
-                uiState = uiState,
-                fieldsModifier = fieldsModifier,
-                onSelectTab = onSelectTab,
-                distortionsSelectionDialog = distortionsSelectionDialog,
-                navigateToNoteDetails = navigateToNoteDetails,
-                onSaveClick = onSaveClick,
-                onBack = onBack,
-            )
-        }
-        is UiState.Loading -> { LoadingScreen() }
-        is UiState.Error -> {
-            ErrorScreen(message = "Error loading note\n" + uiState.loadingState.e.message)
-        }
+    RenderUiStateScaffold(
+        uiState = uiState.loadingState,
+        topBarTitle = R.string.note_edit_title,
+        errMsgRes = R.string.notes_details_error,
+        onBack = onBack,
+        canNavigateUp = true
+    ) {
+        NoteEditor(
+            uiState = uiState,
+            showWarningDialog = showWarningDialog,
+            fieldsModifier = fieldsModifier,
+            onSelectTab = onSelectTab,
+            distortionsSelectionDialog = distortionsSelectionDialog,
+            navigateToNoteDetails = navigateToNoteDetails,
+            onSaveClick = onSaveClick,
+        )
     }
 }
 
 @Composable
-fun NoteEntry(
-    uiState: NoteEntryUiState,
+fun NoteEditor(
+    uiState: NoteEditorUiState,
+    showWarningDialog: () -> Unit,
     fieldsModifier: NoteModifier,
     onSelectTab: (Int) -> Unit,
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
     navigateToNoteDetails: (Long) -> Unit,
     onSaveClick: () -> Unit,
-    onBack: () -> Unit,
 ) {
-    var isCancellationDialogOpen by remember { mutableStateOf(false) }
     var isValidationDialogOpen by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarMsg = stringResource(R.string.cant_save_note)
 
-    BackHandler { isCancellationDialogOpen = true }
+    BackHandler { showWarningDialog() }
 
     LaunchedEffect(uiState.saveState) {
         if (uiState.saveState is ActionState.Error){
-            snackbarHostState.showSnackbar(message = "Can't save note")
+            snackbarHostState.showSnackbar(message = snackbarMsg)
         }
     }
 
@@ -126,8 +129,11 @@ fun NoteEntry(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             DetailsAppBar(
-                title = "Note",
-                onBack = { isCancellationDialogOpen = true }
+                title = stringResource(
+                    if (uiState.isEditingMode) R.string.note_edit_title
+                    else R.string.note_add_title
+                ),
+                onBack = { showWarningDialog() }
             ) {
                 when(uiState.saveState){
                     is ActionState.Idle, is ActionState.Error -> {
@@ -137,7 +143,7 @@ fun NoteEntry(
                         }) {
                             Icon(
                                 imageVector = Icons.Outlined.Check,
-                                contentDescription = "Save"
+                                contentDescription = stringResource(R.string.save_note)
                             )
                         }
                     }
@@ -151,7 +157,7 @@ fun NoteEntry(
             }
         }
     ) { innerPadding ->
-        NoteEntryTabs(
+        NoteEditorTabs(
             uiState = uiState,
             onSelectTab = onSelectTab,
             fieldsModifier = fieldsModifier,
@@ -175,25 +181,10 @@ fun NoteEntry(
             )
         }
 
-        if (isCancellationDialogOpen){
-            NoteAlertDialog(
-                title = "Discard Changes",
-                text = "All unsaved changes will be lost. Are you sure you want to exit?",
-                onDismissClick = { isCancellationDialogOpen = false },
-                onConfirmClick = {
-                    isCancellationDialogOpen = false
-                    if (uiState.isEditingMode)
-                        navigateToNoteDetails(uiState.noteDetails.id)
-                    else
-                        onBack()
-                }
-            )
-        }
-
         if (isValidationDialogOpen && uiState.missingFields.isNotBlank()){
             NoteAlertDialog(
-                title = "Validation Error",
-                text = "Please fill in the required fields:\n" + uiState.missingFields,
+                title = stringResource(R.string.validation_error),
+                text = stringResource(R.string.validation_warning, uiState.missingFields),
                 onDismissClick = { isValidationDialogOpen = false },
                 onConfirmClick = { isValidationDialogOpen = false },
                 hasCancelButton = false
@@ -203,13 +194,13 @@ fun NoteEntry(
 }
 
 @Composable
-fun NoteEntryTabs(
-    uiState: NoteEntryUiState,
+fun NoteEditorTabs(
+    uiState: NoteEditorUiState,
     onSelectTab: (Int) -> Unit,
     fieldsModifier: NoteModifier,
     contentPadding: PaddingValues,
 ){
-    val pagerState = rememberPagerState { EntryScreenTab.entries.size }
+    val pagerState = rememberPagerState { EditorScreenTab.entries.size }
     LaunchedEffect(uiState.currentTabIndex) {
         pagerState.scrollToPage(uiState.currentTabIndex)
     }
@@ -224,23 +215,21 @@ fun NoteEntryTabs(
             .padding(
                 top = contentPadding.calculateTopPadding(),
                 bottom = contentPadding.calculateBottomPadding(),
-                start = 12.dp,
-                end = 12.dp
+                start = 16.dp,
+                end = 16.dp
             )
     ) {
-
         ScrollableTabRow(
             selectedTabIndex = uiState.currentTabIndex
         ) {
-            EntryScreenTab.entries.forEach { tab ->
+            EditorScreenTab.entries.forEach { tab ->
                 Tab(
                     selected = tab.index == uiState.currentTabIndex,
                     onClick = { onSelectTab(tab.index) },
-                    text = { Text(tab.title) }
+                    text = { Text(stringResource(tab.titleResId)) }
                 )
             }
         }
-
         HorizontalPager(
             state = pagerState,
             verticalAlignment = Alignment.Top,
@@ -249,19 +238,19 @@ fun NoteEntryTabs(
                 .verticalScroll(rememberScrollState())
         ) { pageIndex ->
             when (pageIndex) {
-                EntryScreenTab.Situation.index -> {
+                EditorScreenTab.Situation.index -> {
                     SituationTab(
                         uiState = uiState,
                         fieldsModifier = fieldsModifier
                     )
                 }
-                EntryScreenTab.Interpretation.index -> {
+                EditorScreenTab.Interpretation.index -> {
                     InterpretationTab(
                         uiState = uiState,
                         fieldsModifier = fieldsModifier
                     )
                 }
-                EntryScreenTab.Reframing.index -> {
+                EditorScreenTab.Reframing.index -> {
                     ReframingTab(
                         uiState = uiState,
                         fieldsModifier = fieldsModifier
@@ -274,16 +263,16 @@ fun NoteEntryTabs(
 
 @Preview(showBackground = true)
 @Composable
-fun NoteEntryScreenPreview() {
+fun NoteEditorScreenPreview() {
     CBTJournalTheme {
-        NoteEntry(
-            uiState = NoteEntryUiState(),
+        NoteEditor(
+            uiState = NoteEditorUiState(),
+            showWarningDialog = {},
             fieldsModifier = NotesPreviewData.fieldsModifier,
             onSelectTab = {},
             distortionsSelectionDialog = {},
             navigateToNoteDetails = {},
             onSaveClick = {},
-            onBack = {}
         )
     }
 }

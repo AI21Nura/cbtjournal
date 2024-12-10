@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry.tabs
+package com.ainsln.feature.notes.editor.tabs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,12 +27,14 @@ import com.ainsln.data.NotesPreviewData
 import com.ainsln.core.ui.components.text.CombinedSectionText
 import com.ainsln.core.ui.components.text.ExpandableSectionCard
 import com.ainsln.core.ui.components.text.SectionSubtitle
-import com.ainsln.feature.notes.entry.ReframingFieldsModifier
-import com.ainsln.feature.notes.state.NoteEntryUiState
+import com.ainsln.core.ui.components.text.SectionText
+import com.ainsln.feature.notes.R
+import com.ainsln.feature.notes.editor.ReframingFieldsModifier
+import com.ainsln.feature.notes.state.NoteEditorUiState
 
 @Composable
 fun ReframingTab(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     fieldsModifier: ReframingFieldsModifier,
     modifier: Modifier = Modifier
 ){
@@ -43,32 +46,34 @@ fun ReframingTab(
 
 @Composable
 fun AlternativesSection(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     onUpdateAlternativeThought: (Int, String) -> Unit,
     modifier: Modifier = Modifier
 ){
     ExpandableSectionCard(
-        title = "Automatic Thoughts",
+        title = stringResource(R.string.alternatives_label),
         modifier = modifier.fillMaxWidth().padding(vertical = 4.dp)
     ) {
         Column {
             if (uiState.noteDetails.thoughts.isEmpty()){
                 CombinedSectionText(
-                    text = "Describe your automatic negative thoughts. ",
-                    boldText = "You need to add automatic thoughts in the interpretation tab."
+                    text = stringResource(R.string.alternatives_text),
+                    boldText = stringResource(R.string.alternatives_placeholder)
                 )
             } else {
                 SectionSubtitle(
-                    subtitle = "Describe your automatic negative thoughts.",
+                    text = stringResource(R.string.alternatives_text),
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
                 uiState.noteDetails.thoughts.forEachIndexed { index, thought ->
-                    AlternativeThoughtInput(
-                        index = index,
-                        thought = thought,
-                        onUpdateAlternativeThought = onUpdateAlternativeThought
-                    )
+                    if (thought.text.isNotBlank()) {
+                        AlternativeThoughtInput(
+                            index = index,
+                            thought = thought,
+                            onUpdateAlternativeThought = onUpdateAlternativeThought
+                        )
+                    }
                 }
             }
         }
@@ -87,7 +92,7 @@ fun AlternativeThoughtInput(
         HorizontalDivider(Modifier.padding(bottom = 16.dp))
         CombinedSectionText(
             text = thought.text,
-            boldText = "Thought ${index+1}: ",
+            boldText = stringResource(R.string.thought_number, index+1),
             boldFirst = true,
             italic = false
         )
@@ -96,7 +101,7 @@ fun AlternativeThoughtInput(
             onValueChange = { onUpdateAlternativeThought(index, it) },
             placeholder = {
                 Text(
-                    text = "Enter text...",
+                    text = stringResource(R.string.text_placeholder),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
@@ -116,17 +121,17 @@ fun AlternativeThoughtInput(
 
 @Composable
 fun ReappraisalSection(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     onIntensityChanged: (Int, Int) -> Unit,
     modifier: Modifier = Modifier
 ){
     ExpandableSectionCard(
-        title = "Emotional reappraisal",
+        title = stringResource(R.string.emotions_re_label),
         modifier = modifier.padding(vertical = 4.dp)
     ){
         Column(modifier) {
             SectionSubtitle(
-                subtitle = "Rate the intensity of negative emotions after reframing your thoughts.",
+                text = stringResource(R.string.emotions_re_text),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
@@ -152,13 +157,14 @@ fun ReappraisalRow(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Text(text = "Before: ${selectedEmotion.intensityBefore}%")
+        SectionText(stringResource(R.string.before_text, selectedEmotion.intensityBefore))
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ){
-            Text(
-                text = "After: ${selectedEmotion.intensityAfter}%",
+            SectionText(
+                text = stringResource(R.string.after_text, selectedEmotion.intensityAfter),
                 modifier = Modifier.widthIn(min = 112.dp).padding(end = 8.dp)
             )
 
@@ -177,7 +183,7 @@ fun ReappraisalRow(
 fun ReframingTabPreview() {
     CBTJournalTheme {
         ReframingTab(
-            uiState = NoteEntryUiState(),
+            uiState = NoteEditorUiState(),
             fieldsModifier = NotesPreviewData.fieldsModifier,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         )

@@ -18,4 +18,8 @@ data class Thought(
     val id: Long,
     val text: String,
     val alternativeThought: String
-)
+){
+    companion object {
+        val EMPTY = Thought(id = 0, text = "", alternativeThought = "")
+    }
+}

@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry.tabs
+package com.ainsln.feature.notes.editor.tabs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ainsln.core.model.SelectedEmotion
@@ -27,13 +28,14 @@ import com.ainsln.core.ui.components.text.ExpandableSectionCard
 import com.ainsln.core.ui.components.text.InputTextField
 import com.ainsln.core.ui.components.text.SectionCard
 import com.ainsln.core.ui.components.text.SectionSubtitle
-import com.ainsln.feature.notes.entry.SituationFieldsModifier
-import com.ainsln.feature.notes.state.NoteEntryUiState
+import com.ainsln.feature.notes.R
+import com.ainsln.feature.notes.editor.SituationFieldsModifier
+import com.ainsln.feature.notes.state.NoteEditorUiState
 import com.ainsln.feature.notes.utils.convertMillisToDate
 
 @Composable
 fun SituationTab(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     fieldsModifier: SituationFieldsModifier,
     modifier: Modifier = Modifier
 ) {
@@ -47,12 +49,12 @@ fun SituationTab(
         )
 
         ExpandableSectionCard(
-            title = "Situation",
+            title = stringResource(R.string.situation_label),
             modifier = Modifier.padding(vertical = 4.dp)
         ) { modifier ->
             InputTextField(
-                subtitle = "Describe the event or situation that triggered an emotional reaction in you. Be specific and objective in your description.",
-                placeholder = "Enter text...",
+                subtitle = stringResource(R.string.situation_text),
+                placeholder = stringResource(R.string.text_placeholder),
                 text = uiState.noteDetails.situation,
                 onTextChanged = { fieldsModifier.updateTextField(uiState.noteDetails.copy(situation = it)) },
                 modifier = modifier
@@ -60,20 +62,20 @@ fun SituationTab(
         }
 
         ExpandableSectionCard(
-            title = "Reaction",
+            title = stringResource(R.string.reaction_label),
             modifier = Modifier.padding(vertical = 4.dp)
         ) { modifier ->
             InputTextField(
-                subtitle = "Describe your physical sensations in your body.",
-                placeholder = "Enter text...",
+                subtitle = stringResource(R.string.body_reaction_text),
+                placeholder = stringResource(R.string.text_placeholder),
                 text = uiState.noteDetails.bodyReaction,
                 onTextChanged = { fieldsModifier.updateTextField(uiState.noteDetails.copy(bodyReaction = it)) },
                 minLines = 3,
                 modifier = modifier
             )
             InputTextField(
-                subtitle = "Describe how you reacted to this situation.",
-                placeholder = "Enter text...",
+                subtitle = stringResource(R.string.behavioral_reaction_text),
+                placeholder = stringResource(R.string.text_placeholder),
                 text = uiState.noteDetails.behavioralReaction,
                 onTextChanged = { fieldsModifier.updateTextField(uiState.noteDetails.copy(behavioralReaction = it)) },
                 minLines = 3,
@@ -92,19 +94,19 @@ fun SituationTab(
 
 @Composable
 fun EmotionsSection(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     toggleEmotionsDialog: (Boolean) -> Unit,
     onIntensityChanged: (Int, Int) -> Unit,
     onRemoveEmotion: (Int) -> Unit,
     modifier: Modifier = Modifier
 ){
     SectionCard(
-        title = "Emotions",
+        title = stringResource(R.string.emotions_label),
         trailingIcon = {
             IconButton(onClick = { toggleEmotionsDialog(true) }) {
                 Icon(
                     imageVector = Icons.Outlined.Edit,
-                    contentDescription = "Select distortions"
+                    contentDescription = stringResource(R.string.select_emotions)
                 )
             }
         },
@@ -113,12 +115,12 @@ fun EmotionsSection(
         Column(contentModifier) {
             if (uiState.noteDetails.emotions.isEmpty()) {
                 CombinedSectionText(
-                    text = "Select emotions that you can notice in your thoughts. ",
-                    boldText = "Click on the pencil icon to open the list of emotions."
+                    text = stringResource(R.string.emotions_text),
+                    boldText = stringResource(R.string.emotions_placeholder)
                 )
             } else {
                 SectionSubtitle(
-                    subtitle = "Select emotions that you can notice in your thoughts."
+                    text = stringResource(R.string.emotions_text)
                 )
                 Column(modifier = Modifier.fillMaxWidth().padding(top = 12.dp)) {
                     uiState.noteDetails.emotions.forEachIndexed { index, selectedEmotion ->
@@ -160,7 +162,10 @@ fun EmotionRow(
         )
 
         IconButton(onClick = { onRemoveEmotion(index) }) {
-            Icon(imageVector = Icons.Outlined.Delete, contentDescription = "Delete emotion")
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = stringResource(R.string.delete_emotion)
+            )
         }
     }
 }
@@ -171,7 +176,7 @@ fun EmotionRow(
 fun SituationTabPreview() {
     CBTJournalTheme {
         SituationTab(
-            uiState = NoteEntryUiState(),
+            uiState = NoteEditorUiState(),
             fieldsModifier = NotesPreviewData.fieldsModifier,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         )

@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry.tabs
+package com.ainsln.feature.notes.editor.tabs
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,7 @@ import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ainsln.core.ui.theme.CBTJournalTheme
@@ -31,12 +32,13 @@ import com.ainsln.core.ui.components.text.ExpandableSectionCard
 import com.ainsln.core.ui.components.text.RemovableTextField
 import com.ainsln.core.ui.components.text.SectionCard
 import com.ainsln.core.ui.components.text.SectionSubtitle
-import com.ainsln.feature.notes.entry.InterpretationFieldsModifier
-import com.ainsln.feature.notes.state.NoteEntryUiState
+import com.ainsln.feature.notes.R
+import com.ainsln.feature.notes.editor.InterpretationFieldsModifier
+import com.ainsln.feature.notes.state.NoteEditorUiState
 
 @Composable
 fun InterpretationTab(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     fieldsModifier: InterpretationFieldsModifier,
     modifier: Modifier = Modifier
 ) {
@@ -65,25 +67,26 @@ fun InterpretationTab(
 
 @Composable
 fun ThoughtsSection(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     onAddThought: () -> Unit,
     onRemoveThought: (Int) -> Unit,
     onUpdateThoughtText: (Int, String) -> Unit,
     modifier: Modifier = Modifier
 ){
     ExpandableSectionCard(
-        title = "Automatic Thoughts",
+        title = stringResource(R.string.thoughts_label),
         modifier = modifier.padding(vertical = 4.dp)
     ) {
         Column {
             SectionSubtitle(
-                subtitle = "Describe your automatic negative thoughts.",
+                text = stringResource(R.string.thoughts_text),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             uiState.noteDetails.thoughts.forEachIndexed { index, thought ->
                 RemovableTextField(
-                    placeholder = "Thought #${index+1}",
+                    placeholder = stringResource(R.string.thought_number, index+1),
                     text = thought.text,
+                    deleteContentDescription = stringResource(R.string.delete_thought),
                     onTextChanged = { onUpdateThoughtText(index, it) },
                     onDeleteClick = { onRemoveThought(index) }
                 )
@@ -98,7 +101,10 @@ fun ThoughtsSection(
                     shape = CircleShape,
                     elevation = FloatingActionButtonDefaults.elevation(0.dp)
                 ) {
-                    Icon(Icons.Filled.Add, "Floating action button.")
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = stringResource(R.string.add_thought)
+                    )
                 }
             }
         }
@@ -108,18 +114,18 @@ fun ThoughtsSection(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DistortionsSection(
-    uiState: NoteEntryUiState,
+    uiState: NoteEditorUiState,
     toggleDistortionsDialog: (Boolean) -> Unit,
     onRemoveDistortion: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     SectionCard(
-        title = "Distortions",
+        title = stringResource(R.string.distortions_label),
         trailingIcon = {
             IconButton(onClick = { toggleDistortionsDialog(true) }) {
                 Icon(
                     imageVector = Icons.Outlined.Edit,
-                    contentDescription = "Select distortions"
+                    contentDescription = stringResource(R.string.select_distortions)
                 )
             }
         },
@@ -128,12 +134,12 @@ fun DistortionsSection(
         Column(contentModifier) {
             if (uiState.noteDetails.distortions.isEmpty()) {
                 CombinedSectionText(
-                    text = "Select distortions that you can notice in your thoughts. ",
-                    boldText = "Click on the pencil icon to open the list of distortions."
+                    text = stringResource(R.string.distortions_text),
+                    boldText = stringResource(R.string.distortions_placeholder)
                 )
             } else {
                 SectionSubtitle(
-                    subtitle = "Select distortions that you can notice in your thoughts."
+                    text = stringResource(R.string.distortions_text)
                 )
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -147,7 +153,7 @@ fun DistortionsSection(
                             trailingIcon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Close,
-                                    contentDescription = "Remove distortion",
+                                    contentDescription = stringResource(R.string.delete_distortion),
                                     modifier = Modifier.clickable { onRemoveDistortion(distortion.id) }
                                 )
                             }
@@ -165,7 +171,7 @@ fun DistortionsSection(
 fun ThoughtsTabPreview() {
     CBTJournalTheme {
         InterpretationTab(
-            uiState = NoteEntryUiState(),
+            uiState = NoteEditorUiState(),
             fieldsModifier = NotesPreviewData.fieldsModifier,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         )

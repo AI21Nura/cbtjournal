@@ -1,10 +1,10 @@
-package com.ainsln.feature.notes.entry.dialog
+package com.ainsln.feature.notes.editor.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.ainsln.core.ui.utils.MultiSelectionDialogArgs
 import com.ainsln.core.ui.utils.MultiSelectionDialogCallbacks
-import com.ainsln.feature.notes.entry.dialog.circle.EmotionsCircleDialog
+import com.ainsln.feature.notes.editor.dialog.circle.EmotionsCircleDialog
 
 @Composable
 fun DistortionsDialog(

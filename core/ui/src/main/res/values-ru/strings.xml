@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="ok_label">Ок</string>
+    <string name="save_label">Сохранить</string>
+    <string name="cancel_label">Отмена</string>
+    <string name="back">Назад</string>
+    <string name="toggle_visibility">Развернуть/свернуть контент</string>
+
+</resources>

@@ -1,4 +1,4 @@
-package com.ainsln.feature.notes.entry.dialog.circle
+package com.ainsln.feature.notes.editor.dialog.circle
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.ainsln.core.data.repository.api.EmotionsRepository
 import com.ainsln.core.data.result.Result
 import com.ainsln.core.model.Emotion
+import com.ainsln.core.ui.state.UiState
 import com.ainsln.feature.notes.components.circle.Circle
 import com.ainsln.feature.notes.components.circle.CircleLevel
 import com.ainsln.feature.notes.components.circle.Sector
 import com.ainsln.feature.notes.state.EmotionsDialogUiState
-import com.ainsln.feature.notes.state.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,15 +34,17 @@ class EmotionsCircleViewModel @Inject constructor(
         circleSizePx,
         selectedIds
     ){ emotionsResult, circleSize, selectedIds ->
-        if (emotionsResult is Result.Success){
-            EmotionsDialogUiState.Success(initCircle(emotionsResult.data, circleSize, selectedIds))
-        } else {
-            emotionsResult.toUiState()
+        when(emotionsResult){
+            is Result.Loading -> UiState.Loading
+            is Result.Error -> UiState.Error(emotionsResult.e)
+            is Result.Success -> {
+                UiState.Success(initCircle(emotionsResult.data, circleSize, selectedIds))
+            }
         }
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
-        EmotionsDialogUiState.Loading
+        UiState.Loading
     )
 
     private fun getSectorsFromEmotions(

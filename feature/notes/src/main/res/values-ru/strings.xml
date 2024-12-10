@@ -1,15 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="notes_list_title">Ваши записи</string>
+    <string name="notes_detail_title">Детали</string>
+    <string name="note_add_title">Новая запись</string>
+    <string name="note_edit_title">Редактирование</string>
+
+    <string name="add_note">Добавить запись</string>
+    <string name="edit_note">Редактировать</string>
+    <string name="share_note">Поделиться</string>
+    <string name="delete_note">Удалить</string>
+    <string name="save_note">Сохранить</string>
+
+    <string name="notes_list_error">Не удалось загрузить список записей: \n%s</string>
+    <string name="notes_details_error">Не удалось загрузить запись: \n%s</string>
+    <string name="validation_error">Ошибка заполнения</string>
+    <string name="emotions_error">Не удалось загрузить список эмоций</string>
+
     <string name="date_label">Дата</string>
     <string name="situation_label">Ситуация</string>
+    <string name="reaction_label">Реакция</string>
     <string name="body_reaction_label">Реакция в теле</string>
     <string name="behavioral_reaction_label">Поведенческая реакция</string>
+    <string name="emotions_label">Эмоции</string>
+    <string name="emotions_re_label">Переоценка эмоций</string>
     <string name="emotions_after_label">Эмоции после переосмысления</string>
-    <string name="thoughts_and_alternatives_label">Автоматические мысли и их альтернативы</string>
+    <string name="thoughts_and_alternatives_label">Автоматические мысли и альтернативы</string>
+    <string name="thoughts_label">Автоматические мысли</string>
+    <string name="alternatives_label">Альтернативные мысли</string>
     <string name="distortions_label">Когнитивные искажения</string>
+
+    <string name="situation_text">Опишите событие или ситуацию, которая вызвала у вас эмоциональную реакцию. Будьте конкретны и объективны в своем описании.</string>
+    <string name="body_reaction_text">Какие физические ощущения вы заметили в своем теле в этой ситуации или при возникновении мыслей о ней?</string>
+    <string name="behavioral_reaction_text">Опишите свое поведение: что вы сделали или, наоборот, не сделали?</string>
+    <string name="emotions_text">Определите свои эмоции и их интенсивность по шкале от 0 до 100%.</string>
+    <string name="thoughts_text">Запишите первые мысли, которые появились, даже если они были мимолетными.</string>
+    <string name="distortions_text">Какие когнитивные искажения вы можете найти в своих мыслях?</string>
+    <string name="alternatives_text">Подумайте, как можно переформулировать негативные мысли в более конструктивные.</string>
+    <string name="emotions_re_text">Как изменились ваши эмоции после анализа ситуации?</string>
+
+    <string name="select_date">Укажите дату</string>
+    <string name="select_emotions">Выберите эмоции</string>
+    <string name="delete_emotion">Удалить эмоцию</string>
+    <string name="emotions_placeholder">&#160;Нажмите на иконку карандаша, чтобы открыть список эмоций.</string>
+    <string name="add_thought">Добавить мысль</string>
+    <string name="delete_thought">Удалить мысль</string>
+    <string name="select_distortions">Укажите искажения</string>
+    <string name="delete_distortion">Удалить искажение</string>
+    <string name="distortions_placeholder">&#160;Нажмите на иконку карандаша, чтобы открыть список искажений.</string>
+    <string name="alternatives_placeholder">&#160;Добавьте автоматические мысли в  разделе «Анализ», чтобы продолжить работу с альтернативными мыслями.</string>
+    <string name="before_text">До: %d</string>
+    <string name="after_text">После: %d</string>
+
+    <string name="text_placeholder">Введите текст…</string>
+    <string name="info">Информация</string>
     <string name="not_filled">Не заполнено</string>
+    <string name="discard_changes">Отменить изменения</string>
+    <string name="cant_delete_note">Не удалось удалить запись</string>
+    <string name="cant_save_note">Не удалось сохранить запись</string>
     <string name="emotions_before_label">Эмоции до переосмысления</string>
-    <string name="thought_number">Мысль %d</string>
-    <string name="alternative">Альтернатива</string>
+    <string name="thought_number">Мысль %d:&#160;</string>
+    <string name="alternative">Альтернатива:&#160;</string>
     <string name="share_subject">Запись из моего КПТ-дневника</string>
+    <string name="delete_warning">Вы уверены, что хотите удалить запись? Это действие нельзя отменить.</string>
+    <string name="discard_changes_warning">Все несохраненные изменения будут потеряны. Вы уверены, что хотите выйти?</string>
+    <string name="validation_warning">Пожалуйста, заполните обязательные поля:\n%s</string>
+    <string name="notes_details_placeholder">Выберите запись из дневника, чтобы открыть ее</string>
+    <string name="empty_journal_placeholder">Ваш дневник пуст. Создайте новую запись, чтобы начать.</string>
+    <string name="ok_label">Ок</string>
+    <string name="cancel_label">Отмена</string>
+
+    <string name="situation_tab">Ситуация</string>
+    <string name="interpretation_tab">Анализ</string>
+    <string name="reframing_tab">Переосмысление</string>
 </resources>
