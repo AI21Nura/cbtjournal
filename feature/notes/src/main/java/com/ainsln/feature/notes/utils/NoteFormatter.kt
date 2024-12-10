@@ -26,8 +26,8 @@ class NoteFormatter @Inject constructor(
         if (note.thoughts.isNotEmpty()){
             text += "\n" + getString(R.string.thoughts_and_alternatives_label) + ":\n"
             note.thoughts.forEachIndexed { index, thought ->
-                text += getString(R.string.thought_number, index + 1) + ": " + thought.text + "\n"
-                text += getString(R.string.alternative) + ": " + thought.alternativeThought + "\n\n"
+                text += getString(R.string.thought_number, index + 1) + thought.text + "\n"
+                text += getString(R.string.alternative) + thought.alternativeThought + "\n\n"
             }
         }
 
