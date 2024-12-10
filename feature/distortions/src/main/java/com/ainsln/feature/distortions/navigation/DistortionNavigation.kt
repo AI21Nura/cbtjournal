@@ -2,6 +2,7 @@ package com.ainsln.feature.distortions.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.ainsln.feature.distortions.adaptive.DistortionsListDetailScreen
@@ -26,9 +27,12 @@ fun NavGraphBuilder.distortionsDestination() {
     }
 }
 
-fun NavGraphBuilder.distortionDetailsDestination() {
+fun NavGraphBuilder.distortionDetailsDestination(
+    canNavigateBack: Boolean,
+    onBack: () -> Unit
+) {
     composable<DistortionsDestinations.Detail> {
-        DistortionDetailsScreen()
+        DistortionDetailsScreen(canNavigateBack, onBack)
     }
 }
 
@@ -36,6 +40,10 @@ fun NavGraphBuilder.distortionDetailsPlaceholder() {
     composable<DistortionsDestinations.DetailPlaceholder> {
         DistortionDetailsPlaceholder()
     }
+}
+
+fun NavController.navigateToDistortions(navOptions: NavOptions){
+    navigate(route = DistortionsDestinations.List, navOptions)
 }
 
 fun NavController.navigateToDistortionDetails(id: Long, navOptions: NavOptionsBuilder.() -> Unit = {}) {

@@ -11,6 +11,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldDestinationItem
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.layout.rememberPaneExpansionState
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -56,16 +57,21 @@ internal fun DistortionsListDetailContent(
         )
     )
 
+    val paneExpansionState = rememberPaneExpansionState()
+    paneExpansionState.setFirstPaneProportion(0.4f)
+
     var nestedNavHostStartDestination: DistortionsDestinations by remember {
         mutableStateOf(DistortionsDestinations.DetailPlaceholder)
     }
 
-    BackHandler(listDetailNavigator.canNavigateBack()) {
+    val backHandler = {
         coroutineScope.launch {
             listDetailNavigator.navigateBack()
             nestedNavHostStartDestination = DistortionsDestinations.DetailPlaceholder
         }
     }
+
+    BackHandler(listDetailNavigator.canNavigateBack()) { backHandler() }
 
     var nestedNavKey by rememberSaveable(
         stateSaver = Saver({ it.toString() }, UUID::fromString)
@@ -111,11 +117,15 @@ internal fun DistortionsListDetailContent(
                     startDestination = nestedNavHostStartDestination,
                     route = DistortionDetailPaneNavHost::class
                 ) {
-                    distortionDetailsDestination()
+                    distortionDetailsDestination(
+                        canNavigateBack = listDetailNavigator.canNavigateBack(),
+                        onBack = { backHandler() }
+                    )
                     distortionDetailsPlaceholder()
                 }
             }
-        }
+        },
+        paneExpansionState = paneExpansionState
     )
 
 }

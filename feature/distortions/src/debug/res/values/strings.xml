@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="distortion_1_name">Labeling</string>
-    <string name="distortion_1_short_desc">You judge yourself or others using harsh and negative labels.</string>
-    <string name="distortion_1_long_desc">Labeling occurs when you make generalized and categorical conclusions about yourself or others based on a single action or situation. Instead of viewing behavior as an isolated act, you define your identity or others through labels such as "loser," "stupid," or "lazy." This can lead to low self-esteem and persistent negative thoughts.</string>
+    <string name="distortion_1_name" translatable="false">Labeling</string>
+    <string name="distortion_1_short_desc" translatable="false">You judge yourself or others using harsh and negative labels.</string>
+    <string name="distortion_1_long_desc" translatable="false">Labeling occurs when you make generalized and categorical conclusions about yourself or others based on a single action or situation. Instead of viewing behavior as an isolated act, you define your identity or others through labels such as "loser," "stupid," or "lazy." This can lead to low self-esteem and persistent negative thoughts.</string>
     <string-array name="distortion_1_examples">
         <item>After making a mistake at work, you tell yourself, "I'm a total failure".</item>
         <item>After being late for a meeting, you think, "I'm always irresponsible."</item>
         <item>If a friend cancels plans once, your immediate thought is, "They're a terrible friend; they don't care about me."</item>
     </string-array>
 
-    <string name="distortion_2_name">Disqualifying the Positive</string>
-    <string name="distortion_2_short_desc">You ignore or diminish the importance of positive events, attributing them to luck.</string>
-    <string name="distortion_2_long_desc">When disqualifying the positive, you tend to ignore or downplay your successes and achievements. You attribute them to external factors (like luck) or believe they don’t matter. As a result, you maintain a negative perception of yourself and your abilities, despite the presence of positive experiences.</string>
+    <string name="distortion_2_name" translatable="false">Disqualifying the Positive</string>
+    <string name="distortion_2_short_desc" translatable="false">You ignore or diminish the importance of positive events, attributing them to luck.</string>
+    <string name="distortion_2_long_desc" translatable="false">When disqualifying the positive, you tend to ignore or downplay your successes and achievements. You attribute them to external factors (like luck) or believe they don’t matter. As a result, you maintain a negative perception of yourself and your abilities, despite the presence of positive experiences.</string>
     <string-array name="distortion_2_examples">
         <item>After successfully completing a project, you think, "I just got lucky."</item>
         <item>When receiving a compliment from a colleague, you believe, "They said that just to be polite; it doesn't mean anything."</item>

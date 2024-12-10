@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="distortions_list_title">Когнитивные искажения</string>
+    <string name="distortion_details_title">Детали</string>
+    <string name="distortions_placeholder">Нажмите на искажение, чтобы узнать подробнее</string>
     <string name="examples">Примеры:</string>
     <string name="about">Подробнее</string>
+    <string name="distortions_list_error">Не удалось загрузить список искажений: \n%s</string>
+    <string name="distortions_details_error">Не удалось загрузить детали искажения: \n%s</string>
+    <string name="back">Назад</string>
 </resources>

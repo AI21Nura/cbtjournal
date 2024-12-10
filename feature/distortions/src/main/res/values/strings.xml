@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="distortions_list_title">Cognitive Distortions</string>
+    <string name="distortion_details_title">Distortion Details</string>
+    <string name="distortions_placeholder">Select a distortion to learn more</string>
     <string name="examples">Examples:</string>
     <string name="about">About</string>
+    <string name="distortions_list_error">Failed to load the list of distortions:\n%s</string>
+    <string name="distortions_details_error">Failed to load distortion details:\n%s</string>
+    <string name="back">Back</string>
 </resources>

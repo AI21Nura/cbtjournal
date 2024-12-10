@@ -26,14 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ainsln.core.model.Distortion
-import com.ainsln.core.ui.components.ErrorScreen
-import com.ainsln.core.ui.components.LoadingScreen
+import com.ainsln.core.ui.components.RenderUiState
 import com.ainsln.core.ui.components.dialog.AppDialog
-import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
 import com.ainsln.core.ui.theme.SelectedItem
 import com.ainsln.core.ui.utils.MultiSelectionDialogArgs
 import com.ainsln.data.DistortionsPreviewData
+import com.ainsln.feature.distortions.R
 import com.ainsln.feature.distortions.list.DistortionsViewModel
 import com.ainsln.feature.distortions.state.DistortionsListUiState
 
@@ -75,20 +74,15 @@ internal fun MultiSelectionDialogContent(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        when(uiState){
-            is UiState.Success -> {
-                MultiSelectionList(
-                    distortions = uiState.data,
-                    selectedDistortions = selectedDistortions,
-                    onSelectClick = onSelectClick
-                )
-            }
-            is UiState.Loading -> {
-                LoadingScreen()
-            }
-            is UiState.Error -> {
-                ErrorScreen(message = uiState.e.message ?: "Error loading list of distortions")
-            }
+        RenderUiState(
+            uiState = uiState,
+            errMsgRes = R.string.distortions_list_error
+        ) { data ->
+            MultiSelectionList(
+                distortions = data,
+                selectedDistortions = selectedDistortions,
+                onSelectClick = onSelectClick
+            )
         }
     }
 }
