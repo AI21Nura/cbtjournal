@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,12 +33,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ainsln.core.model.SelectedEmotion
 import com.ainsln.core.model.ShortNote
-import com.ainsln.core.ui.components.ErrorScreen
-import com.ainsln.core.ui.components.LoadingScreen
+import com.ainsln.core.ui.components.RenderUiState
 import com.ainsln.core.ui.components.appbar.TopDestinationAppBar
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
 import com.ainsln.data.NotesPreviewData
+import com.ainsln.feature.notes.R
 import com.ainsln.feature.notes.components.EmptyNotesList
 import com.ainsln.feature.notes.state.NotesListUiState
 import com.ainsln.feature.notes.utils.formatDate
@@ -45,15 +47,15 @@ import com.ainsln.feature.notes.utils.formatDate
 fun NotesScreen(
     onNoteClick: (Long) -> Unit,
     onAddNoteClick: () -> Unit,
-    viewModel: NotesViewModel = hiltViewModel(),
-    contentPadding: PaddingValues = PaddingValues(16.dp)
+    showFAB: Boolean,
+    viewModel: NotesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     NotesContent(
         uiState,
         onNoteClick,
         onAddNoteClick,
-        contentPadding
+        showFAB
     )
 }
 
@@ -62,27 +64,39 @@ internal fun NotesContent(
     uiState: NotesListUiState,
     onNoteClick: (Long) -> Unit,
     onAddNoteClick: () -> Unit,
-    contentPadding: PaddingValues
-) {
-    when (uiState) {
-        is UiState.Success -> {
-            NotesContent(
-                uiState.data,
-                onNoteClick,
-                onAddNoteClick,
-                contentPadding
+    showFAB: Boolean
+    ) {
+    Scaffold(
+        topBar = {
+            TopDestinationAppBar(
+                title = stringResource(R.string.notes_list_title),
+                alignCenter = true
             )
+        },
+        floatingActionButton = {
+            if (showFAB){
+                FloatingActionButton(onClick = onAddNoteClick) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = stringResource(R.string.add_note)
+                    )
+                }
+            }
         }
-
-        is UiState.Loading -> {
-            LoadingScreen(contentPadding = contentPadding)
-        }
-
-        is UiState.Error -> {
-            ErrorScreen(
-                message = uiState.e.message ?: "Error loading details",
-                contentPadding = contentPadding
-            )
+    ) { innerPadding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)){
+            RenderUiState(
+                uiState = uiState,
+                errMsgRes = R.string.notes_list_error
+            ) { data ->
+                NotesContent(
+                    notes = data,
+                    onNoteClick = onNoteClick
+                )
+            }
         }
     }
 }
@@ -91,35 +105,7 @@ internal fun NotesContent(
 internal fun NotesContent(
     notes: List<ShortNote>,
     onNoteClick: (Long) -> Unit,
-    onAddNoteClick: () -> Unit,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
-) {
-    Scaffold(
-        topBar = {
-            TopDestinationAppBar("Notes")
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddNoteClick) {
-                Icon(Icons.Filled.Add, "Add note")
-            }
-        }
-    ) { innerPadding ->
-        Column(modifier.padding(innerPadding)) {
-            NotesListContent(
-                notes = notes,
-                contentPadding = contentPadding,
-                onNoteClick = onNoteClick
-            )
-        }
-    }
-}
-
-@Composable
-internal fun NotesListContent(
-    notes: List<ShortNote>,
-    onNoteClick: (Long) -> Unit,
-    contentPadding: PaddingValues,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     modifier: Modifier = Modifier
 ) {
     if (notes.isNotEmpty()) {
@@ -184,7 +170,10 @@ internal fun EmotionsList(emotions: List<SelectedEmotion>) {
                 Text(
                     text = emotion.emotion.name,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 4.dp
+                    )
                 )
             }
         }
@@ -196,10 +185,10 @@ internal fun EmotionsList(emotions: List<SelectedEmotion>) {
 fun NotesScreenPreview() {
     CBTJournalTheme {
         NotesContent(
+            uiState = UiState.Success(NotesPreviewData.shortNotes),
+            onNoteClick = { },
             onAddNoteClick = {},
-            onNoteClick = {},
-            notes = NotesPreviewData.shortNotes,
-            contentPadding = PaddingValues(12.dp)
+            showFAB = true
         )
     }
 }

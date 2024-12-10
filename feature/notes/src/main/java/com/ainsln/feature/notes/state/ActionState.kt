@@ -12,7 +12,7 @@ sealed interface ActionState <out T>{
 fun <T> Result<T>.toActionState(): ActionState<T> {
     return when(this){
         is Result.Loading -> ActionState.Loading
-        is Result.Error -> ActionState.Error(e.message ?: "Unable to perform action")
+        is Result.Error -> ActionState.Error(e.message ?: "")
         is Result.Success -> ActionState.Success(data)
     }
 }

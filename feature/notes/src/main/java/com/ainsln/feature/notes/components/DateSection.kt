@@ -23,8 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ainsln.core.ui.components.text.SectionTitle
+import com.ainsln.feature.notes.R
 
 
 @Composable
@@ -36,7 +38,7 @@ fun DateSection(
 
     Column {
         SectionTitle(
-            title = "Date",
+            title = stringResource(R.string.date_label),
             modifier = Modifier.padding(start = 8.dp, bottom = 4.dp)
         )
         Row{
@@ -47,7 +49,7 @@ fun DateSection(
                     IconButton(onClick = { showDatePicker = true }) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = "Select date"
+                            contentDescription = stringResource(R.string.select_date)
                         )
                     }
                 },
@@ -87,12 +89,12 @@ fun DatePickerModal(
                 onDateSelected(datePickerState.selectedDateMillis)
                 onDismiss()
             }) {
-                Text("OK")
+                Text(stringResource(R.string.ok_label))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel_label))
             }
         }
     ) {

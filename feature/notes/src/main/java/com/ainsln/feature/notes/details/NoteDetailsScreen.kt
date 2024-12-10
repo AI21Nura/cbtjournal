@@ -20,7 +20,6 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -43,7 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -53,16 +52,16 @@ import com.ainsln.core.model.Distortion
 import com.ainsln.core.model.Note
 import com.ainsln.core.model.SelectedEmotion
 import com.ainsln.core.model.Thought
-import com.ainsln.core.ui.components.ErrorScreen
-import com.ainsln.core.ui.components.LoadingScreen
+import com.ainsln.core.ui.components.RenderUiStateScaffold
 import com.ainsln.core.ui.components.appbar.DetailsAppBar
 import com.ainsln.core.ui.components.dialog.NoteAlertDialog
-import com.ainsln.core.ui.state.UiState
-import com.ainsln.core.ui.theme.CBTJournalTheme
-import com.ainsln.data.NotesPreviewData
 import com.ainsln.core.ui.components.text.CombinedSectionText
 import com.ainsln.core.ui.components.text.SectionSubtitle
+import com.ainsln.core.ui.components.text.SectionText
 import com.ainsln.core.ui.components.text.SectionTitle
+import com.ainsln.core.ui.theme.CBTJournalTheme
+import com.ainsln.data.NotesPreviewData
+import com.ainsln.feature.notes.R
 import com.ainsln.feature.notes.state.ActionState
 import com.ainsln.feature.notes.state.NoteDetailsUiState
 import com.ainsln.feature.notes.utils.formatDate
@@ -71,9 +70,8 @@ import com.ainsln.feature.notes.utils.formatDate
 fun NoteDetailsScreen(
     onEditClick: (Long) -> Unit,
     onBack: () -> Unit,
-    canNavigateBack: Boolean,
-    viewModel: NoteDetailsViewModel = hiltViewModel(),
-    contentPadding: PaddingValues = PaddingValues(16.dp)
+    canNavigateUp: Boolean,
+    viewModel: NoteDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.noteState.collectAsStateWithLifecycle()
     val deleteState by viewModel.deleteState.collectAsStateWithLifecycle()
@@ -83,10 +81,9 @@ fun NoteDetailsScreen(
         onEditClick = onEditClick,
         deleteState = deleteState,
         onBack = onBack,
-        canNavigateBack = canNavigateBack,
+        canNavigateUp = canNavigateUp,
         onDeleteClick = viewModel::deleteNote,
         shareNote = viewModel::shareNote,
-        contentPadding = contentPadding,
         resetDeleteState = viewModel::resetDeleteState
     )
 }
@@ -98,36 +95,27 @@ internal fun NoteDetailsContent(
     deleteState: ActionState<Unit>,
     onBack: () -> Unit,
     resetDeleteState: () -> Unit,
-    canNavigateBack: Boolean,
+    canNavigateUp: Boolean,
     onDeleteClick: (Note) -> Unit,
     shareNote: (Note, Context) -> Unit,
-    contentPadding: PaddingValues
 ) {
-    when (uiState) {
-        is UiState.Success -> {
-            NoteDetailsContent(
-                note = uiState.data,
-                deleteState = deleteState,
-                resetDeleteState = resetDeleteState,
-                onEditClick = onEditClick,
-                onDeleteClick = onDeleteClick,
-                onBack = onBack,
-                canNavigateBack = canNavigateBack,
-                shareNote = shareNote,
-                contentPadding = contentPadding
-            )
-        }
-
-        is UiState.Loading -> {
-            LoadingScreen(contentPadding = contentPadding)
-        }
-
-        is UiState.Error -> {
-            ErrorScreen(
-                message = "Error loading details\n" + uiState.e.message,
-                contentPadding = contentPadding
-            )
-        }
+    RenderUiStateScaffold(
+        uiState = uiState,
+        topBarTitle = R.string.notes_detail_title,
+        errMsgRes = R.string.notes_details_error,
+        onBack = onBack,
+        canNavigateUp = canNavigateUp
+    ){ data ->
+        NoteDetailsContent(
+            note = data,
+            deleteState = deleteState,
+            resetDeleteState = resetDeleteState,
+            onEditClick = onEditClick,
+            onDeleteClick = onDeleteClick,
+            onBack = onBack,
+            canNavigateBack = canNavigateUp,
+            shareNote = shareNote,
+        )
     }
 }
 
@@ -141,16 +129,15 @@ internal fun NoteDetailsContent(
     onBack: () -> Unit,
     canNavigateBack: Boolean,
     shareNote: (Note, Context) -> Unit,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    var isDeleteDialogOpen by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+    var isDeleteDialogOpen by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     LaunchedEffect(deleteState) {
         if (deleteState is ActionState.Error) {
-            snackbarHostState.showSnackbar(message = "Can't delete note")
+            snackbarHostState.showSnackbar(message = context.getString(R.string.cant_delete_note))
         }
     }
 
@@ -158,7 +145,7 @@ internal fun NoteDetailsContent(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             DetailsAppBar(
-                title = "Details",
+                title = stringResource(R.string.notes_detail_title),
                 onBack = onBack,
                 canNavigateUp = canNavigateBack
             ) {
@@ -166,10 +153,16 @@ internal fun NoteDetailsContent(
                     IconButton(onClick = {
                         shareNote(note, context)
                     }) {
-                        Icon(imageVector = Icons.Outlined.Share, contentDescription = "Share")
+                        Icon(
+                            imageVector = Icons.Outlined.Share,
+                            contentDescription = stringResource(R.string.share_note)
+                        )
                     }
                     IconButton(onClick = { onEditClick(note.id) }) {
-                        Icon(imageVector = Icons.Outlined.Edit, contentDescription = "Edit")
+                        Icon(
+                            imageVector = Icons.Outlined.Edit,
+                            contentDescription = stringResource(R.string.edit_note)
+                        )
                     }
                     DeleteIcon(
                         deleteState = deleteState,
@@ -182,14 +175,14 @@ internal fun NoteDetailsContent(
         }
     ) { innerPadding ->
         Column(modifier.padding(innerPadding)) {
-            NoteDetails(note = note, contentPadding = contentPadding)
+            NoteDetails(note = note)
         }
     }
 
     if (isDeleteDialogOpen) {
         NoteAlertDialog(
-            title = "Delete note",
-            text = "Are you sure you want to delete this note? This action cannot be undone.",
+            title = stringResource(R.string.delete_note),
+            text = stringResource(R.string.delete_warning),
             onDismissClick = { isDeleteDialogOpen = false },
             onConfirmClick = {
                 onDeleteClick(note)
@@ -212,11 +205,10 @@ internal fun DeleteIcon(
                 IconButton(onClick = { openDeleteDialog() }) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
-                        contentDescription = "Delete"
+                        contentDescription = stringResource(R.string.delete_note)
                     )
                 }
             }
-
             is ActionState.Loading -> CircularProgressIndicator(Modifier.padding(8.dp))
             is ActionState.Success -> {
                 resetDeleteState()
@@ -229,8 +221,8 @@ internal fun DeleteIcon(
 @Composable
 internal fun NoteDetails(
     note: Note,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -238,12 +230,14 @@ internal fun NoteDetails(
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())
     ) {
-        DetailsSection(title = "Date", content = {
-            Text(text = formatDate(note.date))
+        DetailsSection(title = stringResource(R.string.date_label), content = {
+            SectionText(formatDate(note.date))
         })
-        DetailsSection(title = "Situation", isEmpty = note.situation.isBlank(), content = {
-            Text(text = note.situation)
-        })
+        DetailsSection(title = stringResource(R.string.situation_label),
+            isEmpty = note.situation.isBlank(),
+            content = {
+                SectionText(note.situation)
+            })
         ThoughtsSection(note.thoughts)
         DistortionsSection(note.distortions)
 
@@ -264,11 +258,7 @@ internal fun DetailsSection(
 ) {
     Column(modifier.padding(bottom = 8.dp)) {
         SectionTitle(title = title)
-        if (isEmpty) Text(
-            text = "Not filled",
-            fontStyle = FontStyle.Italic,
-            style = MaterialTheme.typography.bodyMedium
-        )
+        if (isEmpty) SectionSubtitle(stringResource(R.string.not_filled))
         else content()
     }
 }
@@ -278,11 +268,13 @@ internal fun EmotionsSection(
     emotions: List<SelectedEmotion>,
     modifier: Modifier = Modifier
 ) {
-    DetailsSection(title = "Emotions", isEmpty = emotions.isEmpty(), content = {
-        Column(modifier) {
-            emotions.forEach { emotion -> EmotionRow(emotion) }
-        }
-    })
+    DetailsSection(title = stringResource(R.string.emotions_label),
+        isEmpty = emotions.isEmpty(),
+        content = {
+            Column(modifier) {
+                emotions.forEach { emotion -> EmotionRow(emotion) }
+            }
+        })
 }
 
 @Composable
@@ -310,17 +302,16 @@ internal fun ThoughtsSection(
     thoughts: List<Thought>,
     modifier: Modifier = Modifier
 ) {
-    DetailsSection(title = "Thoughts & Alternatives", isEmpty = thoughts.isEmpty(), content = {
-        Column(modifier) {
-            thoughts.forEachIndexed { index, thought ->
-                ThoughtRow(thought, index)
-                HorizontalDivider(
-                    modifier = Modifier.padding(top = 12.dp),
-                    color = Color.LightGray
-                )
+    DetailsSection(
+        title = stringResource(R.string.thoughts_and_alternatives_label),
+        isEmpty = thoughts.isEmpty(),
+        content = {
+            Column(modifier) {
+                thoughts.forEachIndexed { index, thought ->
+                    ThoughtRow(thought, index)
+                }
             }
-        }
-    })
+        })
 }
 
 @Composable
@@ -331,11 +322,11 @@ internal fun ThoughtRow(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = modifier.padding(top = 12.dp)
+        modifier = modifier.padding(top = 8.dp)
     ) {
         CombinedSectionText(
             text = thought.text,
-            boldText = "Thought ${index + 1}: ",
+            boldText = stringResource(R.string.thought_number, index+1),
             boldFirst = true,
             italic = false,
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -343,7 +334,7 @@ internal fun ThoughtRow(
         OutlinedCard(modifier.fillMaxWidth()) {
             CombinedSectionText(
                 text = thought.alternativeThought,
-                boldText = "Alternative: ",
+                boldText = stringResource(R.string.alternative),
                 boldFirst = true,
                 italic = false,
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -358,17 +349,20 @@ internal fun DistortionsSection(
     distortions: List<Distortion>,
     modifier: Modifier = Modifier
 ) {
-    DetailsSection(title = "Distortions", isEmpty = distortions.isEmpty(), content = {
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = modifier.padding(top = 8.dp)
-        ) {
-            distortions.forEach { distortion ->
-                DistortionRow(distortion)
+    DetailsSection(
+        title = stringResource(R.string.distortions_label),
+        isEmpty = distortions.isEmpty(),
+        content = {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = modifier.padding(top = 4.dp)
+            ) {
+                distortions.forEach { distortion ->
+                    DistortionRow(distortion)
+                }
             }
-        }
-    })
+        })
 }
 
 @Composable
@@ -395,22 +389,22 @@ internal fun ReactionSection(
     modifier: Modifier = Modifier
 ) {
     DetailsSection(
-        title = "Reaction",
+        title = stringResource(R.string.reaction_label),
         isEmpty = bodyReaction.isBlank() && behavioralReaction.isBlank(),
         content = {
             if (bodyReaction.isNotBlank()) {
                 SectionSubtitle(
-                    subtitle = "Body Reaction",
+                    text = stringResource(R.string.body_reaction_label),
                     modifier = modifier.padding(vertical = 4.dp)
                 )
-                Text(text = bodyReaction)
+                SectionText(text = bodyReaction)
             }
             if (behavioralReaction.isNotBlank()) {
                 SectionSubtitle(
-                    subtitle = "Behavioral Reaction",
+                    text = stringResource(R.string.behavioral_reaction_label),
                     modifier = modifier.padding(vertical = 4.dp)
                 )
-                Text(text = behavioralReaction)
+                SectionText(text = behavioralReaction)
             }
         })
 }
@@ -427,7 +421,11 @@ fun BasicTooltip(
         },
         state = rememberTooltipState(isPersistent = false)
     ) {
-        Icon(imageVector = Icons.Outlined.Info, contentDescription = "Info", tint = Color.Gray)
+        Icon(
+            imageVector = Icons.Outlined.Info,
+            contentDescription = stringResource(R.string.info),
+            tint = Color.Gray
+        )
     }
 }
 
@@ -438,7 +436,6 @@ internal fun NoteDetailsPreview() {
         NoteDetailsContent(
             note = NotesPreviewData.note,
             onEditClick = {},
-            contentPadding = PaddingValues(16.dp),
             onBack = {},
             canNavigateBack = true,
             onDeleteClick = {},

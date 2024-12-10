@@ -3,6 +3,7 @@ package com.ainsln.feature.notes.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ainsln.core.ui.components.AppPlaceholder
 import com.ainsln.core.ui.components.ErrorScreen
@@ -14,7 +15,7 @@ internal fun NoteDetailsPlaceholder(
     modifier: Modifier = Modifier
 ) {
     AppPlaceholder(
-        text = "Select a note to view details",
+        text = stringResource(R.string.notes_details_placeholder),
         icon = painterResource(R.drawable.ic_note_placeholder),
         modifier = modifier
     )
@@ -25,7 +26,7 @@ internal fun EmptyNotesList(
     modifier: Modifier = Modifier
 ){
     ErrorScreen(
-        message = "The list is empty. Add your first note!",
+        message = stringResource(R.string.empty_journal_placeholder),
         icon = painterResource(R.drawable.ic_no_notes),
         modifier = modifier
     )

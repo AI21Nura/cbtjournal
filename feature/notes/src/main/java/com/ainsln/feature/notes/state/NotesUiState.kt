@@ -4,6 +4,7 @@ import com.ainsln.core.data.result.Result
 import com.ainsln.core.model.Note
 import com.ainsln.core.model.ShortNote
 import com.ainsln.core.ui.state.UiState
+import com.ainsln.feature.notes.components.circle.Circle
 
 fun <T> Result<T>.toState(): UiState<T> {
     return when(this){
@@ -15,3 +16,4 @@ fun <T> Result<T>.toState(): UiState<T> {
 
 typealias NoteDetailsUiState = UiState<Note>
 typealias NotesListUiState = UiState<List<ShortNote>>
+typealias EmotionsDialogUiState = UiState<Circle>

@@ -2,6 +2,7 @@ package com.ainsln.feature.notes.state
 
 import android.graphics.Color
 import androidx.compose.runtime.mutableStateListOf
+import com.ainsln.core.data.util.ResourceManager
 import com.ainsln.core.model.Distortion
 import com.ainsln.core.model.Emotion
 import com.ainsln.core.model.Note
@@ -36,21 +37,22 @@ data class NoteDetails(
         )
     )
 ) {
-    fun checkRequiredFields(): String {
+    fun checkRequiredFields(resourceManager: ResourceManager): String {
         var result = ""
-        if (situation == "") result += "\n• Situation"
-        if (emotions.isEmpty()) result += "\n• Emotions"
+        if (situation == "") result += "\n• " + resourceManager.getString(R.string.situation_label)
+        if (emotions.isEmpty()) result += "\n• " + resourceManager.getString(R.string.emotions_label)
         return result
     }
+
 }
 
-fun NoteDetails.toNote(id: Long? = null) = Note(
+fun NoteDetails.toNote(filteredThoughts: List<Thought>, id: Long? = null) = Note(
     id = id ?: 0,
     date = date,
     situation = situation,
     bodyReaction = bodyReaction,
     behavioralReaction = behavioralReaction,
-    thoughts = thoughts,
+    thoughts = filteredThoughts,
     emotions = emotions,
     distortionsIds = distortions.map { it.id },
     distortions = distortions
