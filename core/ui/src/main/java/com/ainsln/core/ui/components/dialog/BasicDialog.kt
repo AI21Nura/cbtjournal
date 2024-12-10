@@ -20,10 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
+import com.ainsln.core.ui.R
 
 @Composable
 fun BasicDialog(
@@ -91,11 +93,11 @@ fun BasicDialogActionButtons(
             .padding(end = 24.dp)
     ) {
         TextButton(onClick = onCloseClick) {
-            Text("Cancel")
+            Text(stringResource(R.string.cancel_label))
         }
 
         TextButton(onClick = onSaveClick) {
-            Text("Save")
+            Text(stringResource(R.string.save_label))
         }
     }
 }

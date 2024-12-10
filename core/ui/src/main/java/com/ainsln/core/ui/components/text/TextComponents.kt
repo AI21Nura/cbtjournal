@@ -73,6 +73,7 @@ fun RemovableTextField(
     text: String,
     onTextChanged: (String) -> Unit,
     onDeleteClick: () -> Unit,
+    deleteContentDescription: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -91,7 +92,7 @@ fun RemovableTextField(
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.Delete,
-                    contentDescription = "Remove distortion",
+                    contentDescription = deleteContentDescription,
                     modifier = Modifier.clickable { onDeleteClick() }
                 )
             },
@@ -102,7 +103,6 @@ fun RemovableTextField(
             minLines = 2,
             maxLines = 4,
             modifier = Modifier.weight(1f)
-
         )
     }
 }
@@ -122,16 +122,27 @@ fun SectionTitle(
 
 @Composable
 fun SectionSubtitle(
-    subtitle: String,
-    modifier: Modifier = Modifier
+    text: String,
+    modifier: Modifier = Modifier,
+){
+    SectionText(text = text, italic = true, modifier = modifier)
+}
+
+@Composable
+fun SectionText(
+    text: String,
+    modifier: Modifier = Modifier,
+    italic: Boolean = false
 ){
     Text(
-        text = subtitle,
-        style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
+        text = text,
+        style = MaterialTheme.typography.bodyMedium
+            .copy(fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal),
         textAlign = TextAlign.Justify,
         modifier = modifier
     )
 }
+
 
 @Composable
 fun CombinedSectionText(
@@ -168,7 +179,8 @@ fun ClickableText(
     text: String,
     clickableText: String,
     onTextClick: LinkInteractionListener,
-    linkTag: String = ""
+    linkTag: String = "",
+    modifier: Modifier = Modifier
 ){
     Text(
         buildAnnotatedString {
@@ -179,6 +191,7 @@ fun ClickableText(
                 linkInteractionListener = onTextClick)
             withLink(link) { append(clickableText) }
         },
-        textAlign = TextAlign.Justify
+        textAlign = TextAlign.Justify,
+        modifier = modifier
     )
 }

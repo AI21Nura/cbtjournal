@@ -20,10 +20,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.ainsln.core.ui.R
 
 
 @Composable
@@ -67,7 +69,7 @@ fun FullScreenDialogHeader(
         IconButton(onClick = onCloseClick) {
             Icon(
                 imageVector = Icons.Outlined.Close,
-                contentDescription = "Close",
+                contentDescription = stringResource(R.string.cancel_label),
                 modifier = Modifier.size(24.dp)
             )
         }
@@ -84,7 +86,7 @@ fun FullScreenDialogHeader(
             onClick = onSaveClick,
             modifier = Modifier.padding(end = 8.dp)
         ) {
-            Text("Save")
+            Text(stringResource(R.string.save_label))
         }
     }
 }

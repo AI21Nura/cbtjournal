@@ -3,6 +3,7 @@ package com.ainsln.core.ui.components.text
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ainsln.core.ui.R
 import com.ainsln.core.ui.theme.CBTJournalTheme
 
 @Composable
@@ -105,6 +108,7 @@ private fun ExpandableSectionFilledCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = containerColor),
+        border = BorderStroke(width = 1.dp, borderColor),
         elevation = CardDefaults.cardElevation(elevation),
         modifier = modifier
     ) { content() }
@@ -183,7 +187,7 @@ fun ExpandButton(
     ) {
         Icon(
             imageVector = if (isExpanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-            contentDescription = "Expand more"
+            contentDescription = stringResource(R.string.toggle_visibility)
         )
     }
 }
