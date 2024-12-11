@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title">Начало работы</string>
+    <string name="guide_title">Пошаговое руководство</string>
+    <string name="help_error">Не удалось загрузить справочную информацию:\n%s</string>
+    <string name="guide_error">Ошибка при загрузке руководства:\n%s</string>
+    <string name="feedback_subject">CBTJournal Feedback</string>
+    <string name="open_guide">Открыть руководство</string>
+    <string name="faq">Часто задаваемые вопросы</string>
+    <string name="back">Назад</string>
+    <string name="remember">"Помните: "</string>
+</resources>

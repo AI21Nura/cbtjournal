@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title">Introduction to CBT Journal</string>
+    <string name="guide_title">Step-by-Step Guide</string>
+    <string name="help_error">Error displaying the help content:\n%s</string>
+    <string name="guide_error">Error displaying the guide:\n%s</string>
+    <string name="feedback_subject">CBTJournal Feedback</string>
+    <string name="open_guide">Open Guide</string>
+    <string name="faq">FAQ</string>
+    <string name="back">Back</string>
+    <string name="point_symbol" translatable="false">\u2022</string>
+    <string name="remember">"Remember: "</string>
+</resources>
