@@ -1,19 +1,14 @@
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
 }
 
-kotlin {
-    explicitApi = ExplicitApiMode.Strict
-}
-
 android {
-    namespace = "com.ainsln.core.data"
+    namespace = "com.ainsln.feature.info"
     compileSdk = 35
 
     defaultConfig {
@@ -35,22 +30,28 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-    hilt {
-        enableAggregatingTask = true
-    }
 }
-
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.kotlinx.serialization)
+    implementation(libs.material)
+
+    implementation(projects.core.data)
+    implementation(projects.core.ui)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.kotlinx.serialization)
+
+    implementation(libs.androix.navigation.compose)
+    implementation(libs.androidx.adaptive)
+    implementation(libs.androidx.adaptive.layout)
+    implementation(libs.androidx.adaptive.navigation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-
+    androidTestImplementation(libs.androidx.espresso.core)
 }

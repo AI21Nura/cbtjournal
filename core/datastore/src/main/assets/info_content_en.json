@@ -1,0 +1,56 @@
+{
+  "intro": "Cognitive Behavioral Therapy (CBT) helps you understand how your thoughts influence your emotions and behavior. This journal guides you through challenging situations, identify negative thoughts, and replace them with constructive ones so you can feel calmer and more confident.",
+  "guide": "Before you start, check out the detailed guide and example entries. This will help you use the app effectively.",
+  "faq": [
+    {
+      "text": "What is Cognitive Behavioral Therapy (CBT)?",
+      "answer": "CBT (Cognitive Behavioral Therapy) is a scientifically proven method of psychotherapy that helps people understand the connection between thoughts, emotions, and behavior. It teaches us to notice and change incorrect thinking patterns that cause negative emotions and unwanted behavior."
+    },
+    {
+      "text": "What are automatic and alternative thoughts?",
+      "answer": "Automatic thoughts are quick, involuntary judgments about a situation that often go unnoticed. They can be distorted and trigger negative emotions. Alternative thoughts represent more realistic, balanced views of the situation that we consciously form by analyzing facts and evidence."
+    },
+    {
+      "text": "How does this journal work?",
+      "answer": "The thought and emotion journal helps track the chain of 'situation → automatic thoughts → emotions → reactions'. By recording each element, we learn to notice which thoughts trigger certain emotions and how they affect our behavior. This is the first step to changing negative patterns."
+    },
+    {
+      "text": "How can regular journaling benefit you?",
+      "answer": "Regular journaling helps better understand your emotional reactions, notice recurring thought patterns, and find more constructive ways to respond to challenging situations. Over time, this leads to more mindful and balanced perception of events."
+    },
+    {
+      "text": "What are cognitive distortions?",
+      "answer": "Cognitive distortions are systematic errors in thinking. They're like filters through which we incorrectly perceive reality. For example, we might only see the negative aspects or jump to conclusions without sufficient evidence."
+    },
+    {
+      "text": "Why replace negative thoughts with alternatives?",
+      "answer": "Alternative thoughts help us see the situation more objectively. It's not about thinking positive but rather thinking realistically. When we find a more balanced view of the situation, the intensity of negative emotions naturally decreases."
+    },
+    {
+      "text": "How to properly evaluate the intensity of emotions?",
+      "answer": "Rate the intensity on a scale from 0 to 100%, where 0% means complete absence of emotion and 100% means maximum intensity. It's important to assess your current state, not how you think it 'should be'."
+    },
+    {
+      "text": "What to do if emotions are too strong to analyze the situation?",
+      "answer": "First, reduce the intensity of emotions to a level where you can think more clearly. Use calming techniques: deep breathing, walking, physical exercise. Return to analysis when you feel calmer."
+    },
+    {
+      "text": "How to recognize that a thought contains distortion?",
+      "answer": "Look for thoughts that:\n• Contain words like 'always', 'never', 'everyone', 'no one'\n• Assume the worst scenario\n• Ignore positive aspects\n• Are based on guesses rather than facts"
+    },
+    {
+      "text": "How often should I fill out the journal?",
+      "answer": "Start with 2-3 entries per week about situations that caused notable emotions. Gradually, you'll learn to notice patterns and adjust your thinking even without writing."
+    },
+    {
+      "text": "What if I feel unmotivated or doubt the effectiveness of journaling?",
+      "answer": "Resistance to new habits is our brain's natural response. But regular analysis of your thoughts and emotions is an investment in your well-being. \nSet aside 15-20 minutes in the morning or evening to analyze a situation that triggered strong emotions. It could be a work conflict, a difficult conversation, or any other moment that affected you. \nOver time, you'll notice how your ability to handle stress grows and how your perception of challenging situations changes. Remember: developing a new habit takes time and consistency, but each entry brings you closer to a more mindful and balanced life."
+    },
+    {
+      "text": "Can I keep records on my own without seeing a therapist?",
+      "answer": "Yes, you can keep records on your own, and it can be a helpful tool for working on your thoughts and emotions. A thought and emotion journal allows you to better understand yourself, develop self-awareness, and learn to navigate challenging situations. \nHowever, it’s important to note that CBT is a therapeutic approach designed to work collaboratively with a qualified professional. If you’re struggling with intense emotions, persistent depression, or complex situations, it can be difficult to identify hidden thought patterns or address deeper issues on your own. In such cases, the guidance of a therapist can be especially valuable."
+    }
+  ],
+  "feedback": "Your feedback matters! If you have ideas for improving the app or noticed an issue, please write to ",
+  "feedbackEmail": "email@address.com"
+}

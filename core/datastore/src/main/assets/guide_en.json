@@ -1,0 +1,175 @@
+{
+  "intro": "This guide will help you understand how to properly make entries in the diary: what information is important to note and in what sequence to analyze it. Using three situations as examples, the process of filling out each section will be shown in detail.",
+  "examples_list": [
+    "Professional task: preparing for an important presentation",
+    "Personal experience: dissatisfaction with your social media photo",
+    "Family relationships: conflict with a relative due to different views"
+  ],
+  "examples_colors": [
+    "#66D4B5E7",
+    "#80FFF0F5",
+    "#80E6E6FA"
+  ],
+  "steps": [
+    {
+      "tag": "situation",
+      "name": "Describe the situation",
+      "instruction": "Describe the specific situation as objectively as possible, as if you were telling it to an outside observer. Indicate where and when it happened, who was involved, what specifically occurred."
+    },
+    {
+      "tag": "body_reaction",
+      "name": "What did you feel in your body?",
+      "instruction": "Describe the physical sensations that arose in your body when you were thinking about the upcoming situation or were already in it. Note all bodily reactions, even if they seem insignificant."
+    },
+    {
+      "tag": "behavioral_reaction",
+      "name": "How did you behave?",
+      "instruction": "Describe your actions and behavior in this situation. What did you do or, conversely, not do? How might your behavior have changed because of this situation?"
+    },
+    {
+      "tag": "emotions",
+      "name": "Identify your emotions",
+      "instruction": "Name all the emotions you experienced in this situation. It's important to be specific and use exact emotion names rather than general words like 'bad' or 'not good'. Rate the intensity of each emotion on a scale from 0 to 100%."
+    },
+    {
+      "tag": "thoughts",
+      "name": "What did you think at the moment of the situation?",
+      "instruction": "Write down the automatic thoughts that appeared in your head at that moment. Automatic thoughts are quick, involuntary thoughts that arise in response to a situation. They often appear before we have time to recognize and analyze them."
+    },
+    {
+      "tag": "distortions",
+      "name": "What cognitive distortions can be noticed in your automatic thoughts?",
+      "instruction": "Analyze your thoughts and identify what cognitive distortions are present in them. This will help understand how objectively you are evaluating the situation."
+    },
+    {
+      "tag": "alternatives",
+      "name": "How else can you look at the situation?",
+      "instruction": "Try to find alternative, more balanced ways to interpret the situation. Think about what facts support or contradict your negative thoughts, how you would advise a close friend to look at the situation."
+    },
+    {
+      "tag": "emotions_after",
+      "name": "How did your emotions change after analyzing the situation?",
+      "instruction": "Assess the intensity of your emotions after you've analyzed the situation and found alternative thoughts. Compare these indicators with the initial values."
+    }
+  ],
+  "outro": "Each entry in your journal is a step toward developing emotional flexibility. You deserve attention to your thoughts and feelings, and this journal is your ally in the process.",
+  "examples": [
+    {
+      "name": [
+        "Professional task"
+      ],
+      "situation": [
+        "Tomorrow at 10:00 AM, I have to present a quarterly report to company management and 30 colleagues. It's evening now, I'm at home reviewing slides and rehearsing the presentation. This is my first major presentation at my new job."
+      ],
+      "body_reaction": [
+        "When I think about tomorrow's presentation, my heart rate immediately increases, my palms become sweaty, I get butterflies in my stomach and feel slightly nauseous. My breathing becomes shallow and rapid. I feel tension in my shoulders and neck."
+      ],
+      "behavioral_reaction": [
+        "I started continuously reviewing the presentation materials, although I already know them by heart. Canceled my evening workout to check everything one more time. Messaged a colleague asking to back me up tomorrow. Can't go to bed although it's late. Constantly imagining how something might go wrong."
+      ],
+      "emotions": [
+        "Anxiety (85%) - related to uncertainty and importance of the event",
+        "Fear (70%) - fear of failure and negative evaluation",
+        "Shame (65%) - due to thoughts about possible mistakes in front of colleagues"
+      ],
+      "thoughts": [
+        "I will definitely forget or mix something up",
+        "Everyone will notice how nervous I am and how my voice trembles",
+        "Management will decide that I'm incompetent"
+      ],
+      "alternatives": [
+        "Yes, this is an important presentation, but I really worked hard on the material. I spent several weeks analyzing data and creating clear graphs. Even if I stumble somewhere, it won't change the essence – the information is quality and valuable for the company.",
+        "When I think about my past presentations, I remember always being very nervous before starting. But as soon as I began speaking, I became immersed in the topic and everything went fine. After all, I'm not just anyone – I understand this data better than many people who will be present.",
+        "Looking at the bigger picture – this is a great opportunity to make my mark. Yes, I'm nervous, but that's normal – it means I care. And even if I don't present perfectly, it will be an experience that makes me stronger. It will get easier with each time."
+      ],
+      "distortions": [
+        "Fortune telling: certainty about negative outcomes without sufficient evidence ('will definitely forget something')",
+        "Mind reading: assumptions about what others think ('will decide that I'm incompetent')",
+        "Black-and-white thinking: perceiving the situation only in extremes of success or failure"
+      ],
+      "emotions_after": [
+        "Anxiety decreased from 85% to 50%",
+        "Fear decreased from 70% to 40%",
+        "Shame decreased from 65% to 30%"
+      ]
+    },
+    {
+      "name": [
+        "Personal Experience"
+      ],
+      "situation": [
+        "I saw my photo on social media that my friend posted from a recent gathering. In the photo, I look completely different from how I imagined myself at that moment."
+      ],
+      "body_reaction": [
+        "Immediately felt an unpleasant tension in my chest, a lump in my throat. Felt heat in my face, cheeks burning. Shoulders involuntarily dropped, wanted to shrink. Felt an unpleasant gnawing sensation in my stomach."
+      ],
+      "behavioral_reaction": [
+        "Messaged my friend asking to delete the photo. Started reviewing all recent photos with me in them. Wanted to cancel upcoming meeting with friends. Stopped taking selfies."
+      ],
+      "emotions": [
+        "Shame (90%) - due to thoughts that others see my flaws",
+        "Anxiety (75%) - from worrying about what others think",
+        "Sadness (80%) - from reality not matching my self-image"
+      ],
+      "thoughts": [
+        "I look much worse than everyone else in the photo",
+        "Now everyone will see how unattractive I really am",
+        "I need to start a diet immediately and completely update my wardrobe"
+      ],
+      "alternatives": [
+        "This is just one frame, one moment. That evening I had great conversations with friends, we laughed a lot, and everyone was comfortable in my company. No one paid attention to how I looked – everyone was engaged in conversation.",
+        "I've noticed that I often look different in photos than in the mirror – this is normal. Besides, that evening had poor lighting and an unfavorable angle. Even professional models aren't always happy with their photos, it doesn't define their value as a person.",
+        "When I look at photos of my friends, I see their beauty and individuality, not their flaws. Why should I be harder on myself? Maybe I'm being too critical of myself right now and seeing things that others don't even notice."
+      ],
+      "distortions": [
+        "Catastrophizing: exaggerating the negative significance of one unflattering photo",
+        "Negative filter: focusing only on perceived flaws, ignoring other aspects of the situation",
+        "Overgeneralization: extending the conclusion from one photo to overall appearance"
+      ],
+      "emotions_after": [
+        "Shame decreased from 90% to 45%",
+        "Anxiety decreased from 75% to 35%",
+        "Sadness decreased from 80% to 40%"
+      ]
+    },
+    {
+      "name": [
+        "Family Relations"
+      ],
+      "situation": [
+        "During a family dinner, an argument broke out with my brother about parenting. He harshly criticized my parenting methods, calling them too soft and wrong."
+      ],
+      "body_reaction": [
+        "Immediately felt tension in neck and jaw muscles, heaviness in chest. Heart started beating faster, palms became sweaty. Felt heat rising to my face. Voice became more tense and higher-pitched."
+      ],
+      "behavioral_reaction": [
+        "Sharply responded to brother, started defending myself and pointing out mistakes in his children's upbringing. Left the table early. Stopped responding to his messages and avoided family gatherings where he might be present."
+      ],
+      "emotions": [
+        "Anger (85%) - due to feeling unfairly criticized",
+        "Hurt (80%) - from undervaluation of my efforts as a parent",
+        "Anxiety (70%) - from thoughts that I might actually be making mistakes"
+      ],
+      "thoughts": [
+        "How dare he judge my parenting methods?",
+        "He completely doesn't understand modern approaches",
+        "He thinks I'm a bad mother"
+      ],
+      "alternatives": [
+        "Behind my brother's harshness might be genuine concern for his nieces/nephews. Perhaps he just expressed his worry poorly. We both want what's best for the children, we just see it differently. His experience might also be valuable, even if I don't agree with everything.",
+        "My brother and I have different experiences and different environments that shaped our views. His methods work in his family, mine work in mine. This doesn't make either of us bad parents. Maybe we could enrich each other with our experiences if we learned to listen without judgment.",
+        "Our disagreements are only about parenting methods, but this doesn't negate all the good things between us. We grew up together, supported each other in many situations. Maybe we should focus on what unites us rather than our differences."
+      ],
+      "distortions": [
+        "Mind reading: certainty that we know brother's motives and thoughts",
+        "Black-and-White Thinking: viewing the situation only in extremes (right/wrong)",
+        "Personalization: perceiving criticism of parenting methods as an evaluation of oneself as a parent overall"
+      ],
+      "emotions_after": [
+        "Anger decreased from 85% to 40%",
+        "Hurt decreased from 80% to 35%",
+        "Anxiety decreased from 70% to 30%"
+      ]
+    }
+  ]
+}

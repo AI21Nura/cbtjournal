@@ -6,9 +6,13 @@ import com.ainsln.core.database.model.TranslatedSelectedEmotion
 import com.ainsln.core.database.model.entity.NoteEntity
 import com.ainsln.core.database.model.entity.SelectedEmotionCrossRef
 import com.ainsln.core.database.model.entity.ThoughtEntity
+import com.ainsln.core.datastore.info.model.GuideData
+import com.ainsln.core.datastore.info.model.InfoData
 import com.ainsln.core.datastore.model.DistortionStore
 import com.ainsln.core.model.Distortion
 import com.ainsln.core.model.Emotion
+import com.ainsln.core.model.GuideContent
+import com.ainsln.core.model.InfoContent
 import com.ainsln.core.model.Note
 import com.ainsln.core.model.SelectedEmotion
 import com.ainsln.core.model.ShortNote
@@ -91,3 +95,34 @@ internal fun SelectedEmotion.toSelectedEmotionCrossRef(noteId: Long): SelectedEm
         intensityBefore = intensityBefore,
         intensityAfter = intensityAfter
     )
+
+internal fun InfoData.toInfoContent() = InfoContent(
+        intro = intro,
+        guide = guide,
+        faq = faq.map { it.toModelQuestion() },
+        feedback = feedback,
+        feedbackEmail = feedbackEmail
+    )
+
+internal fun InfoData.Question.toModelQuestion()  =
+    InfoContent.Question(text, answer)
+
+internal fun GuideData.toGuideContent() = GuideContent(
+    intro = intro,
+    outro = outro,
+    examplesList = examplesList,
+    exampleColors = examplesColors,
+    steps = steps.map { step ->
+        GuideContent.Step(
+            tag = step.tag,
+            name = step.name,
+            instruction = step.instruction,
+            examples = examples.map {
+                GuideContent.ExampleForStep(
+                    name = it["name"]?.first() ?: "",
+                    points = it[step.tag] ?: throw IllegalStateException("Error: Incomplete data")
+                )
+            }
+        )
+    }
+)

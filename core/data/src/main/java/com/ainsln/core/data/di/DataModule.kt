@@ -1,11 +1,13 @@
 package com.ainsln.core.data.di
 
 import com.ainsln.core.data.repository.DefaultDistortionsRepository
+import com.ainsln.core.data.repository.DefaultInfoRepository
 import com.ainsln.core.data.repository.api.DistortionsRepository
 import com.ainsln.core.data.repository.api.EmotionsRepository
 import com.ainsln.core.data.repository.api.NotesRepository
 import com.ainsln.core.data.repository.RoomEmotionsRepository
 import com.ainsln.core.data.repository.RoomNotesRepository
+import com.ainsln.core.data.repository.api.InfoRepository
 import com.ainsln.core.data.util.BaseResourceManager
 import com.ainsln.core.data.util.ResourceManager
 import com.ainsln.core.data.util.AppLocaleManager
@@ -33,6 +35,11 @@ internal abstract class DataModule {
     internal abstract fun bindsEmotionsRepository(
         defaultRepository: RoomEmotionsRepository
     ) : EmotionsRepository
+
+    @Binds
+    internal abstract fun bindsInfoRepository(
+        defaultInfoRepository: DefaultInfoRepository
+    ) : InfoRepository
 
     @Binds
     internal abstract fun bindsResourceManager(
