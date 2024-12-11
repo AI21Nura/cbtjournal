@@ -1,13 +1,15 @@
 package com.ainsln.core.data.di
 
 import com.ainsln.core.data.repository.DefaultDistortionsRepository
-import com.ainsln.core.data.repository.DistortionsRepository
-import com.ainsln.core.data.repository.EmotionsRepository
-import com.ainsln.core.data.repository.NotesRepository
+import com.ainsln.core.data.repository.api.DistortionsRepository
+import com.ainsln.core.data.repository.api.EmotionsRepository
+import com.ainsln.core.data.repository.api.NotesRepository
 import com.ainsln.core.data.repository.RoomEmotionsRepository
 import com.ainsln.core.data.repository.RoomNotesRepository
 import com.ainsln.core.data.util.BaseResourceManager
 import com.ainsln.core.data.util.ResourceManager
+import com.ainsln.core.data.util.AppLocaleManager
+import com.ainsln.core.data.util.BaseAppLocaleManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -36,4 +38,9 @@ internal abstract class DataModule {
     internal abstract fun bindsResourceManager(
         baseResourceManager: BaseResourceManager
     ): ResourceManager
+
+    @Binds
+    internal abstract fun bindsAppLocaleManager(
+        baseAppLocaleManager: BaseAppLocaleManager
+    ) : AppLocaleManager
 }
