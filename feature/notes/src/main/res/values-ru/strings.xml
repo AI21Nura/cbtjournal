@@ -69,7 +69,15 @@
     <string name="ok_label">Ок</string>
     <string name="cancel_label">Отмена</string>
 
+    <string name="back">Назад</string>
+    <string name="no_recent_searches">История поиска пуста</string>
+    <string name="clear_all">Очистить все</string>
+    <string name="no_search_results">Ничего не найдено</string>
+    <string name="delete_recent_search">Удалить</string>
+    <string name="clear_query">Очистить строку поиска</string>
+    <string name="search_placeholder">Поиск</string>
     <string name="situation_tab">Ситуация</string>
     <string name="interpretation_tab">Анализ</string>
     <string name="reframing_tab">Переосмысление</string>
+    <string name="recent_searches">Последние запросы</string>
 </resources>

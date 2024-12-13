@@ -68,6 +68,15 @@
     <string name="empty_journal_placeholder">Your journal is empty. Add a note to begin your journey!</string>
     <string name="ok_label">OK</string>
     <string name="cancel_label">Cancel</string>
+    <string name="back">Back</string>
+
+    <string name="no_recent_searches">No recent searches</string>
+    <string name="recent_searches">Recent searches</string>
+    <string name="clear_all">Clear all</string>
+    <string name="no_search_results">Nothing found</string>
+    <string name="delete_recent_search">Delete</string>
+    <string name="clear_query">Clear query</string>
+    <string name="search_placeholder">Search</string>
 
     <string name="situation_tab">Situation</string>
     <string name="interpretation_tab">Interpretation</string>

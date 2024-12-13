@@ -10,6 +10,8 @@ public interface NotesRepository {
 
     public fun getAllNotes(): Flow<Result<List<ShortNote>>>
 
+    public fun getSearchNotes(query: String): Flow<Result<List<ShortNote>>>
+
     public fun getNoteById(id: Long): Flow<Result<Note>>
 
     public fun saveNoteWithThoughts(note: Note): Flow<Result<Long>>

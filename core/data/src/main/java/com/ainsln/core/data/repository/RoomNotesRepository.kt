@@ -25,6 +25,10 @@ internal class RoomNotesRepository @Inject constructor(
         return processFlowList(notesDao.getAll()) { it.toShortNote() }
     }
 
+    override fun getSearchNotes(query: String): Flow<Result<List<ShortNote>>> {
+        return processFlowList(notesDao.getSearch(query)) { it.toShortNote() }
+    }
+
     override fun getNoteById(id: Long): Flow<Result<Note>> = flow {
         try {
             notesDao.getById(id).collect { data ->

@@ -4,6 +4,7 @@ import com.ainsln.core.database.model.NoteWithThoughts
 import com.ainsln.core.database.model.TranslatedEmotion
 import com.ainsln.core.database.model.TranslatedSelectedEmotion
 import com.ainsln.core.database.model.entity.NoteEntity
+import com.ainsln.core.database.model.entity.RecentSearchEntity
 import com.ainsln.core.database.model.entity.SelectedEmotionCrossRef
 import com.ainsln.core.database.model.entity.ThoughtEntity
 import com.ainsln.core.datastore.info.model.GuideData
@@ -14,18 +15,20 @@ import com.ainsln.core.model.Emotion
 import com.ainsln.core.model.GuideContent
 import com.ainsln.core.model.InfoContent
 import com.ainsln.core.model.Note
+import com.ainsln.core.model.RecentSearch
 import com.ainsln.core.model.SelectedEmotion
 import com.ainsln.core.model.ShortNote
 import com.ainsln.core.model.Thought
 
-internal fun DistortionStore.toDistortion(resourceManager: ResourceManager): Distortion = Distortion(
-    id = id,
-    name = resourceManager.getString(name),
-    shortDescription = resourceManager.getString(shortDescription),
-    longDescription = resourceManager.getString(longDescription),
-    examples = resourceManager.getStringArray(examples).toList(),
-    iconResId = iconResId
-)
+internal fun DistortionStore.toDistortion(resourceManager: ResourceManager): Distortion =
+    Distortion(
+        id = id,
+        name = resourceManager.getString(name),
+        shortDescription = resourceManager.getString(shortDescription),
+        longDescription = resourceManager.getString(longDescription),
+        examples = resourceManager.getStringArray(examples).toList(),
+        iconResId = iconResId
+    )
 
 internal fun NoteEntity.toShortNote(): ShortNote =
     ShortNote(
@@ -97,14 +100,14 @@ internal fun SelectedEmotion.toSelectedEmotionCrossRef(noteId: Long): SelectedEm
     )
 
 internal fun InfoData.toInfoContent() = InfoContent(
-        intro = intro,
-        guide = guide,
-        faq = faq.map { it.toModelQuestion() },
-        feedback = feedback,
-        feedbackEmail = feedbackEmail
-    )
+    intro = intro,
+    guide = guide,
+    faq = faq.map { it.toModelQuestion() },
+    feedback = feedback,
+    feedbackEmail = feedbackEmail
+)
 
-internal fun InfoData.Question.toModelQuestion()  =
+internal fun InfoData.Question.toModelQuestion() =
     InfoContent.Question(text, answer)
 
 internal fun GuideData.toGuideContent() = GuideContent(
@@ -126,3 +129,9 @@ internal fun GuideData.toGuideContent() = GuideContent(
         )
     }
 )
+
+internal fun RecentSearchEntity.toRecentSearch() =
+    RecentSearch(query, queriedDate)
+
+internal fun RecentSearch.toRecentSearchEntity() =
+    RecentSearchEntity(query, queriedDate)
