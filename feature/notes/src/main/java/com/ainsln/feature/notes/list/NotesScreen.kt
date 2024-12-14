@@ -6,15 +6,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -48,6 +51,7 @@ fun NotesScreen(
     onNoteClick: (Long) -> Unit,
     onAddNoteClick: () -> Unit,
     showFAB: Boolean,
+    onSearchClick: () -> Unit,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -55,7 +59,8 @@ fun NotesScreen(
         uiState,
         onNoteClick,
         onAddNoteClick,
-        showFAB
+        showFAB,
+        onSearchClick
     )
 }
 
@@ -64,14 +69,24 @@ internal fun NotesContent(
     uiState: NotesListUiState,
     onNoteClick: (Long) -> Unit,
     onAddNoteClick: () -> Unit,
-    showFAB: Boolean
-    ) {
+    showFAB: Boolean,
+    onSearchClick: () -> Unit,
+) {
     Scaffold(
         topBar = {
             TopDestinationAppBar(
                 title = stringResource(R.string.notes_list_title),
                 alignCenter = true
-            )
+            ){
+                Row {
+                    IconButton(onClick = { onSearchClick() }) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = stringResource(R.string.search_placeholder)
+                        )
+                    }
+                }
+            }
         },
         floatingActionButton = {
             if (showFAB){
@@ -188,7 +203,8 @@ fun NotesScreenPreview() {
             uiState = UiState.Success(NotesPreviewData.shortNotes),
             onNoteClick = { },
             onAddNoteClick = {},
-            showFAB = true
+            showFAB = true,
+            onSearchClick = {}
         )
     }
 }

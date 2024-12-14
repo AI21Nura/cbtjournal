@@ -39,8 +39,16 @@ class NotesAdaptiveViewModel @Inject constructor()
         }
     }
 
+    override fun toggleShowSearch(shown: Boolean) {
+        _navigationState.update { oldState ->
+            oldState.copy(showSearchScreen = shown)
+        }
+    }
+
     override fun resetState() {
-        _navigationState.update { NavigationUiState() }
+        _navigationState.update {
+            NavigationUiState(showSearchScreen = it.showSearchScreen)
+        }
     }
 
 }

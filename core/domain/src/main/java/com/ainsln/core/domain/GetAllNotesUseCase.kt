@@ -16,13 +16,12 @@ class GetAllNotesUseCase @Inject constructor(
     ) {
 
     operator fun invoke(
-        langCode: String,
         mergeStrategy: MergeStrategyForNotes
             = NotesWithEmotionsMergeStrategy()
     ): Flow<Result<List<ShortNote>>> {
         return combine(
             notesRepository.getAllNotes(),
-            emotionsRepository.getAllSelectedEmotions(langCode),
+            emotionsRepository.getAllSelectedEmotions(),
             mergeStrategy::merge
         )
     }

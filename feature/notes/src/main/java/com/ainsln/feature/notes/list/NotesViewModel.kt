@@ -18,7 +18,7 @@ class NotesViewModel @Inject constructor(
     getAllNotesUseCase: GetAllNotesUseCase
 ) : ViewModel() {
 
-    val uiState: StateFlow<NotesListUiState> = getAllNotesUseCase("en").map { it.toState() }
+    val uiState: StateFlow<NotesListUiState> = getAllNotesUseCase().map { it.toState() }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),

@@ -9,5 +9,6 @@ interface NotesNavigationStateHandler {
     fun onNoteDetailsClick(id: Long)
     fun onEditorScreenClick(id: Long? = null)
     fun toggleWarningDialog(shown: Boolean)
+    fun toggleShowSearch(shown: Boolean)
     fun resetState()
 }

@@ -28,6 +28,7 @@ import com.ainsln.feature.notes.navigation.NotesDestinations
 import com.ainsln.feature.notes.navigation.noteDetailsDestination
 import com.ainsln.feature.notes.navigation.noteDetailsPlaceholder
 import com.ainsln.feature.notes.navigation.noteEditorDestination
+import com.ainsln.feature.notes.search.NotesSearchScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -54,17 +55,26 @@ internal fun NotesListDetailContent(
 ) {
     BackHandler(notesNavigator.canNavigateBack) { notesNavigator.backHandler() }
     val showWarningDialog by notesNavigator.showWarningDialog.collectAsStateWithLifecycle()
+    val showSearchScreen by notesNavigator.showSearchScreen.collectAsStateWithLifecycle()
 
     ListDetailPaneScaffold(
         directive = notesNavigator.scaffoldDirective,
         value = notesNavigator.scaffoldValue,
         listPane = {
             AnimatedPane {
-                NotesScreen(
-                    onNoteClick = notesNavigator::onNoteDetailsClick,
-                    onAddNoteClick = notesNavigator::onEditorScreenClick,
-                    showFAB = notesNavigator.showFAB
-                )
+                if (showSearchScreen){
+                    NotesSearchScreen(
+                        onNoteClick = notesNavigator::onNoteDetailsClick,
+                        onBack = { notesNavigator.toggleShowSearch(false) }
+                    )
+                } else {
+                    NotesScreen(
+                        onNoteClick = notesNavigator::onNoteDetailsClick,
+                        onAddNoteClick = notesNavigator::onEditorScreenClick,
+                        showFAB = notesNavigator.showFAB,
+                        onSearchClick = { notesNavigator.toggleShowSearch(true) }
+                    )
+                }
             }
         },
         detailPane = {

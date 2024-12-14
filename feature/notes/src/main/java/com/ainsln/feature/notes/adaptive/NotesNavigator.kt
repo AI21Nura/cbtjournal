@@ -17,6 +17,7 @@ import com.ainsln.feature.notes.navigation.navigateToNoteEditor
 import com.ainsln.feature.notes.navigation.navigateToNotePlaceholder
 import com.ainsln.feature.notes.state.NavigationUiState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -31,6 +32,7 @@ interface NotesNavigator {
     val showFAB: Boolean
     val currentDestination: NotesDestinations
     val showWarningDialog: StateFlow<Boolean>
+    val showSearchScreen: StateFlow<Boolean>
 
     fun backHandler()
     fun onBack()
@@ -38,6 +40,7 @@ interface NotesNavigator {
     fun onEditorScreenClick(noteId: Long? = null)
     fun navigateToNoteDetails(id: Long)
     fun toggleWarningDialog(shown: Boolean)
+    fun toggleShowSearch(shown: Boolean)
     fun onConfirmCancellation()
 
     fun getNestedNavController(): NavHostController
@@ -64,12 +67,14 @@ class BaseNotesNavigator(
         get() = nestedNavHostStartDestination
 
     override val showWarningDialog: StateFlow<Boolean> =
-        stateHandler.navigationState.map { it.showWarningDialog }
-            .stateIn(
-                scope = coroutineScope,
-                started = SharingStarted.WhileSubscribed(),
-                initialValue = false
-            )
+        stateHandler.navigationState
+            .map { it.showWarningDialog }
+            .toStateFlow(false)
+
+    override val showSearchScreen: StateFlow<Boolean> =
+        stateHandler.navigationState
+            .map { it.showSearchScreen }
+            .toStateFlow(false)
 
     override val scaffoldDirective get() = listDetailNavigator.scaffoldDirective
     override val scaffoldValue get() = listDetailNavigator.scaffoldValue
@@ -129,6 +134,10 @@ class BaseNotesNavigator(
         stateHandler.toggleWarningDialog(shown)
     }
 
+    override fun toggleShowSearch(shown: Boolean) {
+        stateHandler.toggleShowSearch(shown)
+    }
+
     override fun getNestedNavController() = nestedNavController
 
     override fun onConfirmCancellation() {
@@ -153,6 +162,14 @@ class BaseNotesNavigator(
 
             listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
         }
+    }
+
+    private fun <T> Flow<T>.toStateFlow(initValue: T): StateFlow<T> {
+        return stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = initValue
+        )
     }
 
     private fun <T> ThreePaneScaffoldNavigator<T>.areBothPanesVisible(): Boolean =
