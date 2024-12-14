@@ -76,7 +76,7 @@
     <string name="no_search_results">Nothing found</string>
     <string name="delete_recent_search">Delete</string>
     <string name="clear_query">Clear query</string>
-    <string name="search_placeholder">Search</string>
+    <string name="search_placeholder">Find your situation</string>
 
     <string name="situation_tab">Situation</string>
     <string name="interpretation_tab">Interpretation</string>

@@ -75,7 +75,7 @@
     <string name="no_search_results">Ничего не найдено</string>
     <string name="delete_recent_search">Удалить</string>
     <string name="clear_query">Очистить строку поиска</string>
-    <string name="search_placeholder">Поиск</string>
+    <string name="search_placeholder">Поиск ситуации</string>
     <string name="situation_tab">Ситуация</string>
     <string name="interpretation_tab">Анализ</string>
     <string name="reframing_tab">Переосмысление</string>

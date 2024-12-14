@@ -19,7 +19,11 @@ public interface NotesDao {
     public fun getAll(): Flow<List<NoteEntity>>
 
     @Transaction
-    @Query("SELECT * FROM Note WHERE situation LIKE '%' || :query || '%'")
+    @Query("""
+        SELECT * FROM Note
+        JOIN NoteFts ON Note.id = NoteFts.id 
+        WHERE NoteFts MATCH :query 
+        """)
     public fun getSearch(query: String): Flow<List<NoteEntity>>
 
     @Transaction

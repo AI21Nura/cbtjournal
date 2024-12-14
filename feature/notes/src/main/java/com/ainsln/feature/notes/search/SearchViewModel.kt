@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ainsln.core.data.repository.api.RecentSearchesRepository
-import com.ainsln.core.domain.utils.SearchNotesUseCase
+import com.ainsln.core.domain.SearchNotesUseCase
 import com.ainsln.core.model.RecentSearch
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.feature.notes.state.RecentSearchUiState

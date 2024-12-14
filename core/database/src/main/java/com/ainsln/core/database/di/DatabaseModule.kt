@@ -2,6 +2,8 @@ package com.ainsln.core.database.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ainsln.core.database.CBTDatabase
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,12 @@ internal object DatabaseModule {
             "cbtjournal_db"
         )
             .createFromAsset("cbt_db.db")
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    db.execSQL("INSERT INTO NoteFts(NoteFts) VALUES ('rebuild')")
+                }
+            })
             .fallbackToDestructiveMigration()
             .build()
     }

@@ -10,6 +10,7 @@ import com.ainsln.core.database.model.entity.EmotionEntity
 import com.ainsln.core.database.model.entity.EmotionTranslationEntity
 import com.ainsln.core.database.model.entity.SelectedEmotionCrossRef
 import com.ainsln.core.database.model.entity.NoteEntity
+import com.ainsln.core.database.model.entity.NoteFtsEntity
 import com.ainsln.core.database.model.entity.RecentSearchEntity
 import com.ainsln.core.database.model.entity.ThoughtEntity
 import com.ainsln.core.database.utils.DateConverter
@@ -22,9 +23,10 @@ import com.ainsln.core.database.utils.LongListConverter
         EmotionEntity::class,
         SelectedEmotionCrossRef::class,
         EmotionTranslationEntity::class,
-        RecentSearchEntity::class
+        RecentSearchEntity::class,
+        NoteFtsEntity::class
                ],
-    version = 2
+    version = 3
 )
 @TypeConverters(DateConverter::class, LongListConverter::class)
 internal abstract class CBTDatabase : RoomDatabase() {
