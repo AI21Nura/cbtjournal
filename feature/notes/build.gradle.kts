@@ -14,10 +14,9 @@ android {
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.ainsln.core.testing.CustomTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,6 +28,12 @@ android {
     }
     kotlin {
         jvmToolchain(17)
+    }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        emulatorControl {
+            enable = true
+        }
     }
 }
 
@@ -51,7 +56,12 @@ dependencies {
     implementation(libs.androidx.adaptive.navigation)
     implementation(libs.kotlinx.serialization)
 
-    testImplementation(libs.junit)
+    debugImplementation(projects.uitesthilt)
+    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.device)
+    kspAndroidTest(libs.hilt.android.compiler)
+
 }
