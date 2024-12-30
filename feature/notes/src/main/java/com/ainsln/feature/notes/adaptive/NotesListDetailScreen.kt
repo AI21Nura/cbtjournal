@@ -38,12 +38,15 @@ internal data object NoteDetailPaneNavHost
 @Composable
 internal fun NotesListDetailScreen(
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
+    controller: NavHostController = rememberNavController(),
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
-    viewModel: NotesAdaptiveViewModel = hiltViewModel()
+    viewModel: NotesAdaptiveViewModel = hiltViewModel(),
 ) {
+    val nestedNavController = DetailPaneNavController(controller)
+
     NotesListDetailContent(
         distortionsSelectionDialog,
-        rememberNotesNavigator(viewModel, windowAdaptiveInfo)
+        rememberNotesNavigator(nestedNavController, viewModel, windowAdaptiveInfo)
     )
 }
 
@@ -53,16 +56,15 @@ internal fun NotesListDetailContent(
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
     notesNavigator: NotesNavigator
 ) {
-    BackHandler(notesNavigator.canNavigateBack) { notesNavigator.backHandler() }
-    val showWarningDialog by notesNavigator.showWarningDialog.collectAsStateWithLifecycle()
-    val showSearchScreen by notesNavigator.showSearchScreen.collectAsStateWithLifecycle()
+    BackHandler(notesNavigator.canNavigateBack) { notesNavigator.onBack() }
+    val navState by notesNavigator.navigationState.collectAsStateWithLifecycle()
 
     ListDetailPaneScaffold(
         directive = notesNavigator.scaffoldDirective,
         value = notesNavigator.scaffoldValue,
         listPane = {
             AnimatedPane {
-                if (showSearchScreen){
+                if (navState.showSearchScreen){
                     NotesSearchScreen(
                         onNoteClick = notesNavigator::onNoteDetailsClick,
                         onBack = { notesNavigator.toggleShowSearch(false) }
@@ -72,7 +74,8 @@ internal fun NotesListDetailContent(
                         onNoteClick = notesNavigator::onNoteDetailsClick,
                         onAddNoteClick = notesNavigator::onEditorScreenClick,
                         showFAB = notesNavigator.showFAB,
-                        onSearchClick = { notesNavigator.toggleShowSearch(true) }
+                        onSearchClick = { notesNavigator.toggleShowSearch(true) },
+                        onDeleteSelected = notesNavigator::handleOpenNoteDeletion
                     )
                 }
             }
@@ -80,26 +83,25 @@ internal fun NotesListDetailContent(
         detailPane = {
             AnimatedPane {
                 DetailNavHost(
-                    navController = notesNavigator.getNestedNavController(),
-                    startDestination = notesNavigator.currentDestination,
+                    startDestination = navState.currentDestination,
                     notesNavigator = notesNavigator,
                     distortionsSelectionDialog = distortionsSelectionDialog
                 )
             }
+
         }
     )
-    WarningDialog(showWarningDialog, notesNavigator)
+    WarningDialog(navState.showWarningDialog, notesNavigator)
 }
 
 @Composable
 private fun DetailNavHost(
-    navController: NavHostController,
     startDestination: NotesDestinations,
     notesNavigator: NotesNavigator,
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit
 ) {
     NavHost(
-        navController = navController,
+        navController = notesNavigator.getWideScreenNavController(),
         startDestination = startDestination,
         route = NoteDetailPaneNavHost::class
     ) {
@@ -136,6 +138,7 @@ fun WarningDialog(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun rememberNotesNavigator(
+    nestedNavController: DetailPaneNavController,
     stateHandler: NotesNavigationStateHandler,
     windowAdaptiveInfo: WindowAdaptiveInfo
 ) : NotesNavigator{
@@ -146,14 +149,14 @@ fun rememberNotesNavigator(
             ThreePaneScaffoldDestinationItem<Nothing>(ListDetailPaneScaffoldRole.List),
         )
     )
-    val nestedNavController = rememberNavController()
 
-    return remember {
+    val baseNavigator = remember {
         BaseNotesNavigator(
-            coroutineScope = coroutineScope,
-            listDetailNavigator = listDetailNavigator,
-            nestedNavController = nestedNavController,
+            paneNavigator = PaneNavigator(coroutineScope, listDetailNavigator),
+            nestedController = nestedNavController,
             stateHandler = stateHandler
         )
     }
+
+    return baseNavigator
 }

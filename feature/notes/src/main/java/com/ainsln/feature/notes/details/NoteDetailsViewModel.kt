@@ -39,7 +39,7 @@ class NoteDetailsViewModel @Inject constructor(
     private val intentSender: IntentSender
 ) : ViewModel() {
 
-    private val noteId = savedStateHandle.toRoute<NotesDestinations.Detail>().id
+    private val noteId = savedStateHandle.toRoute<NotesDestinations.Details>().id
 
     val noteState: StateFlow<NoteDetailsUiState> =
         getFullNoteUseCase(noteId).map { it.toState() }.stateIn(

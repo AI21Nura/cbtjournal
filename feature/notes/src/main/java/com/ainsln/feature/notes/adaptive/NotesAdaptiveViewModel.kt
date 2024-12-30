@@ -1,6 +1,7 @@
 package com.ainsln.feature.notes.adaptive
 
 import androidx.lifecycle.ViewModel
+import com.ainsln.feature.notes.navigation.NotesDestinations
 import com.ainsln.feature.notes.state.NavigationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,9 +25,21 @@ class NotesAdaptiveViewModel @Inject constructor()
         }
     }
 
+    override fun saveCurrentNoteId(id: Long) {
+        _navigationState.update { oldState ->
+            oldState.copy(currentNoteId = id)
+        }
+    }
+
     override fun onEditorScreenClick(id: Long?) {
         _navigationState.update { oldState ->
-            oldState.copy(isEditorScreenOpen = true, currentEditingNote = id)
+            oldState.copy(isEditorScreenOpen = true, currentNoteId = id)
+        }
+    }
+
+    override fun saveCurrentDestination(destination: NotesDestinations) {
+        _navigationState.update { oldState ->
+            oldState.copy(currentDestination = destination)
         }
     }
 

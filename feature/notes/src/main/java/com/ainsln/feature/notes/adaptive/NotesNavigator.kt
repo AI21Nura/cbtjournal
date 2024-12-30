@@ -1,28 +1,12 @@
 package com.ainsln.feature.notes.adaptive
 
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
 import androidx.compose.material3.adaptive.layout.PaneScaffoldDirective
 import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldValue
-import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.ainsln.feature.notes.navigation.NotesDestinations
-import com.ainsln.feature.notes.navigation.navigateToNoteDetails
-import com.ainsln.feature.notes.navigation.navigateToNoteEditor
-import com.ainsln.feature.notes.navigation.navigateToNotePlaceholder
 import com.ainsln.feature.notes.state.NavigationUiState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 interface NotesNavigator {
@@ -30,12 +14,10 @@ interface NotesNavigator {
     val scaffoldValue: ThreePaneScaffoldValue
     val canNavigateBack: Boolean
     val showFAB: Boolean
-    val currentDestination: NotesDestinations
-    val showWarningDialog: StateFlow<Boolean>
-    val showSearchScreen: StateFlow<Boolean>
+    val navigationState: StateFlow<NavigationUiState>
 
-    fun backHandler()
     fun onBack()
+    fun handleOpenNoteDeletion(ids: List<Long>)
     fun onNoteDetailsClick(id: Long)
     fun onEditorScreenClick(noteId: Long? = null)
     fun navigateToNoteDetails(id: Long)
@@ -43,72 +25,52 @@ interface NotesNavigator {
     fun toggleShowSearch(shown: Boolean)
     fun onConfirmCancellation()
 
-    fun getNestedNavController(): NavHostController
+    fun getWideScreenNavController(): NavHostController
 }
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 class BaseNotesNavigator(
-    private val coroutineScope: CoroutineScope,
-    private val listDetailNavigator: ThreePaneScaffoldNavigator<Nothing>,
-    private val nestedNavController: NavHostController,
+    private val paneNavigator: PaneNavigator,
+    private val nestedController: DetailPaneNavController,
     private val stateHandler: NotesNavigationStateHandler
 ) : NotesNavigator {
 
     private val _navigationState: NavigationUiState
         get() = stateHandler.navigationState.value
 
+    override val navigationState: StateFlow<NavigationUiState>
+        get() = stateHandler.navigationState
+
     override val canNavigateBack: Boolean
-        get() = listDetailNavigator.canNavigateBack()
+        get() = paneNavigator.canNavigateBack
 
     override val showFAB: Boolean
         get() = !_navigationState.isEditorScreenOpen
 
-    override val currentDestination: NotesDestinations
-        get() = nestedNavHostStartDestination
-
-    override val showWarningDialog: StateFlow<Boolean> =
-        stateHandler.navigationState
-            .map { it.showWarningDialog }
-            .toStateFlow(false)
-
-    override val showSearchScreen: StateFlow<Boolean> =
-        stateHandler.navigationState
-            .map { it.showSearchScreen }
-            .toStateFlow(false)
-
-    override val scaffoldDirective get() = listDetailNavigator.scaffoldDirective
-    override val scaffoldValue get() = listDetailNavigator.scaffoldValue
-
-    private var nestedNavHostStartDestination: NotesDestinations by mutableStateOf(NotesDestinations.DetailPlaceholder)
-
-    override fun backHandler() {
-        coroutineScope.launch {
-            listDetailNavigator.navigateBack()
-            nestedNavHostStartDestination = NotesDestinations.DetailPlaceholder
-        }
-    }
+    override val scaffoldDirective get() = paneNavigator.scaffoldDirective
+    override val scaffoldValue get() = paneNavigator.scaffoldValue
 
     override fun onBack() {
         stateHandler.resetState()
-        if (listDetailNavigator.areBothPanesVisible()) {
-            nestedNavController.navigateToNotePlaceholder {
-                popUpTo(NoteDetailPaneNavHost)
-            }
-        } else
-            backHandler()
+        paneNavigator.navigateBack()
+        if (paneNavigator.areBothPanesVisible()) {
+            nestedController.navigateToNotePlaceholder()
+        }
+    }
+    
+    override fun handleOpenNoteDeletion(ids: List<Long>) {
+        if (_navigationState.currentNoteId in ids)
+            onBack()
     }
 
     override fun onNoteDetailsClick(id: Long) {
         if (_navigationState.isEditorScreenOpen) {
             stateHandler.onNoteDetailsClick(id)
         } else {
+            stateHandler.saveCurrentNoteId(id)
             onDetailPaneClick(
-                destination = NotesDestinations.Detail(id),
-                navigateTo = {
-                    nestedNavController.navigateToNoteDetails(id) {
-                        popUpTo(NoteDetailPaneNavHost)
-                    }
-                }
+                destination = NotesDestinations.Details(id),
+                navigateTo = { nestedController.navigateToNoteDetails(id) }
             )
         }
     }
@@ -117,11 +79,7 @@ class BaseNotesNavigator(
         stateHandler.onEditorScreenClick(noteId)
         onDetailPaneClick(
             destination = NotesDestinations.Editor(noteId),
-            navigateTo = {
-                nestedNavController.navigateToNoteEditor(noteId) {
-                    popUpTo(NoteDetailPaneNavHost)
-                }
-            }
+            navigateTo = { nestedController.navigateToNoteEditor(noteId) }
         )
     }
 
@@ -138,41 +96,32 @@ class BaseNotesNavigator(
         stateHandler.toggleShowSearch(shown)
     }
 
-    override fun getNestedNavController() = nestedNavController
+    override fun getWideScreenNavController(): NavHostController {
+        return nestedController.controller
+        //return if (paneNavigator.areBothPanesVisible()) nestedController.controller else null
+    }
 
     override fun onConfirmCancellation() {
         val navigationState = _navigationState
         stateHandler.resetState()
         when {
-            navigationState.currentEditingNote != null -> onNoteDetailsClick(navigationState.currentEditingNote)
             navigationState.clickedNoteId != null -> onNoteDetailsClick(navigationState.clickedNoteId)
+
+            navigationState.currentNoteId != null -> onNoteDetailsClick(navigationState.currentNoteId)
+
             else -> onBack()
         }
     }
 
     private fun onDetailPaneClick(
-        navigateTo: NavController.() -> Unit,
+        navigateTo: () -> Unit,
         destination: NotesDestinations
     ) {
-        coroutineScope.launch {
-            if (listDetailNavigator.areBothPanesVisible())
-                nestedNavController.navigateTo()
-            else
-                nestedNavHostStartDestination = destination
+        if (paneNavigator.areBothPanesVisible())
+            navigateTo()
+        else
+            stateHandler.saveCurrentDestination(destination)
 
-            listDetailNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
-        }
+        paneNavigator.navigateToDetailsPane()
     }
-
-    private fun <T> Flow<T>.toStateFlow(initValue: T): StateFlow<T> {
-        return stateIn(
-            scope = coroutineScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = initValue
-        )
-    }
-
-    private fun <T> ThreePaneScaffoldNavigator<T>.areBothPanesVisible(): Boolean =
-        scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
-                && scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
 }

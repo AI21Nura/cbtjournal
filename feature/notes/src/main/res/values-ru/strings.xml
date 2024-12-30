@@ -8,7 +8,8 @@
     <string name="add_note">Добавить запись</string>
     <string name="edit_note">Редактировать</string>
     <string name="share_note">Поделиться</string>
-    <string name="delete_note">Удалить</string>
+    <string name="delete_note">Удаление</string>
+    <string name="delete_notes">Удаление</string>
     <string name="save_note">Сохранить</string>
 
     <string name="notes_list_error">Не удалось загрузить список записей: \n%s</string>
@@ -62,6 +63,7 @@
     <string name="alternative">Альтернатива:&#160;</string>
     <string name="share_subject">Запись из моего КПТ-дневника</string>
     <string name="delete_warning">Вы уверены, что хотите удалить запись? Это действие нельзя отменить.</string>
+    <string name="delete_selected_warning">Вы уверены, что хотите удалить выбранные записи? Это действие нельзя отменить.</string>
     <string name="discard_changes_warning">Все несохраненные изменения будут потеряны. Вы уверены, что хотите выйти?</string>
     <string name="validation_warning">Пожалуйста, заполните обязательные поля:\n%s</string>
     <string name="notes_details_placeholder">Выберите запись из дневника, чтобы открыть ее</string>
@@ -76,6 +78,7 @@
     <string name="delete_recent_search">Удалить</string>
     <string name="clear_query">Очистить строку поиска</string>
     <string name="search_placeholder">Поиск ситуации</string>
+    <string name="search">Поиск</string>
     <string name="situation_tab">Ситуация</string>
     <string name="interpretation_tab">Анализ</string>
     <string name="reframing_tab">Переосмысление</string>
