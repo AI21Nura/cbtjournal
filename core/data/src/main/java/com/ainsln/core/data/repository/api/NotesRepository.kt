@@ -18,6 +18,8 @@ public interface NotesRepository {
 
     public fun deleteNote(note: Note): Flow<Result<Unit>>
 
+    public suspend fun deleteNotesById(ids: List<Long>)
+
     public suspend fun deleteThoughts(thoughts: List<Thought>, noteId: Long)
 
 }

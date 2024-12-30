@@ -39,6 +39,9 @@ public interface NotesDao {
     @Delete
     public suspend fun deleteNote(note: NoteEntity)
 
+    @Query("DELETE FROM Note WHERE id IN (:ids)")
+    public suspend fun deleteNotesById(ids: List<Long>)
+
     @Delete
     public suspend fun deleteThoughts(thoughts: List<ThoughtEntity>)
 }

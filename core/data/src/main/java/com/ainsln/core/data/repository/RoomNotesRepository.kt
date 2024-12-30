@@ -56,6 +56,10 @@ internal class RoomNotesRepository @Inject constructor(
         .onStart { emit(Result.Loading) }
         .catch { e -> emit(Result.Error(e)) }
 
+    override suspend fun deleteNotesById(ids: List<Long>) {
+        notesDao.deleteNotesById(ids)
+    }
+
     override suspend fun deleteThoughts(thoughts: List<Thought>, noteId: Long) {
         notesDao.deleteThoughts(thoughts.map { it.toThoughtEntity(noteId) })
     }

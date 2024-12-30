@@ -6,5 +6,8 @@
     <string name="cancel_label">Отмена</string>
     <string name="back">Назад</string>
     <string name="toggle_visibility">Развернуть/свернуть контент</string>
+    <string name="selected_label">%d выбрано</string>
+    <string name="reset_selection">Отменить выделение</string>
+    <string name="delete_selected">Удалить выделенные элементы</string>
 
 </resources>
