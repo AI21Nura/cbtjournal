@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.ainsln.core.testing.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -71,11 +71,13 @@ dependencies {
     implementation(libs.androix.navigation.compose)
     implementation(libs.androidx.material3.adaptive.navigation)
 
-    testImplementation(libs.junit)
+    debugImplementation(projects.uitesthilt)
+    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    kspAndroidTest(libs.hilt.android.compiler)
+
 }
