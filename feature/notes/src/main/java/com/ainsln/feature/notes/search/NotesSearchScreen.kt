@@ -1,6 +1,5 @@
 package com.ainsln.feature.notes.search
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -59,7 +58,7 @@ import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
 import com.ainsln.data.NotesPreviewData
 import com.ainsln.feature.notes.R
-import com.ainsln.feature.notes.list.NotesContent
+import com.ainsln.feature.notes.list.NotesList
 import com.ainsln.feature.notes.state.RecentSearchUiState
 import com.ainsln.feature.notes.state.SearchResultUiState
 import java.util.Date
@@ -143,13 +142,11 @@ fun SearchScreenContent(
             }
         }
     ) { innerPadding ->
-        BackHandler {
-            Log.d("TAG", "BackHandler2")
-
-            onBack()
-        }
+        BackHandler { onBack() }
         Column(
-            Modifier.fillMaxSize().padding(innerPadding)){
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)){
             SearchResultsContent(
                 searchResults = searchResults,
                 onNoteClick = onNoteClick
@@ -169,7 +166,12 @@ private fun SearchTextField(
     val focusRequester = remember { FocusRequester() }
 
     OutlinedTextField(
-        placeholder = { Text(stringResource(R.string.search_placeholder)) },
+        placeholder = {
+            Text(
+                text = stringResource(R.string.search_placeholder),
+                color = MaterialTheme.colorScheme.outline
+            )
+                      },
         leadingIcon = {
             IconButton(onClick = { onBack() }) {
                 Icon(
@@ -263,7 +265,7 @@ fun RecentSearchesBody(
             text = stringResource(R.string.recent_searches),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
+            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
@@ -277,7 +279,7 @@ fun RecentSearchesBody(
             }
         }
 
-        HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+        HorizontalDivider(Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
@@ -285,7 +287,7 @@ fun RecentSearchesBody(
             TextButton(
                 onClick = { onClearSearchesClick() },
                 colors = ButtonDefaults.textButtonColors(
-                    contentColor = Color.DarkGray
+                    contentColor = MaterialTheme.colorScheme.secondary
                 )
             ) {
                 Text(
@@ -327,7 +329,6 @@ fun RecentSearchItem(
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = stringResource(R.string.delete_recent_search),
-                    tint = Color.DarkGray,
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -346,7 +347,7 @@ fun SearchResultsContent(
         is SearchResultUiState.EmptyResult -> EmptyScreen(R.string.no_search_results)
         is SearchResultUiState.Loading -> LoadingScreen()
         is SearchResultUiState.Success -> {
-            NotesContent(
+            NotesList(
                 notes = searchResults.notes,
                 onNoteClick = onNoteClick,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -357,6 +358,7 @@ fun SearchResultsContent(
         )
     }
 }
+
 
 @Composable
 fun EmptyScreen(
@@ -376,7 +378,7 @@ fun EmptyScreen(
 fun SearchResultsContentPreview(){
     CBTJournalTheme {
         SearchScreenContent(
-            searchQuery = "during",
+            searchQuery = "",
             recentSearches = UiState.Success(emptyList()),
             searchResults = SearchResultUiState.Success(NotesPreviewData.shortNotes),
             onQueryChange = {},

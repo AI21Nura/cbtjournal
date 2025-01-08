@@ -1,6 +1,7 @@
 package com.ainsln.feature.notes.list
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
@@ -51,7 +54,7 @@ import com.ainsln.core.ui.components.appbar.TopDestinationAppBar
 import com.ainsln.core.ui.components.dialog.NoteAlertDialog
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
-import com.ainsln.core.ui.theme.SelectedItem
+import com.ainsln.core.ui.theme.SelectedItemColor
 import com.ainsln.data.NotesPreviewData
 import com.ainsln.feature.notes.R
 import com.ainsln.feature.notes.components.EmptyNotesList
@@ -66,6 +69,7 @@ fun NotesScreen(
     showFAB: Boolean,
     onSearchClick: () -> Unit,
     onDeleteSelected: (List<Long>) -> Unit,
+    listState: LazyListState,
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.notesState.collectAsStateWithLifecycle()
@@ -83,7 +87,8 @@ fun NotesScreen(
             viewModel.deleteSelected()
         },
         showFAB = showFAB,
-        onSearchClick = onSearchClick
+        onSearchClick = onSearchClick,
+        listState = listState
     )
 }
 
@@ -98,6 +103,7 @@ internal fun NotesScreenContent(
     onDeleteSelectedClick: () -> Unit,
     showFAB: Boolean,
     onSearchClick: () -> Unit,
+    listState: LazyListState
 ) {
     var isDeleteDialogOpen by remember { mutableStateOf(false) }
 
@@ -122,7 +128,8 @@ internal fun NotesScreenContent(
                     selectionState = selectionState,
                     toggleSelectionMode = toggleSelectionMode,
                     toggleSelectedElement = toggleSelectedElement,
-                    onNoteClick = onNoteClick
+                    onNoteClick = onNoteClick,
+                    listState = listState
                 )
 
                 if (isDeleteDialogOpen) {
@@ -199,7 +206,8 @@ internal fun MultiSelectionNotesList(
     toggleSelectionMode: (Boolean) -> Unit,
     toggleSelectedElement: (Long) -> Unit,
     onNoteClick: (Long) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    listState: LazyListState,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     modifier: Modifier = Modifier
 ) {
     BackHandler(selectionState.isSelectionMode) { toggleSelectionMode(false) }
@@ -207,6 +215,7 @@ internal fun MultiSelectionNotesList(
     if (notes.isNotEmpty())
         LazyColumn(
             contentPadding = contentPadding,
+            state = listState,
             modifier = modifier
         ) {
             items(notes) { note ->
@@ -262,7 +271,7 @@ internal fun NoteListItem(
 ) {
     val cardColors =
         if (isChecked != null && isChecked)
-            CardDefaults.cardColors(containerColor = SelectedItem)
+            CardDefaults.cardColors(containerColor = SelectedItemColor)
         else
             CardDefaults.outlinedCardColors()
 
@@ -280,7 +289,7 @@ internal fun NoteListItem(
             headlineContent = {
                 Text(
                     text = note.situation,
-                    maxLines = 2,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Bold
                 )
@@ -318,10 +327,12 @@ internal fun EmotionsList(emotions: List<SelectedEmotion>) {
             OutlinedCard(
                 colors = CardDefaults.cardColors(
                     containerColor = Color(emotion.emotion.color)
-                )
+                ),
+                border = BorderStroke(0.5.dp, Color.Black),
             ) {
                 Text(
                     text = emotion.emotion.name,
+                    color = Color.Black,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(
                         horizontal = 12.dp,
@@ -336,6 +347,25 @@ internal fun EmotionsList(emotions: List<SelectedEmotion>) {
 
 @Preview(showBackground = true)
 @Composable
+fun NotesScreenSelectedModePreview() {
+    CBTJournalTheme {
+        NotesScreenContent(
+            uiState = UiState.Success(NotesPreviewData.shortNotes),
+            selectionState = SelectionState(selectedItems = mutableListOf(1), isSelectionMode = true),
+            toggleSelectionMode = {},
+            toggleSelectedElement = {},
+            onNoteClick = { },
+            onAddNoteClick = {},
+            onDeleteSelectedClick = {},
+            showFAB = true,
+            onSearchClick = {},
+            listState = rememberLazyListState()
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
 fun NotesScreenPreview() {
     CBTJournalTheme {
         NotesScreenContent(
@@ -347,7 +377,8 @@ fun NotesScreenPreview() {
             onAddNoteClick = {},
             onDeleteSelectedClick = {},
             showFAB = true,
-            onSearchClick = {}
+            onSearchClick = {},
+            listState = rememberLazyListState()
         )
     }
 }

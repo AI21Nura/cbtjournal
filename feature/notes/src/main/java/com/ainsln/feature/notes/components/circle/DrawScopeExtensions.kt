@@ -48,25 +48,17 @@ fun DrawScope.drawEmotionSector(
     isSelected: Boolean,
     sector: Sector,
 ) {
-    val glowColors =
-        listOf(
-            Color(0xFFe90af5).copy(alpha = 0.7f),
-            Color(0xFFe90af5).copy(alpha = 0.3f),
-            Color(0xFFe90af5).copy(alpha = 0.2f),
-            Color(0xFFe90af5).copy(alpha = 0.1f),
-        )
+    val glowColor = Color(0xFF0000d1).copy(alpha = 0.7f)
 
     if (isSelected) {
-        glowColors.forEachIndexed { index, color ->
-            drawPath(
-                path = level.getPath(center),
-                color = color,
-                style = Stroke(width = 4f + (index * 5f)),
-            )
-        }
+        drawPath(
+            path = level.getPath(center),
+            color = glowColor,
+            style = Stroke(width = 10f),
+        )
     } else {
         drawPath(level.getPath(center), color = sector.color, style = Fill)
-        drawPath(level.getPath(center), color = Color.Gray, style = Stroke(width = 0.5.dp.toPx()))
+        drawPath(level.getPath(center), color = Color.Black, style = Stroke(width = 1.dp.toPx()))
     }
 }
 

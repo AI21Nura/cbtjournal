@@ -1,19 +1,13 @@
 package com.ainsln.feature.notes.editor.dialog.circle
 
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -34,11 +28,11 @@ fun EmotionsCircleDialog(
 ) {
     val viewModel: EmotionsCircleViewModel = hiltViewModel()
 
-    val density = LocalDensity.current
-    var screenWidthDp by remember { mutableStateOf(0.dp) }
-
-    val circleSizePx = with(density) {
-        screenWidthDp.toPx()
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = Dp(min(configuration.screenHeightDp, configuration.screenWidthDp) * 0.8f)
+    val circleSizeDp = Dp(screenWidthDp.value * 0.8f)
+    val circleSizePx = with(LocalDensity.current) {
+        screenWidthDp.toPx() * 0.8f
     }
 
     viewModel.updateCircleSize(circleSizePx)
@@ -51,17 +45,13 @@ fun EmotionsCircleDialog(
         onSaveClick = {
             args.callbacks.onSave(viewModel.getSelectedList())
         },
-        onCloseClick = args.callbacks::onClose,
-        modifier = Modifier.onGloballyPositioned {
-            screenWidthDp = with(density) {
-                min((it.size.width * 0.8).toInt(), (it.size.height * 0.8).toInt()).toDp()
-            }
-        }
+        onCloseClick = args.callbacks::onClose
     ) {
         if (screenWidthDp > 0.dp) {
             EmotionsCircleDialogContent(
                 uiState = uiState,
-                circleSize = screenWidthDp,
+                circleSize = circleSizeDp,
+                dialogSize = screenWidthDp,
                 onAddEmotion = viewModel::addSelection,
                 onRemoveEmotion = viewModel::removeSelection
             )
@@ -73,25 +63,23 @@ fun EmotionsCircleDialog(
 fun EmotionsCircleDialogContent(
     uiState: EmotionsDialogUiState,
     circleSize: Dp,
+    dialogSize: Dp,
     onAddEmotion: (Long) -> Unit,
     onRemoveEmotion: (Long) -> Unit
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.size(dialogSize)
+    ){
         RenderUiState(
             uiState = uiState,
             errMsgRes = R.string.emotions_error
         ) { data ->
-            Box(modifier = Modifier
-                .size(circleSize)
-                .focusable(false)
-            ) {
+            Box(Modifier.size(circleSize).focusable(false)) {
                 ClickableCircle(data, onAddEmotion, onRemoveEmotion)
             }
         }
-
     }
+
+
 }

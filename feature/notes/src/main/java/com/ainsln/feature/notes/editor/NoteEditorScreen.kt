@@ -1,5 +1,6 @@
 package com.ainsln.feature.notes.editor
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,7 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -219,9 +223,7 @@ fun NoteEditorTabs(
                 end = 16.dp
             )
     ) {
-        ScrollableTabRow(
-            selectedTabIndex = uiState.currentTabIndex
-        ) {
+        AdaptiveTabRow(uiState.currentTabIndex){
             EditorScreenTab.entries.forEach { tab ->
                 Tab(
                     selected = tab.index == uiState.currentTabIndex,
@@ -230,6 +232,7 @@ fun NoteEditorTabs(
                 )
             }
         }
+
         HorizontalPager(
             state = pagerState,
             verticalAlignment = Alignment.Top,
@@ -261,7 +264,20 @@ fun NoteEditorTabs(
     }
 }
 
-@Preview(showBackground = true)
+@Composable
+fun AdaptiveTabRow(
+    selectedTabIndex: Int,
+    tabsContent: @Composable () -> Unit
+){
+    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        TabRow(selectedTabIndex = selectedTabIndex) { tabsContent() }
+    }
+    else {
+        ScrollableTabRow(selectedTabIndex = selectedTabIndex) { tabsContent() }
+    }
+}
+
+@Preview(showBackground = true, device = Devices.PIXEL_C)
 @Composable
 fun NoteEditorScreenPreview() {
     CBTJournalTheme {

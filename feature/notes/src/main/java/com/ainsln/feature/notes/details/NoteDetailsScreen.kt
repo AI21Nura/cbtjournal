@@ -40,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -221,7 +220,7 @@ internal fun DeleteIcon(
 @Composable
 internal fun NoteDetails(
     note: Note,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -424,7 +423,7 @@ fun BasicTooltip(
         Icon(
             imageVector = Icons.Outlined.Info,
             contentDescription = stringResource(R.string.info),
-            tint = Color.Gray
+            tint = MaterialTheme.colorScheme.outlineVariant
         )
     }
 }

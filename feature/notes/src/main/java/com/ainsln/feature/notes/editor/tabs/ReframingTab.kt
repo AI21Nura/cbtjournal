@@ -9,14 +9,13 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -102,14 +101,10 @@ fun AlternativeThoughtInput(
             placeholder = {
                 Text(
                     text = stringResource(R.string.text_placeholder),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
+                    style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
+                    color = MaterialTheme.colorScheme.outline
                 )
             },
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Color.Gray,
-                focusedBorderColor = Color.Gray
-            ),
             minLines = 1,
             maxLines = 4,
             modifier = Modifier

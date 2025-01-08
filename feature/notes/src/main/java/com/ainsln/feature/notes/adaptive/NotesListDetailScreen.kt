@@ -61,6 +61,7 @@ internal fun NotesListDetailContent(
 ) {
     BackHandler(notesNavigator.canNavigateBack) { notesNavigator.onBack() }
     val navState by notesNavigator.navigationState.collectAsStateWithLifecycle()
+    val listState = rememberLazyListState()
 
     ListDetailPaneScaffold(
         directive = notesNavigator.scaffoldDirective,
@@ -78,7 +79,8 @@ internal fun NotesListDetailContent(
                         onAddNoteClick = notesNavigator::onEditorScreenClick,
                         showFAB = notesNavigator.showFAB,
                         onSearchClick = { notesNavigator.toggleShowSearch(true) },
-                        onDeleteSelected = notesNavigator::handleOpenNoteDeletion
+                        onDeleteSelected = notesNavigator::handleOpenNoteDeletion,
+                        listState = listState
                     )
                 }
             }
