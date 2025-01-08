@@ -1,9 +1,18 @@
 package com.ainsln.feature.notes.adaptive
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.ainsln.feature.notes.navigation.NotesDestinations
 
-class DetailPaneNavController(val controller: NavHostController) {
+class DetailPaneNavController(navController: NavHostController) {
+
+    var nestedNavController: NavHostController = navController
+
+    @Composable
+    fun UpdateController(){
+        nestedNavController = rememberNavController()
+    }
 
     fun navigateToNotePlaceholder(){
         navigateToDestination(NotesDestinations.DetailPlaceholder)
@@ -18,7 +27,7 @@ class DetailPaneNavController(val controller: NavHostController) {
     }
 
     private fun navigateToDestination(destination: NotesDestinations){
-        controller.navigate(destination){
+        nestedNavController.navigate(destination){
             popUpTo(NoteDetailPaneNavHost)
         }
     }

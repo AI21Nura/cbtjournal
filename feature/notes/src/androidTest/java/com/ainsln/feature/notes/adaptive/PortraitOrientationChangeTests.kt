@@ -27,6 +27,19 @@ class PortraitOrientationChangeTests: AbstractOrientationChangeTests() {
 
     @Test
     @TestCompactWidth
+    fun compactToExpanded_twoOrientationChanges(){
+        //change orientation
+        changeOrientationToLandscape()
+        composeRule.onNodeWithStringId(R.string.notes_list_title).assertIsDisplayed()
+        composeRule.onNodeWithStringId(R.string.notes_details_placeholder).assertIsDisplayed()
+        //change orientation & go to details
+        changeOrientationToPortrait()
+        goToDetails()
+        composeRule.onNodeWithStringId(R.string.notes_detail_title).assertIsDisplayed()
+    }
+
+    @Test
+    @TestCompactWidth
     fun compactToExpanded_switchToDetailsAndBackToList(){
         goToDetails()
         //change orientation

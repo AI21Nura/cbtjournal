@@ -97,8 +97,7 @@ class BaseNotesNavigator(
     }
 
     override fun getWideScreenNavController(): NavHostController {
-        return nestedController.controller
-        //return if (paneNavigator.areBothPanesVisible()) nestedController.controller else null
+        return nestedController.nestedNavController
     }
 
     override fun onConfirmCancellation() {

@@ -1,6 +1,7 @@
 package com.ainsln.feature.notes.adaptive
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -46,7 +47,8 @@ internal fun NotesListDetailScreen(
 
     NotesListDetailContent(
         distortionsSelectionDialog,
-        rememberNotesNavigator(nestedNavController, viewModel, windowAdaptiveInfo)
+        rememberNotesNavigator(nestedNavController, viewModel, windowAdaptiveInfo),
+        updateNavController = { nestedNavController.UpdateController() }
     )
 }
 
@@ -54,7 +56,8 @@ internal fun NotesListDetailScreen(
 @Composable
 internal fun NotesListDetailContent(
     distortionsSelectionDialog: @Composable (MultiSelectionDialogArgs) -> Unit,
-    notesNavigator: NotesNavigator
+    notesNavigator: NotesNavigator,
+    updateNavController: @Composable () -> Unit
 ) {
     BackHandler(notesNavigator.canNavigateBack) { notesNavigator.onBack() }
     val navState by notesNavigator.navigationState.collectAsStateWithLifecycle()
@@ -82,6 +85,7 @@ internal fun NotesListDetailContent(
         },
         detailPane = {
             AnimatedPane {
+                updateNavController()
                 DetailNavHost(
                     startDestination = navState.currentDestination,
                     notesNavigator = notesNavigator,
@@ -141,7 +145,7 @@ fun rememberNotesNavigator(
     nestedNavController: DetailPaneNavController,
     stateHandler: NotesNavigationStateHandler,
     windowAdaptiveInfo: WindowAdaptiveInfo
-) : NotesNavigator{
+) : NotesNavigator {
     val coroutineScope = rememberCoroutineScope()
     val listDetailNavigator = rememberListDetailPaneScaffoldNavigator(
         scaffoldDirective = calculatePaneScaffoldDirective(windowAdaptiveInfo),

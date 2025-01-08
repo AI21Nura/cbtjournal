@@ -67,13 +67,13 @@ data object NotesPreviewData {
 
     val shortNotes = listOf(
         ShortNote(
-            id = 0,
+            id = 1,
             date = Date(System.currentTimeMillis()),
             situation = "During a team meeting, your manager praised a colleague's idea but did not comment on your contributions.",
             emotions = selectedEmotionsList
         ),
         ShortNote(
-            id = 0,
+            id = 2,
             date = Date(System.currentTimeMillis()),
             situation = "During a team meeting, your manager praised a colleague's idea but did not comment on your contributions.",
             emotions = selectedEmotionsList
