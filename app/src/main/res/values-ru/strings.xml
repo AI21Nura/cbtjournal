@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="journal">Дневник</string>
+    <string name="distortions">Искажения</string>
+    <string name="help">Помощь</string>
+</resources>

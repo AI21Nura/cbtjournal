@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">CBTJournal</string>
+
+    <string name="journal">Journal</string>
+    <string name="distortions">Distortions</string>
+    <string name="help">Help</string>
 </resources>

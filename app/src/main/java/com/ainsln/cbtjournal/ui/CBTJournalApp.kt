@@ -11,8 +11,7 @@ import com.ainsln.cbtjournal.navigation.AppNavHost
 
 @Composable
 fun CBTJournalApp(){
-
-    Scaffold() { innerPadding ->
+    Scaffold { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize()
                 .padding(innerPadding)
@@ -21,5 +20,4 @@ fun CBTJournalApp(){
             AppNavHost()
         }
     }
-
 }
