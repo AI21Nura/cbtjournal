@@ -19,7 +19,7 @@ public interface EmotionsDao {
         SELECT e.id, t.name, e.color FROM Emotion AS e 
         JOIN EmotionTranslation AS t ON e.id = t.emotion_id 
         WHERE t.language_code = :langCode
-        AND (:ids IS NULL OR e.id IN (:ids))
+        AND (COALESCE(:ids, -1) = -1 OR e.id IN (:ids))
         """
     )
     public fun getEmotions(langCode: String, ids: List<Long>? = null): Flow<List<TranslatedEmotion>>

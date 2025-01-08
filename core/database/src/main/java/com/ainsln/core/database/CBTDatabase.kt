@@ -1,8 +1,11 @@
 package com.ainsln.core.database
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ainsln.core.database.dao.EmotionsDao
 import com.ainsln.core.database.dao.NotesDao
 import com.ainsln.core.database.dao.RecentSearchesDao
@@ -33,4 +36,23 @@ internal abstract class CBTDatabase : RoomDatabase() {
     abstract fun notesDao(): NotesDao
     abstract fun emotionsDao(): EmotionsDao
     abstract fun recentSearchesDao(): RecentSearchesDao
+}
+
+internal fun cbtDatabaseBuilder(
+    context: Context,
+    dbName: String,
+    assetName: String
+): RoomDatabase.Builder<CBTDatabase> {
+    return Room.databaseBuilder(
+        context,
+        CBTDatabase::class.java,
+        dbName
+    )
+        .createFromAsset(assetName)
+        .addCallback(object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                db.execSQL("INSERT INTO NoteFts(NoteFts) VALUES ('rebuild')")
+            }
+        })
 }

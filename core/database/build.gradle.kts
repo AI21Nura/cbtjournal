@@ -50,6 +50,7 @@ dependencies {
     ksp(libs.room.compiler)
 
     implementation(libs.hilt.android)
+    compileOnly(libs.hilt.android.testing)
     ksp(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)

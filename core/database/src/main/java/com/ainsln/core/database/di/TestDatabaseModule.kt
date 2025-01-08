@@ -5,27 +5,30 @@ import com.ainsln.core.database.CBTDatabase
 import com.ainsln.core.database.cbtDatabaseBuilder
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-internal object DatabaseModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [DatabaseModule::class]
+)
+internal object TestDatabaseModule {
 
     @Provides
     @Singleton
-    internal fun providesCBTDatabase(
+    internal fun providesTestDatabase(
         @ApplicationContext context: Context
     ): CBTDatabase {
+        context.deleteDatabase("test_db")
         return cbtDatabaseBuilder(
             context = context,
-            dbName = "cbtjournal_db",
-            assetName = "cbt_db.db"
+            dbName = "test_db",
+            assetName = "test_cbt_db.db"
         )
-            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
             .build()
     }
-
 }
