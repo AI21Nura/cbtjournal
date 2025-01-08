@@ -1,5 +1,6 @@
 package com.ainsln.feature.info.guide
 
+import android.content.res.Configuration
 import android.graphics.Color.parseColor
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -88,8 +89,8 @@ fun GuideBlock(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
-            .padding(contentPadding)
             .verticalScroll(rememberScrollState())
+            .padding(contentPadding)
     ) {
         Text(text = guide.intro, textAlign = TextAlign.Justify)
 
@@ -112,16 +113,17 @@ fun GuideBlock(
 fun TextCard(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.LightGray
+    color: Color = Color.Unspecified
 ){
     Card(
-        border = BorderStroke(width = 1.dp, color = Color.Gray),
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = color),
         modifier = modifier.fillMaxWidth()
     ){
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
+            //fontWeight = FontWeight(700),
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
         )
     }
@@ -154,7 +156,7 @@ fun ExamplesBlock(
         ExpandableSectionCard(
             title = example.name,
             containerColor = colors[index],
-            borderColor = Color.LightGray,
+            borderColor = MaterialTheme.colorScheme.outline,
             elevation = 0.dp,
             expanded = false,
             modifier = Modifier.padding(vertical = 4.dp)
@@ -186,6 +188,18 @@ fun ExamplesBlock(
 @Preview(showBackground = true)
 @Composable
 fun GuideBlockPreview() {
+    CBTJournalTheme {
+        GuideScreenContent(
+            uiState = UiState.Success(InfoPreviewData.guide),
+            canNavigateUp = true,
+            onBack = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun GuideBlockDarkPreview() {
     CBTJournalTheme {
         GuideScreenContent(
             uiState = UiState.Success(InfoPreviewData.guide),

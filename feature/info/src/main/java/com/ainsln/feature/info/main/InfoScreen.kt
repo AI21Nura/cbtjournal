@@ -1,6 +1,7 @@
 package com.ainsln.feature.info.main
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +32,7 @@ import com.ainsln.core.ui.components.text.ClickableText
 import com.ainsln.core.ui.components.text.ExpandableSectionCard
 import com.ainsln.core.ui.state.UiState
 import com.ainsln.core.ui.theme.CBTJournalTheme
+import com.ainsln.core.ui.theme.FaqSectionColor
 import com.ainsln.data.InfoPreviewData
 import com.ainsln.feature.info.R
 import com.ainsln.feature.info.state.InfoUiState
@@ -83,22 +85,25 @@ fun InformationBlock(
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
-            .padding(contentPadding)
             .verticalScroll(rememberScrollState())
+            .padding(contentPadding)
     ) {
         Text(text = info.intro, textAlign = TextAlign.Justify)
+
         Column {
             Text(text = info.guide, textAlign = TextAlign.Justify)
-            ClickableText(
-                text = "",
-                clickableText = stringResource(R.string.open_guide),
-                onTextClick = { openGuideScreen() },
-                modifier = Modifier.padding(top = 4.dp)
-            )
+            if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
+                ClickableText(
+                    text = "",
+                    clickableText = stringResource(R.string.open_guide),
+                    onTextClick = { openGuideScreen() },
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
         }
         FaqSection(
             questions = info.faq,
-            backgroundColor = colorResource(R.color.cornflower_crayola).copy(alpha = 0.3f)
+            backgroundColor = FaqSectionColor.copy(alpha = 0.25f)
         )
         ClickableText(
             text = info.feedback,
@@ -114,11 +119,11 @@ fun FaqSection(
     questions: List<InfoContent.Question>,
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Unspecified,
-    borderColor: Color = Color.Gray
+    borderColor: Color = MaterialTheme.colorScheme.outline
 ){
     Column(modifier.padding(vertical = 4.dp)) {
         Text(
-            text = "FAQ",
+            text = stringResource(R.string.faq),
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             modifier = Modifier.padding(4.dp)
         )
