@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="details_header_light_blue_05">#C6F8FF</color>
+    <color name="details_header_light_blue_10">#C6F8FF</color>
+    <color name="details_header_medium_blue_40">#8DA7FA</color>
+    <color name="details_header_medium_blue_70">#8297F9</color>
+    <color name="details_header_dark_blue_90">#6F7BF7</color>
+</resources>

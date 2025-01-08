@@ -7,5 +7,6 @@
     <string name="about">Подробнее</string>
     <string name="distortions_list_error">Не удалось загрузить список искажений: \n%s</string>
     <string name="distortions_details_error">Не удалось загрузить детали искажения: \n%s</string>
+    <string name="select_distortions">Выберите искажения</string>
     <string name="back">Назад</string>
 </resources>

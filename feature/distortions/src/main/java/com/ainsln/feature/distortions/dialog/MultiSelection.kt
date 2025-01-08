@@ -1,10 +1,8 @@
 package com.ainsln.feature.distortions.dialog
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,7 +28,7 @@ import com.ainsln.core.model.Distortion
 import com.ainsln.core.ui.components.RenderUiState
 import com.ainsln.core.ui.components.dialog.AppDialog
 import com.ainsln.core.ui.theme.CBTJournalTheme
-import com.ainsln.core.ui.theme.SelectedItem
+import com.ainsln.core.ui.theme.SelectedItemColor
 import com.ainsln.core.ui.utils.MultiSelectionDialogArgs
 import com.ainsln.data.DistortionsPreviewData
 import com.ainsln.feature.distortions.R
@@ -47,7 +46,7 @@ fun MultiSelectionDialog(
     }
 
     AppDialog(
-        title = "Select distortions",
+        title = stringResource(R.string.select_distortions),
         onSaveClick = {
             args.callbacks.onSave(selectedDistortions)
         },
@@ -70,20 +69,17 @@ internal fun MultiSelectionDialogContent(
     selectedDistortions: List<Long>,
     onSelectClick: (Long, Boolean) -> Unit,
     modifier: Modifier = Modifier,
-){
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        RenderUiState(
-            uiState = uiState,
-            errMsgRes = R.string.distortions_list_error
-        ) { data ->
-            MultiSelectionList(
-                distortions = data,
-                selectedDistortions = selectedDistortions,
-                onSelectClick = onSelectClick
-            )
-        }
+) {
+    RenderUiState(
+        uiState = uiState,
+        errMsgRes = R.string.distortions_list_error
+    ) { data ->
+        MultiSelectionList(
+            distortions = data,
+            selectedDistortions = selectedDistortions,
+            onSelectClick = onSelectClick,
+            modifier = modifier.padding(horizontal = 8.dp)
+        )
     }
 }
 
@@ -94,10 +90,7 @@ internal fun MultiSelectionList(
     onSelectClick: (Long, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ){
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(4.dp)
-    ) {
+    LazyColumn(modifier) {
         items(distortions){ distortion ->
             MultiSelectionListItem(
                 distortion = distortion,
@@ -138,7 +131,8 @@ internal fun MultiSelectionListItem(
                 )
             },
             colors = ListItemDefaults.colors(
-                containerColor = if (isChecked) SelectedItem else Color.Unspecified
+                containerColor = if (isChecked) SelectedItemColor
+                                else Color.Unspecified
             ),
             modifier = modifier.clickable { onCheckedChange(!isChecked) }
         )

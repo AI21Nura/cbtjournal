@@ -1,7 +1,5 @@
 package com.ainsln.feature.distortions.details
 
-import android.graphics.Color.parseColor
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -43,8 +43,6 @@ import com.ainsln.core.ui.components.AppPlaceholder
 import com.ainsln.core.ui.components.RenderUiState
 import com.ainsln.core.ui.components.appbar.DetailsAppBar
 import com.ainsln.core.ui.theme.CBTJournalTheme
-import com.ainsln.core.ui.theme.Ocean
-import com.ainsln.core.ui.theme.Shadow
 import com.ainsln.data.DistortionsPreviewData
 import com.ainsln.feature.distortions.R
 import com.ainsln.feature.distortions.state.DistortionDetailUiState
@@ -125,7 +123,10 @@ internal fun DistortionBody(
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Justify
         )
-        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp), color = Ocean)
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 16.dp),
+            color = MaterialTheme.colorScheme.outlineVariant
+        )
         TitleText(stringResource(R.string.examples))
         distortion.examples.forEach { example ->
             ExampleItem(example)
@@ -153,22 +154,23 @@ fun DistortionHeader(
 ) {
     val brush = Brush.verticalGradient(
         listOf(
-            Color(parseColor("#c6f8ff")).copy(alpha = 0.05f),
-            Color(parseColor("#c6f8ff")).copy(alpha = 0.1f),
-            Color(parseColor("#8da7fa")).copy(alpha = 0.4f),
-            Color(parseColor("#8297f9")).copy(alpha = 0.7f),
-            Color(parseColor("#6f7bf7")).copy(alpha = 0.9f),
+            colorResource(R.color.details_header_light_blue_05).copy(alpha = 0.05f),
+            colorResource(R.color.details_header_light_blue_10).copy(alpha = 0.1f),
+            colorResource(R.color.details_header_medium_blue_40).copy(alpha = 0.4f),
+            colorResource(R.color.details_header_medium_blue_70).copy(alpha = 0.7f),
+            colorResource(R.color.details_header_dark_blue_90).copy(alpha = 0.9f)
         )
     )
     OutlinedCard(
-        border = BorderStroke(width = 0.dp, Color.Unspecified),
+        border = CardDefaults.outlinedCardBorder(enabled = false),
         elevation = CardDefaults.elevatedCardElevation(16.dp),
         shape = RoundedCornerShape(
             topStart = 0.dp,
             topEnd = 0.dp,
             bottomStart = 25.dp,
             bottomEnd = 25.dp
-        )
+        ),
+        modifier = Modifier.testTag(stringResource(R.string.distortion_details_title))
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -211,7 +213,7 @@ internal fun ExampleItem(
         Icon(
             imageVector = Icons.AutoMirrored.Outlined.ArrowRight,
             contentDescription = null,
-            tint = Shadow
+            tint = colorResource(R.color.details_header_dark_blue_90)
         )
         Text(text = example, textAlign = TextAlign.Justify)
     }
