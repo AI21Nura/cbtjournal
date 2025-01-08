@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
@@ -33,6 +33,7 @@ fun BasicDialog(
     onSaveClick: () -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
+    maxHeightDp: Dp = Dp.Unspecified,
     content: @Composable () -> Unit
 ) {
     Dialog(
@@ -45,13 +46,12 @@ fun BasicDialog(
             BasicDialogHeader(title)
             Column(
                 modifier = Modifier
-                    .heightIn(max = 560.dp)
+                    .heightIn(max = maxHeightDp)
                     .fillMaxSize()
                     .padding(horizontal = 8.dp)
                     .zIndex(-1f)
             ) {
                 content()
-
             }
             BasicDialogActionButtons(onCloseClick, onSaveClick)
         }
@@ -67,16 +67,14 @@ fun BasicDialogHeader(
     Row(
         modifier = modifier.fillMaxWidth()
             .background(backgroundColor)
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = 16.dp)
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineSmall
-                .copy(fontFamily = FontFamily.Default)
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }
-
 
 @Composable
 fun BasicDialogActionButtons(

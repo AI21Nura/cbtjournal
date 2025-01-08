@@ -21,7 +21,7 @@ fun NoteAlertDialog(
     hasCancelButton: Boolean = true
 ) {
     AlertDialog(
-        title = { Text(title, style = MaterialTheme.typography.titleLarge) },
+        title = { Text(title, style = MaterialTheme.typography.titleMedium) },
         text = { Text(text) },
         onDismissRequest = { onDismissClick() },
         confirmButton = {

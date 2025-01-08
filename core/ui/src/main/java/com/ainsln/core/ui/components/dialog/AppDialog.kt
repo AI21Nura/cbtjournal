@@ -1,6 +1,5 @@
 package com.ainsln.core.ui.components.dialog
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -14,7 +13,6 @@ fun AppDialog(
     onSaveClick: () -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(8.dp),
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
     content: @Composable () -> Unit
 ){
@@ -24,8 +22,7 @@ fun AppDialog(
             onSaveClick,
             onCloseClick,
             modifier,
-            contentPadding,
-            content
+            content = content
         )
     } else {
         BasicDialog(
@@ -33,6 +30,7 @@ fun AppDialog(
             onSaveClick,
             onCloseClick,
             modifier,
+            maxHeightDp = 560.dp,
             content
         )
     }

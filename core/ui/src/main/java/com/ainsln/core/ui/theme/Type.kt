@@ -22,6 +22,5 @@ val Typography = Typography(
     bodySmall = baseline.bodySmall.copy(fontFamily = FontFamily.Serif),
     labelLarge = baseline.labelLarge.copy(fontFamily = FontFamily.Serif),
     labelMedium = baseline.labelMedium.copy(fontFamily = FontFamily.Serif),
-    labelSmall = baseline.labelSmall.copy(fontFamily = FontFamily.Serif),
-
+    labelSmall = baseline.labelSmall.copy(fontFamily = FontFamily.Serif)
 )

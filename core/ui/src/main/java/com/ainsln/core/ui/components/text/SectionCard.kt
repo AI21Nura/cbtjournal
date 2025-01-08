@@ -42,7 +42,6 @@ fun SectionCard(
     content: @Composable (Modifier) -> Unit,
 ){
     OutlinedCard(
-        //border = BorderStroke(width = 1.dp, color = Color.White),
         elevation = CardDefaults.cardElevation(4.dp),
         modifier = modifier
     ) {
@@ -78,7 +77,7 @@ fun ExpandableSectionCard(
     title: String,
     modifier: Modifier = Modifier,
     expanded: Boolean = true,
-    borderColor: Color = Color.White,
+    borderColor: Color = Color.Transparent,
     containerColor: Color? = null,
     elevation: Dp = 4.dp,
     content: @Composable (Modifier) -> Unit,
@@ -92,7 +91,6 @@ fun ExpandableSectionCard(
         ) { ExpandableCardContent(title, expanded, content) }
     else
         ExpandableSectionOutlinedCard(
-            borderColor = borderColor,
             elevation = elevation,
             modifier = modifier
         ) { ExpandableCardContent(title, expanded, content) }
@@ -117,12 +115,10 @@ private fun ExpandableSectionFilledCard(
 @Composable
 private fun ExpandableSectionOutlinedCard(
     elevation: Dp,
-    borderColor: Color,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     OutlinedCard(
-        //border = BorderStroke(width = 1.dp, color = borderColor),
         elevation = CardDefaults.cardElevation(elevation),
         modifier = modifier
     ) { content() }

@@ -11,11 +11,9 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.SpanStyle
@@ -27,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.ainsln.core.ui.theme.ClickableTextColor
 
 @Composable
 fun InputTextField(
@@ -47,14 +46,10 @@ fun InputTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
+                    style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
+                    color = MaterialTheme.colorScheme.outline
                 )
             },
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Color.Gray,
-                focusedBorderColor = Color.Gray
-            ),
             shape = RoundedCornerShape(25.dp),
             minLines = minLines,
             maxLines = maxLines,
@@ -85,8 +80,8 @@ fun RemovableTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
+                    style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
+                    color = MaterialTheme.colorScheme.outline
                 )
             },
             trailingIcon = {
@@ -96,10 +91,6 @@ fun RemovableTextField(
                     modifier = Modifier.clickable { onDeleteClick() }
                 )
             },
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Color.Gray,
-                focusedBorderColor = Color.Gray
-            ),
             minLines = 2,
             maxLines = 4,
             modifier = Modifier.weight(1f)
@@ -187,11 +178,12 @@ fun ClickableText(
             append(text)
             val link = LinkAnnotation.Clickable(
                 tag = linkTag,
-                styles = TextLinkStyles(SpanStyle(color = Color.Blue)),
+                styles = TextLinkStyles(SpanStyle(color = ClickableTextColor)),
                 linkInteractionListener = onTextClick)
             withLink(link) { append(clickableText) }
         },
         textAlign = TextAlign.Justify,
+        fontWeight = FontWeight.Bold,
         modifier = modifier
     )
 }

@@ -1,27 +1,25 @@
 package com.ainsln.core.ui.components.dialog
 
-import androidx.compose.foundation.background
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -34,25 +32,22 @@ fun FullScreenDialog(
     onSaveClick: () -> Unit,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(8.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp),
     content: @Composable () -> Unit
 ) {
     Dialog(
         onDismissRequest = {},
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .background(CardDefaults.outlinedCardColors().containerColor)
-                .padding(contentPadding)
-        ) {
-            FullScreenDialogHeader(title, onCloseClick, onSaveClick)
-            Column(Modifier.padding(top = 8.dp)) {
-                content()
+        BackHandler { onCloseClick() }
+        Surface {
+            Column(modifier.padding(contentPadding)) {
+                FullScreenDialogHeader(title, onCloseClick, onSaveClick)
+                Column(Modifier.padding(vertical = 8.dp)) {
+                    content()
+                }
             }
         }
-
     }
 }
 
@@ -64,7 +59,8 @@ fun FullScreenDialogHeader(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
     ) {
         IconButton(onClick = onCloseClick) {
             Icon(
@@ -76,17 +72,14 @@ fun FullScreenDialogHeader(
 
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineSmall
-                .copy(fontFamily = FontFamily.Default)
+            style = MaterialTheme.typography.titleLarge
         )
 
-        Spacer(Modifier.weight(1f))
-
-        TextButton(
-            onClick = onSaveClick,
-            modifier = Modifier.padding(end = 8.dp)
-        ) {
-            Text(stringResource(R.string.save_label))
+        IconButton(onClick = onSaveClick) {
+            Icon(
+                imageVector = Icons.Outlined.Check,
+                contentDescription = stringResource(R.string.save_label)
+            )
         }
     }
 }
