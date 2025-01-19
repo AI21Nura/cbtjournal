@@ -19,7 +19,7 @@ public class RoomRecentSearchesRepository @Inject constructor(
     }
 
     override suspend fun upsertRecentSearch(search: RecentSearch) {
-        recentSearchesDao.insertOrReplace(search.toRecentSearchEntity())
+        recentSearchesDao.upsert(search.toRecentSearchEntity())
     }
 
     override suspend fun deleteRecentSearch(search: RecentSearch) {

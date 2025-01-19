@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -17,16 +18,35 @@ import javax.inject.Singleton
 )
 internal object TestDatabaseModule {
 
+    const val DB_NAME = "test_db"
+
     @Provides
     @Singleton
+    internal fun providesTestDatabaseWithTestNotes(
+        @ApplicationContext context: Context
+    ): CBTDatabase {
+        context.deleteDatabase(DB_NAME)
+        return createTestDatabase(context, "test_cbt_db.db")
+    }
+
+    @Provides
+    @Named("without_notes")
     internal fun providesTestDatabase(
         @ApplicationContext context: Context
     ): CBTDatabase {
-        context.deleteDatabase("test_db")
+        context.deleteDatabase(DB_NAME)
+        return createTestDatabase(context, "cbt_db.db")
+    }
+
+    private fun createTestDatabase(
+        context: Context,
+        assetName: String
+    ): CBTDatabase {
+        context.deleteDatabase(DB_NAME)
         return cbtDatabaseBuilder(
             context = context,
-            dbName = "test_db",
-            assetName = "test_cbt_db.db"
+            dbName = DB_NAME,
+            assetName = assetName
         )
             .allowMainThreadQueries()
             .build()

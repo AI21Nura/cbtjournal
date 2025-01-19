@@ -24,7 +24,6 @@ internal object DatabaseModule {
             dbName = "cbtjournal_db",
             assetName = "cbt_db.db"
         )
-            .fallbackToDestructiveMigration()
             .build()
     }
 

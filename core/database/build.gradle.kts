@@ -15,7 +15,7 @@ android {
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.ainsln.core.testing.CustomTestRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         room {
@@ -53,7 +53,10 @@ dependencies {
     compileOnly(libs.hilt.android.testing)
     ksp(libs.hilt.android.compiler)
 
-    testImplementation(libs.junit)
+    androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation (libs.androidx.core.testing)
+    androidTestImplementation (libs.truth)
 }

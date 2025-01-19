@@ -14,7 +14,7 @@ public interface RecentSearchesDao {
     public fun get(limit: Int): Flow<List<RecentSearchEntity>>
 
     @Upsert
-    public suspend fun insertOrReplace(search: RecentSearchEntity)
+    public suspend fun upsert(search: RecentSearchEntity)
 
     @Delete
     public suspend fun delete(search: RecentSearchEntity)
